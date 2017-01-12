@@ -1,12 +1,17 @@
 name := "atom-workshop"
 
-version := "1.0"
+scalaVersion := "2.11.8"
 
-scalaVersion := "2.11.7"
+lazy val awsVersion = "1.11.77"
 
 libraryDependencies ++= Seq(
-  ws
+  ws,
+  "com.gu" % "kinesis-logback-appender" % "1.2.0",
+  "com.amazonaws" % "aws-java-sdk-ec2" % awsVersion,
+  "net.logstash.logback" % "logstash-logback-encoder" % "4.2",
+  "com.gu" %% "configuration-magic-core" %  "1.3.0"
 )
+routesGenerator := InjectedRoutesGenerator
 
 import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
 serverLoading in Debian := Systemd
