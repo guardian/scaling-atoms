@@ -10,7 +10,7 @@ class Config(configuration: Configuration) extends AwsInstanceTags {
 
   val stage = readTag("Stage") getOrElse "DEV"
   val appName = readTag("App") getOrElse "atom-workshop"
-  val stack = readTag("Stack") getOrElse "composer"
+  val stack = readTag("Stack") getOrElse "flexible"
   val region = services.EC2Client.region
 
   val awsCredentialsprovider = new AWSCredentialsProviderChain(
