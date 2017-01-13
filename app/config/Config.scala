@@ -29,7 +29,5 @@ class Config(configuration: Configuration) extends AwsInstanceTags {
   val elkKinesisStream = config.getString("elk.kinesis.stream")
   val elkLoggingEnabled = true
 
-  println("done config")
-
 }
 
