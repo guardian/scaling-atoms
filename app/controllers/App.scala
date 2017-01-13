@@ -10,9 +10,4 @@ class App(config: Config) extends Controller {
     Logger.info(s"I am the ${config.appName}")
     Ok(views.html.index())
   }
-
-  def healthcheck = Action {
-    Ok("Healthcheck")
-  }
-
 }
