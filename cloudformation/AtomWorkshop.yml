@@ -240,7 +240,7 @@ Resources:
             Action:
             - kinesis:PutRecord
             - kinesis:DescribeStream
-            Resource: !Sub arm:aws:kinesis:eu-west-1:743583969668:stream/${ELKKinesisStream}
+            Resource: !Sub arn:aws:kinesis:eu-west-1:743583969668:stream/${ELKKinesisStream}
       Path: /
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
