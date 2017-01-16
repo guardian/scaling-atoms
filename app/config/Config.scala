@@ -26,8 +26,13 @@ class Config(configuration: Configuration) extends AwsInstanceTags {
   }
   val config = ConfigurationMagic(appName, configMagicMode).load
 
+  def getOptionalProperty[T](path: String, getVal: String => T) = {
+    if (config.hasPath(path)) Some(getVal(path))
+    else None
+  }
+
   val elkKinesisStream = config.getString("elk.kinesis.stream")
-  val elkLoggingEnabled = true
+  val elkLoggingEnabled = getOptionalProperty("elk.logging.enabled", config.getBoolean).getOrElse(true)
 
 }
 
