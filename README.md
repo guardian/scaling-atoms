@@ -4,6 +4,8 @@ A single tool for all atom types.
 
 ## Running locally
 
-Fetch config from S3: `./fetch-config.sh`
+You'll need the [AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) installed,
+and credentials for the composer AWS account from [janus](https://janus.gutools.co.uk). Then:
 
-Then, run using sbt: `sbt run`
+ - Fetch config from S3: `./fetch-config.sh`
+ - Run using sbt: `sbt run`
