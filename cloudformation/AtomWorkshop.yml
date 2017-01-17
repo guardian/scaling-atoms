@@ -9,19 +9,12 @@ Parameters:
     Default: 77.91.248.0/21
   InstanceType:
     Type: String
-    Description: AWS instance type for the group. Only choose c3/c4 if you are doing
-      onboard transcoding.  Note that you need m3 or c3 to get instance storage.
+    Description: AWS instance type for the autoscaling group.
     Default: t2.micro
     AllowedValues:
     - t2.micro
     - t2.small
     - t2.medium
-    - m3.medium
-    - m3.large
-    - c3.large
-    - c3.2xlarge
-    - c4.large
-    - c4.2xlarge
   App:
     Type: String
     Description: Name of the app
@@ -40,11 +33,9 @@ Parameters:
   PrivateSubnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
-    Default: "subnet-c2620fa7, subnet-2967c870, subnet-2a37bd5d"
   PublicSubnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: Subnets to use in VPC for public internet-facing ELB
-    Default: "subnet-c3620fa6, subnet-2b37bd5c, subnet-3667c86f"
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
     Description: Name of an existing key pair, which will be given root access to
@@ -52,6 +43,9 @@ Parameters:
   ELBSSLCertificate:
     Type: String
     Description: ELB SSL Certificate ARN
+  ELKKinesisStream:
+    Type: String
+    Description: Name of the kinesis stream for logging to ELK (logs.gutools)
   VulnerabilityScanningSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
     Description: Security group that grants access to the account's Vulnerability Scanner
@@ -101,7 +95,7 @@ Resources:
       - IpProtocol: tcp
         FromPort: '9000'
         ToPort: '9000'
-        CidrIp: !FindInMap [ Config, IpRange, !Ref Stage ]
+        CidrIp: '0.0.0.0/0'
   SSHSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -213,8 +207,6 @@ Resources:
             - s3:ListBucket
             - s3:GetObject
             Resource:
-            - !Sub arn:aws:s3:::${App}-config
-            - !Sub arn:aws:s3:::${App}-config/*
             - !Sub arn:aws:s3:::composer-dist/*
       - PolicyName: DescribeEC2Policy
         PolicyDocument:
@@ -224,6 +216,37 @@ Resources:
             Action:
             - EC2:Describe*
             Resource: '*'
+      - PolicyName: FetchDynamoConfigPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:ListTables
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - dynamodb:DescribeTable
+              - dynamodb:GetItem
+            Resource: !Sub arn:aws:dynamodb:eu-west-1:743583969668:table/config-${Stack}
+      - PolicyName: ELKKinesisPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - kinesis:PutRecord
+            - kinesis:DescribeStream
+            Resource: !Sub arn:aws:kinesis:eu-west-1:743583969668:stream/${ELKKinesisStream}
+      - PolicyName: AtomWorkshopPanDomainPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+              - s3:GetObject
+              Resource:
+              - arn:aws:s3:::pan-domain-auth-settings/*
       Path: /
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
