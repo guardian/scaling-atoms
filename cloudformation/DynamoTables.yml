@@ -19,13 +19,15 @@ Resources:
     Properties:
       TableName: !Sub atom-workshop-preview-${Stage}
       AttributeDefinitions:
-        -
-          AttributeName: "id"
+        - AttributeName: "id"
+          AttributeType: "S"
+        - AttributeName: "atomType"
           AttributeType: "S"
       KeySchema:
-        -
-          AttributeName: "id"
+        - AttributeName: "atomType"
           KeyType: "HASH"
+        - AttributeName: "id"
+          KeyType: "RANGE"
       ProvisionedThroughput:
         ReadCapacityUnits: !Ref PreviewReadWriteCapacity
         WriteCapacityUnits: !Ref PreviewReadWriteCapacity
@@ -34,13 +36,15 @@ Resources:
     Properties:
       TableName: !Sub atom-workshop-live-${Stage}
       AttributeDefinitions:
-        -
-          AttributeName: "id"
+        - AttributeName: "id"
+          AttributeType: "S"
+        - AttributeName: "atomType"
           AttributeType: "S"
       KeySchema:
-        -
-          AttributeName: "id"
+        - AttributeName: "atomType"
           KeyType: "HASH"
+        - AttributeName: "id"
+          KeyType: "RANGE"
       ProvisionedThroughput:
         ReadCapacityUnits: !Ref LiveReadWriteCapacity
         WriteCapacityUnits: !Ref LiveReadWriteCapacity
