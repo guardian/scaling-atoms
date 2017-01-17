@@ -44,3 +44,24 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: !Ref LiveReadWriteCapacity
         WriteCapacityUnits: !Ref LiveReadWriteCapacity
+Outputs:
+  PreviewDynamoTableOut:
+    Description: Table name for Preview dynamo table
+    Value: !Ref AtomWorkshopPreviewDynamoTable
+    Export:
+      Name: !Sub ${AWS::StackName}-PreviewDynamoTableName
+  PreviewDynamoArnOut:
+    Description: ARN for Preview dynamo table
+    Value: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${AtomWorkshopPreviewDynamoTable}
+    Export:
+      Name: !Sub ${AWS::StackName}-PreviewDynamoTableArn
+  LiveDynamoTableOut:
+    Description: Table name for Live dynamo table
+    Value: !Ref AtomWorkshopLiveDynamoTable
+    Export:
+      Name: !Sub ${AWS::StackName}-LiveDynamoTableName
+  LiveDynamoArnOut:
+    Description: ARN for Live dynamo table
+    Value: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${AtomWorkshopLiveDynamoTable}
+    Export:
+      Name: !Sub ${AWS::StackName}-LiveDynamoTableArn
