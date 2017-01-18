@@ -3,13 +3,17 @@
 Simple scripts to export and import dynamo db content
 ## Requirements
 
-$ ruby --version
-ruby 2.2.5p319 (2016-04-26 revision 54774) [x86_64-darwin13]
-
 Ruby > 2.0. Macs have this by default, most Linuces do as well; if you get errors from AWS sdk installation
 check that you're not trying to run against Ruby 1.8.x
 Sometimes you have to run ruby2 and gem2 (or ruby2.2 gem2.2) instead of the ruby and gem commands below
 
+(from my Mac:
+
+$ ruby --version
+
+ruby 2.2.5p319 (2016-04-26 revision 54774) [x86_64-darwin13]
+
+)
 
 You need the following gems installed:
  - aws-sdk-resources
