@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
   ws,
   "com.amazonaws"            %  "aws-java-sdk-core"           % awsVersion,
   "com.amazonaws"            %  "aws-java-sdk-ec2"            % awsVersion,
+  "com.chuusai"              %% "shapeless"                   % "2.3.2",
   "com.gu"                   %% "atom-manager-play"           % atomLibVersion,
   "com.gu"                   %% "atom-publisher-lib"          % atomLibVersion,
   "com.gu"                   %% "configuration-magic-core"    % "1.3.0",

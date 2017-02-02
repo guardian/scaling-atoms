@@ -58,8 +58,19 @@ class App(val wsClient: WSClient) extends Controller with PanDomainAuthActions {
         newAtom <- parseAtomJson(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
         currentAtom <- AtomWorkshopDB.getAtom(datastore, atomType, id)
-        result <- AtomWorkshopDB.updateAtom(datastore, atomType, req.user, currentAtom,newAtom)
+        result <- AtomWorkshopDB.updateAtom(datastore, atomType, req.user, currentAtom, newAtom)
       } yield AtomWorkshopAPIResponse(s"Update of atom of type $atomType with id $id successful.")
+    }
+  }
+
+  def updateAtom(atomType: String, id: String, field: String) = AuthAction { implicit req =>
+    APIResponse {
+      for {
+        atomType <- validateAtomType(atomType)
+        ds <- AtomDataStores.getDataStore(atomType, Preview)
+        value = req.body.asJson.get \ "value"
+        atom <- AtomWorkshopDB.updateAtom(ds, atomType, id, field, value)
+      } yield atom
     }
   }
 
