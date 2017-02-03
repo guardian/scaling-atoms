@@ -57,6 +57,18 @@ object ClassToMap {
         tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
       }
     }
+
+    implicit def hconsToMapRecSeq[K <: Symbol, V, R <: HList, T <: HList]
+    (implicit
+     wit: Witness.Aux[K],
+     gen: LabelledGeneric.Aux[Asset, R],
+     tmrT: Lazy[ToMapRec[T]],
+     tmrH: Lazy[ToMapRec[R]]
+    ): ToMapRec[FieldType[K, Seq[Asset]] :: T] = new ToMapRec[FieldType[K, Seq[Asset]] :: T] {
+      override def apply(l: FieldType[K, Seq[Asset]] :: T): Map[String, Any] = {
+        tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
+      }
+    }
   }
 
   implicit class ToMapRecOps[A](val a: A) extends AnyVal {
@@ -87,8 +99,3 @@ object ClassToMap {
       override def from(r: Repr): A = gen.from(r)
     }
 }
-
-//def category : com.gu.contentatom.thrift.atom.media.Category
-//def assetType: com.gu.contentatom.thrift.atom.media.AssetType
-//def platform: com.gu.contentatom.thrift.atom.media.Platform
-//def privacyStatus: _root_.scala.Option[com.gu.contentatom.thrift.atom.media.PrivacyStatus]
