@@ -48,7 +48,7 @@ object AtomDataStores {
     AtomType.Media -> getDataStores[MediaAtom](mediaDynamoFormats)
   )
 
-  def getDataStore(atomType: AtomType, version: Version) = {
+  def getDataStore(atomType: AtomType, version: Version): Either[UnsupportedAtomTypeError.type, DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom]] = {
     val store = for {
       atomDataStores <- AtomDataStores.dataStores.get(atomType)
       atomDataStore <- atomDataStores.get(version)

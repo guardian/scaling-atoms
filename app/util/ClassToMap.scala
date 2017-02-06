@@ -61,11 +61,11 @@ object ClassToMap {
     implicit def hconsToMapRecSeq[K <: Symbol, V, R <: HList, T <: HList]
     (implicit
      wit: Witness.Aux[K],
-     gen: LabelledGeneric.Aux[Asset, R],
+     gen: LabelledGeneric.Aux[V, R],
      tmrT: Lazy[ToMapRec[T]],
      tmrH: Lazy[ToMapRec[R]]
-    ): ToMapRec[FieldType[K, Seq[Asset]] :: T] = new ToMapRec[FieldType[K, Seq[Asset]] :: T] {
-      override def apply(l: FieldType[K, Seq[Asset]] :: T): Map[String, Any] = {
+    ): ToMapRec[FieldType[K, Seq[V]] :: T] = new ToMapRec[FieldType[K, Seq[V]] :: T] {
+      override def apply(l: FieldType[K, Seq[V]] :: T): Map[String, Any] = {
         tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
       }
     }

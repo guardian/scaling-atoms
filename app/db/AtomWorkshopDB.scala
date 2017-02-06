@@ -1,7 +1,7 @@
 package db
 
-import com.gu.atom.data.{DynamoCompositeKey, DynamoDataStore, DataStoreResult}
 import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException
+import com.gu.atom.data.{DataStoreResult, DynamoCompositeKey, DynamoDataStore}
 import com.gu.contentatom.thrift.AtomData.Media
 import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
 import com.gu.contentatom.thrift.atom.cta.CTAAtom
@@ -17,13 +17,14 @@ import util.AtomElementBuilders._
 import com.gu.pandomainauth.model.User
 import util.HelperFunctions._
 import com.gu.atom
-import models.{UpdateAtomDynamoError, AtomAPIError, AtomWorkshopDynamoDatastoreError, CreateAtomDynamoError}
+import models._
 import com.gu.fezziwig.CirceScroogeMacros._
 import io.circe._
 import io.circe.syntax._
 import play.api.libs.json.JsLookupResult
 import util.ClassToMap._
 import util.MapToClass._
+import util.Updater._
 
 object AtomWorkshopDB {
 
@@ -78,18 +79,17 @@ object AtomWorkshopDB {
   }
 
   def updateAtom(datastore: DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom], atomType: AtomType, id: String, field: String, value: JsLookupResult) = {
-    val updatedAtom = transformAtomLibResult(
-      datastore.getAtom(AtomWorkshopDB.buildKey(atomType, id)).fold(err => Left(err),
-        atom => {
-          val atomToMap = atom.data.asInstanceOf[AtomData.Media].media.toMap
-          val updatedAtomMap = updateNestedMap(atomToMap, field.split('.').toList, value)
-          println("\n==MAP==> UPDATED", updatedAtomMap)
-          val backToClass = to[MediaAtom].from(updatedAtomMap)
-//          println("\n==UPDATED==> ATOM", backToClass)
-          Right(atom.copy(data = Media(backToClass.get), contentChangeDetails = atom.contentChangeDetails.copy(revision = atom.contentChangeDetails.revision + 1)))
-        }
-      )
-    )
-    updatedAtom.fold(err => Left(err), atom => transformAtomLibResult(datastore.updateAtom(atom)))
+    for {
+      atom <- transformAtomLibResult(datastore.getAtom(AtomWorkshopDB.buildKey(atomType, id)))
+      atomDataMap = atom.data.asInstanceOf[AtomData.Media].media.toMap
+      updatedAtomData <- update(atomDataMap, field, value)
+      newAtomData <- to[MediaAtom].from(updatedAtomData) match {
+        case Some(data) => Right(data)
+        case None =>
+          Logger.error("Conversion to case class failed.")
+          Left(ConvertingToClassError)
+      }
+      atomToSave = atom.copy(data = Media(newAtomData), contentChangeDetails = atom.contentChangeDetails.copy(revision = atom.contentChangeDetails.revision + 1))
+    } yield transformAtomLibResult(datastore.updateAtom(atomToSave))
   }
 }

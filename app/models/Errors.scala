@@ -12,3 +12,7 @@ case class AtomJsonParsingError(message: String) extends AtomAPIError(s"Failed t
 case class AtomThriftDeserialisingError(message: String) extends AtomAPIError(s"Failed to deserialise JSON into thrift with error: $message")
 case object UnexpectedExceptionError extends AtomAPIError("Atom workshop hit an exception it didn't expect. Please try again!")
 case object BodyRequiredForUpdateError extends AtomAPIError("You must provide a JSON representation of the the new version of the atom you wish to update in the body of your request")
+
+case class UnexpectedTypeFound(map: String) extends AtomAPIError(s"Unexpected type found during update: $map")
+case class WrongTypeFound(found: String, expected: String) extends AtomAPIError(s"Wrong type found during update: found $found, expected $expected")
+case object ConvertingToClassError extends AtomAPIError("An error occurred during converting the map to case classes. Most likely some of the types don't match.")

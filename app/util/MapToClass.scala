@@ -52,7 +52,7 @@ object MapToClass {
      fromMapT: Lazy[FromMap[T]]
     ): FromMap[FieldType[K, Option[V]] :: T] = new FromMap[FieldType[K, Option[V]] :: T] {
       def apply(m: Map[String, Any]): Option[FieldType[K, Option[V]] :: T] = {
-        m.get(witness.value.name).get match {
+        m(witness.value.name) match {
           case Some(v) =>
             for {
               r <- Typeable[Option[Map[String, Any]]].cast(Some(v))
@@ -63,6 +63,29 @@ object MapToClass {
             for {
               t <- fromMapT.value(m)
             } yield field[K](None) :: t
+        }
+      }
+    }
+
+    implicit def hconsFromMapSeq[K <: Symbol, V, R <: HList, T <: HList]
+    (implicit
+     witness: Witness.Aux[K],
+     gen: LabelledGeneric.Aux[V, R],
+     fromMapH: Lazy[FromMap[R]],
+     fromMapT: Lazy[FromMap[T]]
+    ): FromMap[FieldType[K, Seq[V]] :: T] = new FromMap[FieldType[K, Seq[V]] :: T] {
+      def apply(m: Map[String, Any]): Option[FieldType[K, Seq[V]] :: T] = {
+        m(witness.value.name) match {
+          case list: Seq[_] if list.nonEmpty =>
+            for {
+              r <- Typeable[Seq[Map[String, Any]]].cast(list)
+              h = r.map(elem => fromMapH.value(elem).get)
+              t <- fromMapT.value(m)
+            } yield field[K](h.map(repr => gen.from(repr))) :: t
+          case _ =>
+            for {
+              t <- fromMapT.value(m)
+            } yield field[K](Seq()) :: t
         }
       }
     }
