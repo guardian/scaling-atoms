@@ -54,25 +54,31 @@ object HelperFunctions {
 }
 
 object Updater {
-  def update(map: Map[String, Any], path: String, value: JsLookupResult): Either[AtomAPIError, Map[String, Any]] = for {
-    updatedMap <- updateNestedMap(map, path.split('.').toList, value.as[String])
-  } yield updatedMap
+  def update(map: Map[String, Any], path: String, value: JsLookupResult): Either[AtomAPIError, Map[String, Any]] =
+  try {
+    Right(updateNestedMap(map, path.split('.').toList, value.as[String]))
+  } catch {
+    case e: AtomAPIError => Left(e)
+  }
 
-  private def updateNestedMap[T](map: Map[String, Any], path: List[String], value: T): Either[AtomAPIError, Map[String, Any]] = path match {
+  private def updateNestedMap[T](map: Map[String, Any], path: List[String], value: T): Map[String, Any] = path match {
     case key :: Nil =>
-      if(value.getClass != map(key).getClass) {
+      // These checks shouldn't be necessary when using proper validation
+      if(map(key).isInstanceOf[Option[Any]]) {
+        map.updated(key, Some(value))
+      } else if(value.getClass != map(key).getClass) {
         Logger.error("Types not matching when trying to update.")
-        Left(WrongTypeFound(found = value.getClass.getCanonicalName, expected = map(key).getClass.getCanonicalName))
+        throw new WrongTypeFound(found = value.getClass.getCanonicalName, expected = map(key).getClass.getCanonicalName)
       }
-      else Right(map.updated(key, value))
+      else map.updated(key, value)
     case key :: tail =>
       map(key) match {
-        case None => Right(map.updated(key, Some(updateNestedMap(Map(), tail, value))))
-        case optionMap: Option[Map[String, Any]] => Right(map.updated(key, Some(updateNestedMap(optionMap.get, tail, value))))
-        case simpleMap: Map[String, Any] => Right(map.updated(key, updateNestedMap(simpleMap, tail, value)))
+        case None => map.updated(key, Some(updateNestedMap(Map(), tail, value)))
+        case optionMap: Option[Map[String, Any]] => map.updated(key, Some(updateNestedMap(optionMap.get, tail, value)))
+        case simpleMap: Map[String, Any] => map.updated(key, updateNestedMap(simpleMap, tail, value))
         case somethingElse =>
           Logger.error("Unexpected type found when trying to update the map.")
-          Left(UnexpectedTypeFound(somethingElse.toString))
+          throw new UnexpectedTypeFound(somethingElse.toString)
       }
   }
 }
