@@ -40,7 +40,7 @@ object HelperFunctions {
   }
 
   def parseAtomJson(atomJson: String): Either[AtomAPIError, Atom] = {
-    println(atomJson)
+    Logger.info(s"Parsing atom json: ${atomJson}")
     val parsingResult = for {
       parsedAtom <- parser.parse(atomJson)
       decodedAtom <- parsedAtom.as[Atom]
