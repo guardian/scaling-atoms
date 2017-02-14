@@ -19,10 +19,10 @@ object ClassToMap {
     implicit def hconsToMapRecNode[K <: Symbol, V, T <: HList]
     (implicit
      wit: Witness.Aux[K],
-     tmrT: Lazy[ToMapRec[T]]
+     toMapRecTail: Lazy[ToMapRec[T]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-        tmrT.value(l.tail) + (wit.value.name -> l.head)
+        toMapRecTail.value(l.tail) + (wit.value.name -> l.head)
       }
     }
   }
@@ -38,11 +38,11 @@ object ClassToMap {
     (implicit
      wit: Witness.Aux[K],
      gen: LabelledGeneric.Aux[V, R],
-     tmrT: Lazy[ToMapRec[T]],
-     tmrH: Lazy[ToMapRec[R]]
+     toMapRecTail: Lazy[ToMapRec[T]],
+     toMapRecHead: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, V] :: T] = new ToMapRec[FieldType[K, V] :: T] {
       override def apply(l: FieldType[K, V] :: T): Map[String, Any] = {
-        tmrT.value(l.tail) + (wit.value.name -> tmrH.value(gen.to(l.head)))
+        toMapRecTail.value(l.tail) + (wit.value.name -> toMapRecHead.value(gen.to(l.head)))
       }
     }
 
@@ -50,11 +50,11 @@ object ClassToMap {
     (implicit
      wit: Witness.Aux[K],
      gen: LabelledGeneric.Aux[V, R],
-     tmrT: Lazy[ToMapRec[T]],
-     tmrH: Lazy[ToMapRec[R]]
+     toMapRecTail: Lazy[ToMapRec[T]],
+     toMapRecHead: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, Option[V]] :: T] = new ToMapRec[FieldType[K, Option[V]] :: T] {
       override def apply(l: FieldType[K, Option[V]] :: T): Map[String, Any] = {
-        tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
+        toMapRecTail.value(l.tail) + (wit.value.name -> l.head.map(value => toMapRecHead.value(gen.to(value))))
       }
     }
 
@@ -62,11 +62,11 @@ object ClassToMap {
     (implicit
      wit: Witness.Aux[K],
      gen: LabelledGeneric.Aux[V, R],
-     tmrT: Lazy[ToMapRec[T]],
-     tmrH: Lazy[ToMapRec[R]]
+     toMapRecTail: Lazy[ToMapRec[T]],
+     toMapRecHead: Lazy[ToMapRec[R]]
     ): ToMapRec[FieldType[K, Seq[V]] :: T] = new ToMapRec[FieldType[K, Seq[V]] :: T] {
       override def apply(l: FieldType[K, Seq[V]] :: T): Map[String, Any] = {
-        tmrT.value(l.tail) + (wit.value.name -> l.head.map(value => tmrH.value(gen.to(value))))
+        toMapRecTail.value(l.tail) + (wit.value.name -> l.head.map(value => toMapRecHead.value(gen.to(value))))
       }
     }
   }
@@ -75,8 +75,8 @@ object ClassToMap {
     def toMap[L <: HList]
     (implicit
      gen: LabelledGeneric.Aux[A, L],
-     tmr: Lazy[ToMapRec[L]]
-    ): Map[String, Any] = tmr.value(gen.to(a))
+     toMapRec: Lazy[ToMapRec[L]]
+    ): Map[String, Any] = toMapRec.value(gen.to(a))
   }
 
   implicit def mediaAtomLabelledGeneric[L <: HList](implicit gen: LabelledGeneric.Aux[MediaAtom.Immutable, L]): LabelledGeneric.Aux[MediaAtom, L] =
