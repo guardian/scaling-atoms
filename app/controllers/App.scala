@@ -64,14 +64,14 @@ class App(val wsClient: WSClient) extends Controller with PanDomainAuthActions {
     }
   }
 
-  def updateAtom(atomType: String, id: String, field: String) = AuthAction { implicit req =>
+  def updateAtom(atomType: String, id: String, field: String) = AuthAction { req =>
     APIResponse {
       for {
         atomType <- validateAtomType(atomType)
         ds <- AtomDataStores.getDataStore(atomType, Preview)
         value = req.body.asJson.get \ "value"
         atom <- AtomWorkshopDB.updateAtom(ds, atomType, id, field, value)
-      } yield atom
+      } yield AtomWorkshopAPIResponse(s"Update of atom of type $atomType with id $id successful.")
     }
   }
 

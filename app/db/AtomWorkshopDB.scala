@@ -78,8 +78,8 @@ object AtomWorkshopDB {
 
   }
 
-  def updateAtom(datastore: DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom], atomType: AtomType, id: String, field: String, value: JsLookupResult) = {
-    for {
+  def updateAtom(datastore: DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom], atomType: AtomType, id: String, field: String, value: JsLookupResult): Either[AtomAPIError, Unit] = {
+    val updateResult = for {
       atom <- transformAtomLibResult(datastore.getAtom(AtomWorkshopDB.buildKey(atomType, id)))
       atomDataMap = atom.data.asInstanceOf[AtomData.Media].media.toMap
       updatedAtomData <- update(atomDataMap, field, value)
@@ -90,6 +90,7 @@ object AtomWorkshopDB {
           Left(ConvertingToClassError)
       }
       atomToSave = atom.copy(data = Media(newAtomData), contentChangeDetails = atom.contentChangeDetails.copy(revision = atom.contentChangeDetails.revision + 1))
-    } yield transformAtomLibResult(datastore.updateAtom(atomToSave))
+    } yield datastore.updateAtom(atomToSave)
+    updateResult.fold(err => Left(err), res => Right(transformAtomLibResult(res)))
   }
 }
