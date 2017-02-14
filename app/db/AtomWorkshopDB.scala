@@ -78,7 +78,7 @@ object AtomWorkshopDB {
 
   }
 
-  def updateAtom(datastore: DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom], atomType: AtomType, id: String, field: String, value: JsLookupResult): Either[AtomAPIError, Unit] = {
+  def updateAtom(datastore: DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom], atomType: AtomType, user: User, id: String, field: String, value: JsLookupResult): Either[AtomAPIError, Unit] = {
     val updateResult = for {
       atom <- transformAtomLibResult(datastore.getAtom(AtomWorkshopDB.buildKey(atomType, id)))
       atomDataMap = atom.data.asInstanceOf[AtomData.Media].media.toMap
@@ -89,7 +89,11 @@ object AtomWorkshopDB {
           Logger.error("Conversion to case class failed.")
           Left(ConvertingToClassError)
       }
-      atomToSave = atom.copy(data = Media(newAtomData), contentChangeDetails = atom.contentChangeDetails.copy(revision = atom.contentChangeDetails.revision + 1))
+      atomToSave: Atom = atom.copy(
+        contentChangeDetails = buildContentChangeDetails(user, Some(atom.contentChangeDetails), updateLastModified = true),
+        defaultHtml = buildDefaultHtml(atomType, Media(newAtomData), Some(atom.defaultHtml)),
+        data = Media(newAtomData)
+      )
     } yield datastore.updateAtom(atomToSave)
     updateResult.fold(err => Left(err), res => Right(transformAtomLibResult(res)))
   }
