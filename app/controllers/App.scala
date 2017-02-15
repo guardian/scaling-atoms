@@ -10,6 +10,7 @@ import db.{AtomDataStores, AtomWorkshopDB}
 import com.gu.fezziwig.CirceScroogeMacros._
 import io.circe._
 import io.circe.syntax._
+import io.circe.generic.semiauto._
 import util.HelperFunctions._
 
 class App(val wsClient: WSClient) extends Controller with PanDomainAuthActions {
@@ -58,7 +59,18 @@ class App(val wsClient: WSClient) extends Controller with PanDomainAuthActions {
         newAtom <- parseAtomJson(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
         currentAtom <- AtomWorkshopDB.getAtom(datastore, atomType, id)
-        result <- AtomWorkshopDB.updateAtom(datastore, atomType, req.user, currentAtom,newAtom)
+        result <- AtomWorkshopDB.updateAtom(datastore, atomType, req.user, currentAtom, newAtom)
+      } yield AtomWorkshopAPIResponse(s"Update of atom of type $atomType with id $id successful.")
+    }
+  }
+
+  def updateAtom(atomType: String, id: String, field: String) = AuthAction { req =>
+    APIResponse {
+      for {
+        atomType <- validateAtomType(atomType)
+        ds <- AtomDataStores.getDataStore(atomType, Preview)
+        value = req.body.asJson.get \ "value"
+        atom <- AtomWorkshopDB.updateAtom(ds, atomType, req.user, id, field, value)
       } yield AtomWorkshopAPIResponse(s"Update of atom of type $atomType with id $id successful.")
     }
   }

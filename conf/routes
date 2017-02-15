@@ -23,3 +23,4 @@ GET  /api/live/:atomType/:id                     controllers.App.getAtom(atomTyp
 POST  /api/preview/:atomType                     controllers.App.createAtom(atomType: String)
 
 PUT  /api/preview/:atomType/:id                  controllers.App.updateEntireAtom(atomType: String, id: String)
+PUT   /api/preview/:atomType/:id/:field          controllers.App.updateAtom(atomType: String, id: String, field: String)

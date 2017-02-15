@@ -12,6 +12,8 @@ import com.gu.fezziwig.CirceScroogeMacros._
 import io.circe.syntax._
 import io.circe._
 import io.circe.parser.decode
+import play.api.libs.json.JsLookupResult
+import cats.syntax.either._
 
 object HelperFunctions {
   def getVersion(version: String): Version = version match {
@@ -49,5 +51,34 @@ object HelperFunctions {
     }
     parsingResult.fold(processException, a => Right(a))
   }
+}
 
+object Updater {
+  def update(map: Map[String, Any], path: String, value: JsLookupResult): Either[AtomAPIError, Map[String, Any]] =
+  try {
+    Right(updateNestedMap(map, path.split('.').toList, value.as[String]))
+  } catch {
+    case e: AtomAPIError => Left(e)
+  }
+
+  private def updateNestedMap[T](map: Map[String, Any], path: List[String], value: T): Map[String, Any] = path match {
+    case key :: Nil =>
+      // These checks shouldn't be necessary when using proper validation
+      if(map(key).isInstanceOf[Option[Any]]) {
+        map.updated(key, Some(value))
+      } else if(value.getClass != map(key).getClass) {
+        Logger.error("Types not matching when trying to update.")
+        throw new WrongTypeFound(found = value.getClass.getCanonicalName, expected = map(key).getClass.getCanonicalName)
+      }
+      else map.updated(key, value)
+    case key :: tail =>
+      map(key) match {
+        case None => map.updated(key, Some(updateNestedMap(Map(), tail, value)))
+        case optionMap: Option[Map[String, Any]] => map.updated(key, Some(updateNestedMap(optionMap.get, tail, value)))
+        case simpleMap: Map[String, Any] => map.updated(key, updateNestedMap(simpleMap, tail, value))
+        case somethingElse =>
+          Logger.error("Unexpected type found when trying to update the map.")
+          throw new UnexpectedTypeFound(somethingElse.toString)
+      }
+  }
 }
