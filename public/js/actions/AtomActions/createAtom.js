@@ -36,7 +36,7 @@ export function createAtom(atomType) {
         .then(res => res.json())
         .then(atom => {
           dispatch(receiveAtomCreate(atom));
-          browserHistory.push(`/atoms/${atom.id}/edit`);
+          browserHistory.push(`/atoms/${atom.atomType}/${atom.id}/edit`);
         })
         .catch(error => dispatch(errorCreatingAtom(error)));
   };

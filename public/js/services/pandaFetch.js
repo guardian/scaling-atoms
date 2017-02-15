@@ -5,9 +5,10 @@ function checkStatus(res) {
   if (res.status >= 200 && res.status < 300) {
     return res;
   } else {
-    throw new Error(res);
+    throw res;
   }
 }
+
 
 export function pandaFetch(requestBody) {
   return new Promise(function(resolve, reject) {

@@ -32,7 +32,8 @@ function errorReceivingAtom(error) {
 export function getAtom(id, atomType) {
   return dispatch => {
     dispatch(requestAtom(id, atomType));
-    return AtomsApi.fetchAtom(id, atomType)
+    return AtomsApi.getAtom(id, atomType)
+        .then(res => res.json())
         .then(atom => {
           dispatch(receiveAtom(atom));
         })
