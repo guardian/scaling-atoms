@@ -5,38 +5,25 @@ import { errorPropType } from '../../constants/errorPropType';
 export default class FormFieldCheckbox extends React.Component {
 
   static propTypes = {
-
-    fieldLabel: PropTypes.string.isRequired,
+    fieldLabel: PropTypes.string,
     fieldName: PropTypes.string.isRequired,
-    fieldValue: PropTypes.array.isRequired,
+    fieldValue: PropTypes.bool.isRequired,
     fieldErrors: PropTypes.arrayOf(errorPropType),
     onUpdateField: PropTypes.func.isRequired
-  };
-
-  onUpdate = (e) => {
-    this.props.onUpdateField(e.target.value);
   }
 
-  renderCheckbox(value, i) {
-    return (
-      <div key={i} className="form__group form__group--checkbox">
-        <input className="form__checkbox" type="checkbox" checked={value.selected} name={this.props.fieldName} value={value} onChange={this.onUpdate} />
-        <span className="form__label form__label--checkbox">{value.id}</span>
-      </div>
-    );
-  }
-
-  renderCheckboxes() {
-    return this.props.fieldValue.map(this.renderCheckbox, this);
+  onUpdate = () => {
+    this.props.onUpdateField(this.props.fieldName);
   }
 
   render() {
     return (
-        <div>
-          <label className="form__label" htmlFor={this.props.fieldName}>{this.props.fieldLabel}</label>
-          {this.renderCheckboxes()}
-          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
-        </div>
+      <div className="form__group form__group--checkbox">
+        {this.props.fieldLabel ? <label className="form__label" htmlFor={this.props.fieldName}>{this.props.fieldLabel}</label> : false}
+        <input className="form__checkbox" type="checkbox" checked={this.props.fieldValue} name={this.props.fieldName} onChange={this.onUpdate} />
+        {!this.props.fieldLabel ? <span className="form__label form__label--checkbox">{this.props.fieldName}</span> : false}
+        {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
+      </div>
     );
   }
 }
