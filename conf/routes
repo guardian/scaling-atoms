@@ -15,14 +15,14 @@ GET     /reauth                                  controllers.Login.reauth
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                            controllers.Assets.versioned(path="/public", file: Asset)
 
-GET  /api/preview/:atomType/:id     controllers.App.getAtom(atomType: String, id: String, version = "preview")
-GET  /api/live/:atomType/:id        controllers.App.getAtom(atomType: String, id: String, version = "live")
+GET  /api/preview/:atomType/:id                  controllers.App.getAtom(atomType: String, id: String, version = "preview")
+GET  /api/live/:atomType/:id                     controllers.App.getAtom(atomType: String, id: String, version = "live")
 
-DELETE /api/preview/:atomType/:id   controllers.App.deleteAtom(atomType: String, id: String)
-DELETE /api/live/:atomType/:id      controllers.App.takedownAtom(atomType: String, id: String)
+DELETE /api/preview/:atomType/:id                controllers.App.deleteAtom(atomType: String, id: String)
+DELETE /api/live/:atomType/:id                   controllers.App.takedownAtom(atomType: String, id: String)
 
 # We only ever create into the preview table so no version passed through here (but kept in route to match the pattern!)
 POST  /api/preview/:atomType                     controllers.App.createAtom(atomType: String)
 
-PATCH /api/preview/:atomType/:id                  controllers.App.updateAtomByPath(atomType: String, id: String)
-PUT   /api/preview/:atomType/:id                  controllers.App.updateEntireAtom(atomType: String, id: String)
+PATCH /api/preview/:atomType/:id                 controllers.App.updateAtomByPath(atomType: String, id: String)
+PUT   /api/preview/:atomType/:id                 controllers.App.updateEntireAtom(atomType: String, id: String)

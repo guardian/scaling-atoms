@@ -1,26 +1,29 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import ShowErrors from '../Utilities/ShowErrors';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldTextInput extends React.Component {
 
+
   static propTypes = {
-    fieldLabel: React.PropTypes.string,
-    fieldName: React.PropTypes.string,
-    fieldValue: React.PropTypes.string,
-    fieldPlaceholder: React.PropTypes.string,
-    onUpdateField: React.PropTypes.func,
-    isValid: React.PropTypes.bool
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
+    fieldValue: PropTypes.string,
+    fieldPlaceholder: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
+    onUpdateField: PropTypes.func
   };
 
   onUpdate = (e) => {
     this.props.onUpdateField(e.target.value);
   }
 
-
   render() {
     return (
         <div>
           <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
-          <input type="text" className="form__field" id={this.props.fieldName} placeholder={this.props.fieldPlaceholder || ''} value={this.props.fieldValue || ""} onChange={this.onUpdate}/>
+          <input type="text" className={"form__field " + (this.props.fieldErrors && this.props.fieldErrors.length ? "form__field--error" : "")}  id={this.props.fieldName} placeholder={this.props.fieldPlaceholder || ''} onChange={this.onUpdate}  value={this.props.fieldValue || ""}/>
+          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
         </div>
 
     );

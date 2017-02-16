@@ -13,7 +13,7 @@
 .form__field {
   background-color: $cWhite;
   padding: 11px;
-  border: 1px solid #dcdcdc;
+  border: 1px solid $color300Grey;
   width: 100%;
 
   &:not(:last-child) {
@@ -34,6 +34,10 @@
     border-radius: 0;
     text-indent: .01px;
     text-overflow: '';
+  }
+
+  &--error, &--error:focus {
+    border-color: $cRedB5;
   }
 
 }
@@ -61,5 +65,17 @@
     display: inline-block;
     margin: 0;
     font-weight: normal;
+  }
+}
+
+.form__message {
+  margin-bottom: 10px;
+}
+
+.form__message__text {
+  font-size: 13px;
+
+  &--error {
+    color: $cRedB5;
   }
 }

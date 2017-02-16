@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import ShowErrors from '../Utilities/ShowErrors';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldNumericInput extends React.Component {
 
   static propTypes = {
-    fieldLabel: React.PropTypes.string,
-    fieldName: React.PropTypes.string,
-    fieldValue: React.PropTypes.number,
-    fieldPlaceholder: React.PropTypes.string,
-    onUpdateField: React.PropTypes.func
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
+    fieldValue: PropTypes.number,
+    fieldPlaceholder: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
+    onUpdateField: PropTypes.func
   };
 
   onUpdate = (e) => {
@@ -26,6 +29,7 @@ export default class FormFieldNumericInput extends React.Component {
         <div>
           <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
           <input type="number" className="form__field" id={this.props.fieldName} placeholder={this.props.fieldPlaceholder || ''} value={this.props.fieldValue || ''} onChange={this.onUpdate}/>
+          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
         </div>
 
     );

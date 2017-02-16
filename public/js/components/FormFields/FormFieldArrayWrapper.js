@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldArrayWrapper extends React.Component {
 
@@ -6,6 +7,7 @@ export default class FormFieldArrayWrapper extends React.Component {
     fieldLabel: PropTypes.string,
     fieldName: PropTypes.string,
     fieldValue: PropTypes.array,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
     onUpdateField: PropTypes.func,
     children: PropTypes.oneOfType([
       PropTypes.element,
@@ -40,6 +42,7 @@ export default class FormFieldArrayWrapper extends React.Component {
       return React.cloneElement(child, {
         fieldName: `${this.props.fieldName}-${i}`,
         fieldValue: value,
+        fieldErrors: this.props.fieldErrors,
         onUpdateField: updateFn
       });
     });

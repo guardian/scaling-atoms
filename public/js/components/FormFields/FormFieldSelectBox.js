@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import ShowErrors from '../Utilities/ShowErrors';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldSelectBox extends React.Component {
 
   static propTypes = {
-    fieldLabel: React.PropTypes.string.isRequired,
-    fieldName: React.PropTypes.string.isRequired,
-    fieldValue: React.PropTypes.string.isRequired,
-    selectValues: React.PropTypes.array.isRequired,
-    onUpdateField: React.PropTypes.func.isRequired
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
+    fieldValue: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
+    selectValues: PropTypes.array,
+    onUpdateField: PropTypes.func
   };
 
   renderOption(option) {
@@ -32,6 +35,7 @@ export default class FormFieldSelectBox extends React.Component {
           <select className="form__field form__field--select" value={this.props.fieldValue} onChange={this.onUpdate}>
             {this.renderOptions()}
           </select>
+          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
         </div>
     );
   }

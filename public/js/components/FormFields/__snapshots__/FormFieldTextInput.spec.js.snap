@@ -6,7 +6,7 @@ exports[`test Should render 1`] = `
     test
   </label>
   <input
-    className="form__field"
+    className="form__field "
     id="test"
     onChange={[Function]}
     placeholder=""

@@ -1,4 +1,4 @@
-import FieldError from '../constants/fieldError';
+import FieldError from '../constants/FieldError';
 /**
  *
  * Validator should return a promise resolved with true for a pass and a new FieldError('error', 'message') if false

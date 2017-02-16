@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import ShowErrors from '../Utilities/ShowErrors';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldRadioButtons extends React.Component {
 
   static propTypes = {
-    fieldLabel: React.PropTypes.string,
-    fieldName: React.PropTypes.string,
-    selectValues: React.PropTypes.array.isRequired,
-    fieldValue: React.PropTypes.string,
-    onUpdateField: React.PropTypes.func
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
+    selectValues: PropTypes.array.isRequired,
+    fieldValue: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
+    onUpdateField: PropTypes.func
   };
 
   onUpdate = (e) => {
@@ -32,6 +35,7 @@ export default class FormFieldRadioButtons extends React.Component {
         <div>
           <label className="form__label" htmlFor={this.props.fieldName}>{this.props.fieldLabel}</label>
           {this.renderButtons()}
+          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
         </div>
     );
   }

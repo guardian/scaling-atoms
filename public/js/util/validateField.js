@@ -1,4 +1,4 @@
-import FieldError from '../constants/fieldError';
+import FieldError from '../constants/FieldError';
 import {logError} from './logger';
 
 const validateField = (fieldValue, isRequired: false, customValidation) => {
@@ -20,17 +20,15 @@ const validateField = (fieldValue, isRequired: false, customValidation) => {
 
   // Custom validators
   if(customValidation) {
-
     const customValidationResults = customValidation.map((validator) => validator(fieldValue));
 
-    Promise.all(customValidationResults)
+    return Promise.all(customValidationResults)
       .then(res => res.filter(checkError))
-      .then(customErrors => errors.concat(customErrors))
+      .then(customErrors => Promise.resolve(errors.concat(customErrors)))
       .catch(err => logError('Validation error', err));
-
   }
 
-  return errors;
+  return Promise.resolve(errors);
 };
 
 export default validateField;

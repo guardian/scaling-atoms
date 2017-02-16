@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import filesize from 'filesize';
 import Modal from '../Utilities/Modal';
+import ShowErrors from '../Utilities/ShowErrors';
+import { errorPropType } from '../../constants/errorPropType';
 import {parseImageFromGridCrop, findSmallestAssetAboveWidth, gridUrlFromApiUrl} from '../../util/imageHelpers';
 import {logInfo} from '../../util/logger';
 
@@ -27,6 +29,7 @@ class FormFieldImageSelect extends React.Component {
     fieldValue: gridImagePropType,
     fieldName: PropTypes.string,
     fieldLabel: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
     gridUrl: PropTypes.string.isRequired
   }
 
@@ -115,6 +118,7 @@ class FormFieldImageSelect extends React.Component {
                 <iframe className="image-select__modal" src={this.props.gridUrl}></iframe>
             </Modal>
         </div>
+        {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
       </div>
     );
   }

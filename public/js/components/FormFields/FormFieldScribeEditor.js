@@ -4,29 +4,24 @@ import scribeKeyboardShortcutsPlugin from 'scribe-plugin-keyboard-shortcuts';
 import scribePluginToolbar from 'scribe-plugin-toolbar';
 import scribePluginLinkPromptCommand from 'scribe-plugin-link-prompt-command';
 import scribePluginSanitizer from 'scribe-plugin-sanitizer';
+import {errorPropType} from '../../constants/errorPropType';
 
-export default class ScribeEditor extends React.Component {
+export default class FormFieldsScribeEditor extends React.Component {
 
   static propTypes = {
-    disabled: PropTypes.bool,
-    value: PropTypes.string.isRequired,
-    onUpdateField: PropTypes.func.isRequired,
-    className: PropTypes.string,
-    toolbarClassName: PropTypes.string,
-    toolbarItemClassName: PropTypes.string,
-    editorClassName: PropTypes.string
-
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
+    fieldValue: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
+    onUpdateField: PropTypes.func
   }
 
   componentDidMount() {
-    if (!this.props.disabled) {
-      // Create an instance of Scribe
-      this.scribe = new Scribe(this.refs.editor);
+    this.scribe = new Scribe(this.refs.editor);
 
-      this.configureScribe();
+    this.configureScribe();
 
-      this.scribe.on('content-changed', this.onContentChange);
-    }
+    this.scribe.on('content-changed', this.onContentChange);
   }
 
   configureScribe() {
@@ -59,27 +54,28 @@ export default class ScribeEditor extends React.Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.value !== this.refs.editor.innerHTML;
+    return nextProps.fieldValue !== this.refs.editor.innerHTML;
   }
 
   onContentChange = () => {
     const newContent = this.refs.editor.innerHTML;
 
-    if (newContent !== this.props.value) {
+    if (newContent !== this.props.fieldValue) {
       this.props.onUpdateField(newContent);
     }
   }
 
   render () {
     return (
-        <div className={this.props.className}>
-          <div ref="toolbar" className={this.props.toolbarClassName}>
-            <button type="button" data-command-name="bold" className={this.props.toolbarItemClassName}>Bold</button>
-            <button type="button" data-command-name="italic" className={this.props.toolbarItemClassName}>Italic</button>
-            <button type="button" data-command-name="linkPrompt" className={this.props.toolbarItemClassName}>Link</button>
-            <button type="button" data-command-name="unlink" className={this.props.toolbarItemClassName}>Unlink</button>
+        <div className="scribe">
+          <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
+          <div ref="toolbar" className="scribe__toolbar">
+            <button type="button" data-command-name="bold" className="scribe__toolbar__btn">Bold</button>
+            <button type="button" data-command-name="italic" className="scribe__toolbar__btn">Italic</button>
+            <button type="button" data-command-name="linkPrompt" className="scribe__toolbar__btn">Link</button>
+            <button type="button" data-command-name="unlink" className="scribe__toolbar__btn">Unlink</button>
           </div>
-          <div className={this.props.editorClassName} dangerouslySetInnerHTML={{__html: this.props.value}} ref="editor"></div>
+          <div id={this.props.fieldName} dangerouslySetInnerHTML={{__html: this.props.fieldValue}} ref="editor" className="scribe__editor"></div>
         </div>
     );
   }
