@@ -4,6 +4,7 @@ import {ManagedForm, ManagedField} from '../../ManagedEditor';
 import FormFieldNumericInput from '../../FormFields/FormFieldNumericInput';
 import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
 import FormFieldTextInput from '../../FormFields/FormFieldTextInput';
+import FormFieldImageSelect from '../../FormFields/FormFieldImageSelect';
 import {RecipeServings} from './RecipeFields/Servings';
 
 export class RecipeEditor extends React.Component {
@@ -12,7 +13,10 @@ export class RecipeEditor extends React.Component {
     atom: PropTypes.shape({
       type: PropTypes.string
     }).isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    config: PropTypes.shape({
+      gridUrl: PropTypes.string.isRequired
+    }).isRequired
   }
 
   render () {
@@ -32,6 +36,11 @@ export class RecipeEditor extends React.Component {
           <ManagedField fieldLocation="data.recipe.steps" name="Steps">
             <FormFieldArrayWrapper>
               <FormFieldTextInput />
+            </FormFieldArrayWrapper>
+          </ManagedField>
+          <ManagedField fieldLocation="data.recipe.images" name="Images">
+            <FormFieldArrayWrapper>
+              <FormFieldImageSelect gridUrl={this.props.config.gridUrl}/>
             </FormFieldArrayWrapper>
           </ManagedField>
         </ManagedForm>

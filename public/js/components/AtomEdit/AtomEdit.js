@@ -22,7 +22,10 @@ class AtomEdit extends React.Component {
       getAtom: PropTypes.func.isRequired,
       updateAtom: PropTypes.func.isRequired
     }).isRequired,
-    atom: atomPropType
+    atom: atomPropType,
+    config: PropTypes.shape({
+      gridUrl: PropTypes.string
+    })
   }
 
   componentWillMount() {
@@ -46,7 +49,7 @@ class AtomEdit extends React.Component {
       case ("cta"):
         return <CTAEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
       case ("recipe"):
-        return <RecipeEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
+        return <RecipeEditor atom={this.props.atom} onUpdate={this.updateAtom} config={this.props.config}/>;
       case ("explainer"):
         return <ExplainerEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
       default:
