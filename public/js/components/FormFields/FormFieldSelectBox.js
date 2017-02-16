@@ -35,7 +35,7 @@ export default class FormFieldSelectBox extends React.Component {
           <select className="form__field form__field--select" value={this.props.fieldValue} onChange={this.onUpdate}>
             {this.renderOptions()}
           </select>
-          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
+          <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
   }

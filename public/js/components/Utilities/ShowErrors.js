@@ -19,7 +19,7 @@ export default class ShowErrors extends React.Component {
   render() {
     return (
       <div>
-        {this.props.errors.map((error, i) => this.renderError(error, i))}
+        {this.props.errors && this.props.errors.length ? this.props.errors.map((error, i) => this.renderError(error, i)) : false}
       </div>
     );
   }

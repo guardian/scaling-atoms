@@ -77,7 +77,7 @@ export default class FormFieldsScribeEditor extends React.Component {
             <button type="button" data-command-name="unlink" className="scribe__toolbar__item">Unlink</button>
           </div>
           <div id={this.props.fieldName} dangerouslySetInnerHTML={{__html: this.props.fieldValue}} ref="editor" className="scribe__editor"></div>
-          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
+          <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
   }

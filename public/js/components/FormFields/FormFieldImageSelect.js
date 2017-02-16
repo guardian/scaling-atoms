@@ -118,7 +118,7 @@ class FormFieldImageSelect extends React.Component {
                 <iframe className="image-select__modal" src={this.props.gridUrl}></iframe>
             </Modal>
         </div>
-        {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
+        <ShowErrors errors={this.props.fieldErrors}/>
       </div>
     );
   }
