@@ -6,6 +6,7 @@ import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
 import FormFieldTextInput from '../../FormFields/FormFieldTextInput';
 import FormFieldImageSelect from '../../FormFields/FormFieldImageSelect';
 import {RecipeServings} from './RecipeFields/Servings';
+import {IngredientList} from './RecipeFields/IngredientList';
 
 export class RecipeEditor extends React.Component {
 
@@ -32,6 +33,11 @@ export class RecipeEditor extends React.Component {
           </ManagedField>
           <ManagedField fieldLocation="data.recipe.serves" name="Serving Information">
             <RecipeServings />
+          </ManagedField>
+          <ManagedField fieldLocation="data.recipe.ingredients" name="Ingredient Lists">
+            <FormFieldArrayWrapper>
+              <IngredientList />
+            </FormFieldArrayWrapper>
           </ManagedField>
           <ManagedField fieldLocation="data.recipe.steps" name="Steps">
             <FormFieldArrayWrapper>
