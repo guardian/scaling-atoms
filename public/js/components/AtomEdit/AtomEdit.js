@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import {CTAEditor} from './CustomEditors/CTAEditor';
 import {RecipeEditor} from './CustomEditors/RecipeEditor';
+import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
 
 const atomPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -46,6 +47,8 @@ class AtomEdit extends React.Component {
         return <CTAEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
       case ("recipe"):
         return <RecipeEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
+      case ("explainer"):
+        return <ExplainerEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
       default:
         return (
           <div>Atom Workshop cannot edit this type of atom currently</div>
