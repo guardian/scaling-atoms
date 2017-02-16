@@ -13,7 +13,7 @@ export default class ShowErrors extends React.Component {
         <p className="form__message__text form__message__text--error">Error: {error.title}</p>
         <p className="form__message__text form__message__text--error">Message: {error.message}</p>
       </div>
-    )
+    );
   }
 
   render() {
