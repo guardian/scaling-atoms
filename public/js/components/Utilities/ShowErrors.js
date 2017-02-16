@@ -7,12 +7,20 @@ export default class ShowErrors extends React.Component {
     errors: PropTypes.arrayOf(errorPropType)
   }
 
-  render() {
+  renderError = (error, i) => {
     return (
-      this.props.errors.map((error, i) => <div key={i} className="form__message">
+      <div key={i} className="form__message">
         <p className="form__message__text form__message__text--error">Error: {error.title}</p>
         <p className="form__message__text form__message__text--error">Message: {error.message}</p>
-      </div>)
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.errors.map((error, i) => this.renderError(error, i))}
+      </div>
     );
   }
 }
