@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 export default class FormFieldRadioButtons extends React.Component {
 
   static propTypes = {
-    fieldLabel: React.PropTypes.string.isRequired,
-    fieldName: React.PropTypes.string.isRequired,
-    selectValues: React.PropTypes.array.isRequired,
-    fieldValue: React.PropTypes.string,
-    onUpdateField: React.PropTypes.func.isRequired
+    fieldLabel: PropTypes.string.isRequired,
+    fieldName: PropTypes.string.isRequired,
+    selectValues: PropTypes.array.isRequired,
+    fieldValue: PropTypes.string,
+    onUpdateField: PropTypes.func.isRequired
   };
 
   onUpdate = (e) => {

@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 
 export default class FormFieldCheckbox extends React.Component {
 
   static propTypes = {
-    fieldLabel: React.PropTypes.string.isRequired,
-    fieldName: React.PropTypes.string.isRequired,
-    fieldValues: React.PropTypes.array.isRequired,
-    onUpdateField: React.PropTypes.func.isRequired
+    fieldLabel: PropTypes.string.isRequired,
+    fieldName: PropTypes.string.isRequired,
+    fieldValues: PropTypes.array.isRequired,
+    onUpdateField: PropTypes.func.isRequired
   };
 
   onUpdate = (e) => {
