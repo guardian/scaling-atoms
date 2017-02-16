@@ -5,6 +5,10 @@ import validateField from '../../util/validateField';
 
 export class ManagedField extends React.Component {
 
+  state = {
+    fieldErrors: []
+  };
+
   static propTypes = {
     fieldLocation: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
@@ -16,8 +20,14 @@ export class ManagedField extends React.Component {
   };
 
   updateFn = (newValue) => {
+    Promise.resolve(validateField(newValue, this.props.isRequired, this.props.customValidation))
+      .then(fieldErrors => {
+        this.setState({
+          fieldErrors: fieldErrors
+        })
+      });
+
     this.props.updateData(_set(this.props.fieldLocation, newValue, this.props.data));
-    validateField(newValue, this.props.isRequired, this.props.customValidation);
   }
 
   render () {
@@ -27,7 +37,8 @@ export class ManagedField extends React.Component {
         fieldName: this.props.name,
         fieldLabel: this.props.name,
         fieldValue: _get(this.props.fieldLocation, this.props.data),
-        onUpdateField: this.updateFn
+        fieldErrors: this.state.fieldErrors,
+        onUpdateField: this.updateFn,
       });
     });
 

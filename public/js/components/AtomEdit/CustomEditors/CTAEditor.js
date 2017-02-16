@@ -18,19 +18,19 @@ export class CTAEditor extends React.Component {
     return (
       <div className="editor editor-cta">
         <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
-          <ManagedField fieldLocation="data.url" name="Link Url" fieldId="url" isRequired={true}>
+          <ManagedField fieldLocation="data.url" name="Link Url" isRequired={true}>
             <FormFieldTextInput/>
           </ManagedField>
-          <ManagedField fieldLocation="data.btnText" name="Button Text" fieldId="btntext">
+          <ManagedField fieldLocation="data.btnText" name="Button Text">
             <FormFieldTextInput />
           </ManagedField>
-          <ManagedField fieldLocation="data.backgroundImage" name="Background Image Url" fieldId="backgroundImage" customValidation={[isHttpsUrl]}>
+          <ManagedField fieldLocation="data.backgroundImage" name="Background Image Url" customValidation={[isHttpsUrl]}>
             <FormFieldTextInput />
           </ManagedField>
-          <ManagedField fieldLocation="data.label" name="Background Text" fieldId="label">
+          <ManagedField fieldLocation="data.label" name="Background Text">
             <FormFieldTextInput />
           </ManagedField>
-          <ManagedField fieldLocation="data.trackingcode" name="Tracking Code" fieldId="trackingcode">
+          <ManagedField fieldLocation="data.trackingcode" name="Tracking Code">
             <FormFieldTextInput />
           </ManagedField>
         </ManagedForm>

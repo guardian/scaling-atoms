@@ -36,6 +36,10 @@
     text-overflow: '';
   }
 
+  &--error, &--error:focus {
+    border-color: $cRedB5;
+  }
+
 }
 
 .form__group {
@@ -61,5 +65,17 @@
     display: inline-block;
     margin: 0;
     font-weight: normal;
+  }
+}
+
+.form__message {
+  margin-bottom: 10px;
+}
+
+.form__message__text {
+  font-size: 13px;
+
+  &--error {
+    color: $cRedB5;
   }
 }
