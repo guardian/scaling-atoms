@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import ShowErrors from '../Utilities/ShowErrors';
 import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldCheckbox extends React.Component {
@@ -34,6 +35,7 @@ export default class FormFieldCheckbox extends React.Component {
         <div>
           <label className="form__label" htmlFor={this.props.fieldName}>{this.props.fieldLabel}</label>
           {this.renderCheckboxes()}
+          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
         </div>
     );
   }

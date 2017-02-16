@@ -11,6 +11,6 @@ exports[`test Should render 1`] = `
     onChange={[Function]}
     placeholder=""
     type="number"
-    value="test" />
+    value={1} />
 </div>
 `;

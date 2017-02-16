@@ -1,6 +1,6 @@
 export default class FieldError {
-  constructor(error, message) {
-    this.error = error;
+  constructor(title, message) {
+    this.title = title;
     this.message = message;
   }
 }

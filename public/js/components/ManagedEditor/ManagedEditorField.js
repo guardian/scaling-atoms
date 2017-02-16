@@ -27,7 +27,7 @@ export class ManagedField extends React.Component {
       .then(fieldErrors => {
         this.setState({
           fieldErrors: fieldErrors
-        })
+        });
       });
 
     this.props.updateData(_set(this.props.fieldLocation, newValue, this.props.data));

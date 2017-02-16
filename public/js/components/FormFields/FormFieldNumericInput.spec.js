@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 
 let fieldLabel = 'test',
     fieldName = 'test',
-    fieldValue= 'test';
+    fieldValue= 1;
 
 test('Should render', () => {
 
