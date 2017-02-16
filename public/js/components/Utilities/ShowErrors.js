@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import errorPropType from '../../constants/errorPropType';
+import {errorPropType} from '../../constants/errorPropType';
 
 export default class ShowErrors extends React.Component {
 
