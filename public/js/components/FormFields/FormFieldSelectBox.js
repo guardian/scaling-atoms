@@ -1,13 +1,15 @@
 import React, {PropTypes} from 'react';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldSelectBox extends React.Component {
 
   static propTypes = {
-    fieldLabel: PropTypes.string.isRequired,
-    fieldName: PropTypes.string.isRequired,
-    fieldValue: PropTypes.string.isRequired,
-    selectValues: PropTypes.array.isRequired,
-    onUpdateField: PropTypes.func.isRequired
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
+    fieldValue: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
+    selectValues: PropTypes.array,
+    onUpdateField: PropTypes.func
   };
 
   renderOption(option) {

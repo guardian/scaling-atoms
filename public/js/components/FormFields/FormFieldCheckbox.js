@@ -1,11 +1,14 @@
 import React, {PropTypes} from 'react';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldCheckbox extends React.Component {
 
   static propTypes = {
+
     fieldLabel: PropTypes.string.isRequired,
     fieldName: PropTypes.string.isRequired,
-    fieldValues: PropTypes.array.isRequired,
+    fieldValue: PropTypes.array.isRequired,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
     onUpdateField: PropTypes.func.isRequired
   };
 
@@ -23,7 +26,7 @@ export default class FormFieldCheckbox extends React.Component {
   }
 
   renderCheckboxes() {
-    return this.props.fieldValues.map(this.renderCheckbox, this);
+    return this.props.fieldValue.map(this.renderCheckbox, this);
   }
 
   render() {

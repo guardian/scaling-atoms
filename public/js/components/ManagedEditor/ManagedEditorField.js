@@ -11,9 +11,12 @@ export class ManagedField extends React.Component {
 
   static propTypes = {
     fieldLocation: PropTypes.string.isRequired,
-    children: PropTypes.element.isRequired,
-    updateData: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.arrayOf(PropTypes.element)
+    ]),
+    updateData: PropTypes.func,
+    data: PropTypes.object,
     name: PropTypes.string,
     isRequired: PropTypes.bool,
     customValidation: PropTypes.arrayOf(PropTypes.func)

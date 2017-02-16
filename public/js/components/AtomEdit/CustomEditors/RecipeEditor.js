@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 
 import {ManagedForm, ManagedField} from '../../ManagedEditor';
 import FormFieldNumericInput from '../../FormFields/FormFieldNumericInput';
+import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
+import FormFieldTextInput from '../../FormFields/FormFieldTextInput';
 import {RecipeServings} from './RecipeFields/Servings';
 
 export class RecipeEditor extends React.Component {
@@ -26,6 +28,11 @@ export class RecipeEditor extends React.Component {
           </ManagedField>
           <ManagedField fieldLocation="data.recipe.serves" name="Serving Information">
             <RecipeServings />
+          </ManagedField>
+          <ManagedField fieldLocation="data.recipe.steps" name="Steps">
+            <FormFieldArrayWrapper>
+              <FormFieldTextInput />
+            </FormFieldArrayWrapper>
           </ManagedField>
         </ManagedForm>
       </div>

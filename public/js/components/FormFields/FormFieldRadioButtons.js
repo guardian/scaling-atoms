@@ -1,13 +1,15 @@
 import React, {PropTypes} from 'react';
+import { errorPropType } from '../../constants/errorPropType';
 
 export default class FormFieldRadioButtons extends React.Component {
 
   static propTypes = {
-    fieldLabel: PropTypes.string.isRequired,
-    fieldName: PropTypes.string.isRequired,
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
     selectValues: PropTypes.array.isRequired,
     fieldValue: PropTypes.string,
-    onUpdateField: PropTypes.func.isRequired
+    fieldErrors: PropTypes.arrayOf(errorPropType),
+    onUpdateField: PropTypes.func
   };
 
   onUpdate = (e) => {

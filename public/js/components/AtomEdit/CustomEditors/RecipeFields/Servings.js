@@ -8,8 +8,8 @@ import {logError} from '../../../../util/logger';
 export class RecipeServings extends React.Component {
 
   static propTypes = {
-    fieldLabel: PropTypes.string.isRequired,
-    fieldName: PropTypes.string.isRequired,
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
     fieldValue: PropTypes.shape({
       type: PropTypes.string,
       from: PropTypes.number,
@@ -17,7 +17,7 @@ export class RecipeServings extends React.Component {
       unit: PropTypes.string
     }),
     fieldPlaceholder: PropTypes.string,
-    onUpdateField: PropTypes.func.isRequired
+    onUpdateField: PropTypes.func
   };
 
   servingTypes = [
