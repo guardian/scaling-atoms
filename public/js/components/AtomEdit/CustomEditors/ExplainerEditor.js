@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {ManagedForm, ManagedField} from '../../ManagedEditor';
 import FormFieldTextInput from '../../FormFields/FormFieldTextInput';
+import FormFieldsScribeEditor from '../../FormFields/FormFieldScribeEditor';
 import {ExplainerDisplayTypes} from './ExplainerFields/DisplayTypes';
 
 export class ExplainerEditor extends React.Component {
@@ -20,7 +21,7 @@ export class ExplainerEditor extends React.Component {
             <FormFieldTextInput/>
           </ManagedField>
           <ManagedField fieldLocation="data.body" name="Body" isRequired={true}>
-            <FormFieldTextInput/>
+            <FormFieldsScribeEditor />
           </ManagedField>
           <ManagedField fieldLocation="data.displayType" name="Display type" isRequired={true}>
             <ExplainerDisplayTypes />

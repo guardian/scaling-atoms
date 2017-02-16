@@ -11,8 +11,7 @@ export default class FormFieldTextInput extends React.Component {
     fieldValue: PropTypes.string,
     fieldPlaceholder: PropTypes.string,
     fieldErrors: PropTypes.arrayOf(errorPropType),
-    onUpdateField: PropTypes.func,
-    isValid: PropTypes.bool
+    onUpdateField: PropTypes.func
   };
 
   onUpdate = (e) => {
