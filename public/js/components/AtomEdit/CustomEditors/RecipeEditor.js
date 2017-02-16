@@ -34,7 +34,7 @@ export class RecipeEditor extends React.Component {
           <ManagedField fieldLocation="data.recipe.serves" name="Serving Information">
             <RecipeServings />
           </ManagedField>
-          <ManagedField fieldLocation="data.recipe.ingredients" name="Ingredient Lists">
+          <ManagedField fieldLocation="data.recipe.ingredientsLists" name="Ingredient Lists">
             <FormFieldArrayWrapper>
               <IngredientList />
             </FormFieldArrayWrapper>
