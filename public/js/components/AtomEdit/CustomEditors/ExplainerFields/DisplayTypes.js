@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import FormFieldSelectBox from '../../../FormFields/FormFieldSelectBox';
+import {errorPropType} from '../../../../constants/errorPropType';
 
 export class ExplainerDisplayTypes extends React.Component {
 
@@ -7,7 +8,7 @@ export class ExplainerDisplayTypes extends React.Component {
     fieldLabel: PropTypes.string,
     fieldName: PropTypes.string,
     fieldValue: PropTypes.string,
-    fieldPlaceholder: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
     onUpdateField: PropTypes.func
   };
 
@@ -19,6 +20,9 @@ export class ExplainerDisplayTypes extends React.Component {
   render() {
     return (
       <FormFieldSelectBox
+        fieldLabel={this.props.fieldLabel}
+        fieldName={this.props.fieldName}
+        fieldErrors={this.props.fieldErrors}
         selectValues={this.displayTypes}
         onUpdateField={this.props.onUpdateField} />
     );
