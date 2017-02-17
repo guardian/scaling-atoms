@@ -1,4 +1,5 @@
 import validateField from './validateField';
+import FieldError from '../constants/FieldError';
 
 test('Should return no errors', () => {
   let fieldValue = 'test',
@@ -20,4 +21,18 @@ test('Should return \"required\" error', () => {
       .then(res => {
         expect(res[0].title).toBe('required');
       });
+});
+
+test('Should return \"testing\" error', () => {
+  let failMessage = new FieldError('testing', 'This is a test message'),
+      failFunc = () => failMessage,
+      fieldValue = 'test',
+      isRequired = false,
+      customValidation = [failFunc];
+
+      return validateField(fieldValue, isRequired, customValidation)
+        .then(res => {
+          expect(res[0].title).toBe('testing');
+        });
+
 });
