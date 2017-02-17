@@ -37,7 +37,7 @@ test('Should return \"testing\" error', () => {
 
 });
 
-test('Should reject incorrectly formatted error', () => {
+test('Should throw on incorrectly formatted error', () => {
     let failFunc = () => false,
         fieldValue = 'test',
         isRequired = false,
@@ -45,6 +45,6 @@ test('Should reject incorrectly formatted error', () => {
 
     return validateField(fieldValue, isRequired, customValidation)
       .then(res => {
-        expect(res[0].title).toBe('testing');
+        expect(res).toThrow();
       });
 });
