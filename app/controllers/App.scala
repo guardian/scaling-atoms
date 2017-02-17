@@ -20,7 +20,8 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
     Logger.info(s"I am the ${Config.appName}")
 
     val clientConfig = ClientConfig(
-      username = req.user.email
+      username = req.user.email,
+      gridUrl = Config.gridUrl
     )
 
     val jsFileName = "build/app.js"

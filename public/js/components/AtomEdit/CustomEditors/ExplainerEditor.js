@@ -20,10 +20,10 @@ export class ExplainerEditor extends React.Component {
           <ManagedField fieldLocation="data.title" name="Title" isRequired={true}>
             <FormFieldTextInput/>
           </ManagedField>
-          <ManagedField fieldLocation="data.body" name="Body" isRequired={true}>
+          <ManagedField fieldLocation="data.body" name="Body">
             <FormFieldsScribeEditor />
           </ManagedField>
-          <ManagedField fieldLocation="data.displayType" name="Display type" isRequired={true}>
+          <ManagedField fieldLocation="data.displayType" name="Display type">
             <ExplainerDisplayTypes />
           </ManagedField>
         </ManagedForm>

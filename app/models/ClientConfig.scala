@@ -4,7 +4,8 @@ import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 
 case class ClientConfig(
-                         username: String
+                         username: String,
+                         gridUrl: String
                        )
 
 object ClientConfig {
