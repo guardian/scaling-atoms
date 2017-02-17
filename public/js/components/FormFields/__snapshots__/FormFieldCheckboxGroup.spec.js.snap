@@ -1,0 +1,54 @@
+exports[`test Should render 1`] = `
+<div>
+  <label
+    className="form__label"
+    htmlFor="test">
+    test
+  </label>
+  <div
+    className="form__group form__group--checkbox">
+    <input
+      checked={true}
+      className="form__checkbox"
+      name="test-0"
+      onChange={[Function]}
+      type="checkbox"
+      value={true} />
+    <span
+      className="form__label form__label--checkbox">
+      test-0
+    </span>
+    <div />
+  </div>
+  <div
+    className="form__group form__group--checkbox">
+    <input
+      checked={true}
+      className="form__checkbox"
+      name="test-1"
+      onChange={[Function]}
+      type="checkbox"
+      value={true} />
+    <span
+      className="form__label form__label--checkbox">
+      test-1
+    </span>
+    <div />
+  </div>
+  <div
+    className="form__group form__group--checkbox">
+    <input
+      checked={false}
+      className="form__checkbox"
+      name="test-2"
+      onChange={[Function]}
+      type="checkbox"
+      value={false} />
+    <span
+      className="form__label form__label--checkbox">
+      test-2
+    </span>
+    <div />
+  </div>
+</div>
+`;
