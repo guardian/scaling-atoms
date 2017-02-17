@@ -15,10 +15,6 @@ export default class FormFieldCheckboxGroup extends React.Component {
     onUpdateField: PropTypes.func.isRequired
   };
 
-  onUpdate = (fieldName) => {
-    this.props.onUpdateField(this.addOrRemoveValue(fieldName));
-  }
-
   addOrRemoveValue = (fieldName) => {
     let newFieldValue = [];
 
@@ -37,24 +33,34 @@ export default class FormFieldCheckboxGroup extends React.Component {
     return this.props.fieldValue.includes(checkValue);
   }
 
-  renderCheckbox = (checkValue) => {
+  renderCheckbox(fieldName, i) {
+    const updateFn = (newValue) => {
+      let newFieldValue = [];
+      if(newValue) {
+        newFieldValue = this.props.fieldValue.concat(fieldName);
+      } else {
+        newFieldValue = this.props.fieldValue.filter((oldFieldName) => {
+          return fieldName !== oldFieldName;
+        });
+      }
+      this.props.onUpdateField(newFieldValue);
+    };
+
     return (
       <FormFieldCheckbox
-        fieldName={checkValue}
-        fieldValue={this.isChecked(checkValue)}
-        onUpdateField={this.onUpdate} />
+        key={`${this.props.fieldName}-${i}`}
+        fieldName={`${this.props.fieldName}-${i}`}
+        fieldValue={this.isChecked(fieldName)}
+        onUpdateField={updateFn}
+        checkGroup="true" />
     );
-  }
-
-  renderCheckboxes = () => {
-    return this.props.checkValues.map(this.renderCheckbox, this);
   }
 
   render() {
     return (
         <div>
           <label className="form__label" htmlFor={this.props.fieldName}>{this.props.fieldLabel}</label>
-          {this.renderCheckboxes()}
+          {this.props.checkValues.map((fieldName, i) => this.renderCheckbox(fieldName, i))}
           {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
         </div>
     );
