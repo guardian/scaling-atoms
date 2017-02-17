@@ -61,7 +61,7 @@ export default class FormFieldCheckboxGroup extends React.Component {
         <div>
           <label className="form__label" htmlFor={this.props.fieldName}>{this.props.fieldLabel}</label>
           {this.props.checkValues.map((fieldName, i) => this.renderCheckbox(fieldName, i))}
-          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
+          <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
   }
