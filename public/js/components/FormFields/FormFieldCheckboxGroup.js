@@ -36,8 +36,8 @@ export default class FormFieldCheckboxGroup extends React.Component {
   renderCheckbox(fieldName, i) {
     const updateFn = (newValue) => {
       let newFieldValue = [];
-      if(newValue) {
-        newFieldValue = this.props.fieldValue.concat(fieldName);
+      if(newValue && !this.props.fieldValue.includes(newValue)) {
+        newFieldValue = this.props.fieldValue.concat([fieldName]);
       } else {
         newFieldValue = this.props.fieldValue.filter((oldFieldName) => {
           return fieldName !== oldFieldName;
