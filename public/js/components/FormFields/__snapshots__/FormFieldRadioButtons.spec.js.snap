@@ -33,5 +33,6 @@ exports[`test Should render 1`] = `
       Two
     </span>
   </div>
+  <div />
 </div>
 `;

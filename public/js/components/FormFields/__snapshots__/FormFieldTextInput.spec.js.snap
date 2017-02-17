@@ -12,5 +12,6 @@ exports[`test Should render 1`] = `
     placeholder=""
     type="text"
     value="test" />
+  <div />
 </div>
 `;
