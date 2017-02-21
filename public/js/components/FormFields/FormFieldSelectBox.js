@@ -30,7 +30,7 @@ export default class FormFieldSelectBox extends React.Component {
 
   render() {
     return (
-        <div>
+        <div className="form__row">
           <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
           <select className="form__field form__field--select" value={this.props.fieldValue} onChange={this.onUpdate}>
             {this.renderOptions()}

@@ -109,7 +109,7 @@ class FormFieldImageSelect extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="form__row">
         <label className="form__label">{this.props.fieldLabel}</label>
         <div className="image-select form__group">
             {this.props.fieldValue ? this.renderWithImage() : this.renderWithoutImage()}

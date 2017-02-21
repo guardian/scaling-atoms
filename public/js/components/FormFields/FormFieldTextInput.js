@@ -20,7 +20,7 @@ export default class FormFieldTextInput extends React.Component {
 
   render() {
     return (
-        <div>
+        <div className="form__row">
           <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
           <input type="text" className={"form__field " + (this.props.fieldErrors && this.props.fieldErrors.length ? "form__field--error" : "")}  id={this.props.fieldName} placeholder={this.props.fieldPlaceholder || ''} onChange={this.onUpdate}  value={this.props.fieldValue || ""}/>
           <ShowErrors errors={this.props.fieldErrors}/>

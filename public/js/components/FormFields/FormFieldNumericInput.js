@@ -26,7 +26,7 @@ export default class FormFieldNumericInput extends React.Component {
 
   render() {
     return (
-        <div>
+        <div className="form__row">
           <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
           <input type="number" className="form__field" id={this.props.fieldName} placeholder={this.props.fieldPlaceholder || ''} value={this.props.fieldValue || ''} onChange={this.onUpdate}/>
           <ShowErrors errors={this.props.fieldErrors}/>

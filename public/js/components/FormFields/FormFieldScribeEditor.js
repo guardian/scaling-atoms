@@ -68,7 +68,7 @@ export default class FormFieldsScribeEditor extends React.Component {
 
   render () {
     return (
-        <div className="scribe">
+        <div className="scribe form__row">
           <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
           <div ref="toolbar" className="scribe__toolbar">
             <button type="button" data-command-name="bold" className="scribe__toolbar__item">Bold</button>
