@@ -14,6 +14,7 @@ import io.circe._
 import util.AtomElementBuilders._
 import com.gu.pandomainauth.model.User
 import util.AtomLogic._
+import util.Parser._
 
 trait AtomWorkshopDBAPI {
 
@@ -69,7 +70,6 @@ class AtomWorkshopDB() extends AtomWorkshopDBAPI {
       val result = datastore.updateAtom(atom)
       Logger.info(s"Successfully updated atom of type ${atom.atomType.name} with id ${atom.id}")
       transformAtomLibResult(result)
-
     } catch {
       case e: Exception => processException(e)
     }
@@ -101,8 +101,8 @@ class AtomWorkshopDB() extends AtomWorkshopDBAPI {
     val updatedAtomJson: Json = currentJson.deepMerge(newJson)
 
     val updatedAtom = for {
-      atom <- parseStringToAtom(currentJson.toString)
-      updAtom <- parseJsonToAtom(updatedAtomJson)
+      atom <- jsonToAtom(currentJson)
+      updAtom <- jsonToAtom(updatedAtomJson)
     } yield createAtomFromUpdatedAtom(atom, updAtom, user)
 
     updatedAtom.fold(err => Left(err), updateAtomInDatastore(datastore, _))

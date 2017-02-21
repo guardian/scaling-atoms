@@ -6,13 +6,13 @@ import play.api.Logger
 import play.api.libs.ws.WSClient
 import play.api.mvc.Controller
 import cats.syntax.either._
-import com.gu.contentatom.thrift.Atom
 import db.{AtomDataStores, AtomWorkshopDBAPI}
 import com.gu.fezziwig.CirceScroogeMacros._
 import io.circe.syntax._
 import io.circe._
 import io.circe.generic.auto._
 import util.AtomLogic._
+import util.Parser._
 
 class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends Controller with PanDomainAuthActions {
 
@@ -28,7 +28,6 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
 
     val jsLocation = sys.env.get("JS_ASSET_HOST").map(_ + jsFileName)
       .getOrElse(routes.Assets.versioned(jsFileName).toString)
-
 
     Ok(views.html.index("AtomMcAtomFace", jsLocation, clientConfig.asJson.noSpaces))
   }
@@ -58,7 +57,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
       for {
         atomType <- validateAtomType(atomType)
         payload <- extractRequestBody(req.body.asText)
-        newAtom <- parseStringToAtom(payload)
+        newAtom <- stringToAtom(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
         currentAtom <- atomWorkshopDB.getAtom(datastore, atomType, id)
         updated <- atomWorkshopDB.updateAtom(datastore, atomType, req.user, currentAtom,newAtom)
@@ -72,10 +71,10 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
       for {
         atomType <- validateAtomType(atomType)
         payload <- extractRequestBody(req.body.asJson.map(_.toString))
-        newJson <- parseBody(payload)
+        newJson <- stringToJson(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
         currentAtom <- atomWorkshopDB.getAtom(datastore, atomType, id)
-        update <- atomWorkshopDB.updateAtomByPath(datastore, atomType, req.user, parseAtomToJson(currentAtom), newJson)
+        update <- atomWorkshopDB.updateAtomByPath(datastore, atomType, req.user, currentAtom.asJson, newJson)
         updatedAtom <- atomWorkshopDB.getAtom(datastore, atomType, id)
       } yield updatedAtom
     }

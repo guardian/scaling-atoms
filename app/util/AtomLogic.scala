@@ -40,17 +40,20 @@ object AtomLogic {
   def extractRequestBody(body: Option[String]): Either[AtomAPIError, String]= {
     Either.cond(body.isDefined, body.get, BodyRequiredForUpdateError)
   }
+}
 
-  def parseStringToAtom(atomString: String): Either[AtomAPIError, Atom] = {
+object Parser {
+  import AtomLogic._
+
+  def stringToAtom(atomString: String): Either[AtomAPIError, Atom] = {
     Logger.info(s"Parsing atom json: $atomString")
-    val parsingResult = for {
-      parsedAtom <- parser.parse(atomString)
-      decodedAtom <- parsedAtom.as[Atom]
-    } yield decodedAtom
-    parsingResult.fold(processException, a => Right(a))
+    for {
+      json <- stringToJson(atomString)
+      atom <- jsonToAtom(json)
+    } yield atom
   }
 
-  def parseJsonToAtom(atomJson: Json): Either[AtomAPIError, Atom] = {
+  def jsonToAtom(atomJson: Json): Either[AtomAPIError, Atom] = {
     Logger.info(s"Parsing atom json: $atomJson")
     val parsingResult = for {
       decodedAtom <- atomJson.as[Atom]
@@ -58,12 +61,7 @@ object AtomLogic {
     parsingResult.fold(processException, a => Right(a))
   }
 
-  def parseAtomToJson(atom: Atom): Json = {
-    Logger.info(s"Parsing atom to json: $atom")
-    atom.asJson
-  }
-
-  def parseBody(atomJson: String): Either[AtomAPIError, Json] = {
+  def stringToJson(atomJson: String): Either[AtomAPIError, Json] = {
     Logger.info(s"Parsing body to json: $atomJson")
     val parsingResult = for {
       parsedJson <- parser.parse(atomJson)

@@ -13,10 +13,10 @@ libraryDependencies ++= Seq(
   "com.gu"                   %% "atom-manager-play"           % atomLibVersion,
   "com.gu"                   %% "atom-publisher-lib"          % atomLibVersion,
   "com.gu"                   %% "configuration-magic-core"    % "1.3.0",
-  "com.gu"                   %  "fezziwig"                    % "0.1.1",
+  "com.gu"                   %% "fezziwig"                    % "0.2",
   "com.gu"                   %  "kinesis-logback-appender"    % "1.3.0",
   "com.gu"                   %% "pan-domain-auth-play_2-5"    % "0.4.1",
-  "io.circe"                 %% "circe-parser"                % "0.6.1",
+  "io.circe"                 %% "circe-parser"                % "0.7.0",
   "net.logstash.logback"     %  "logstash-logback-encoder"    % "4.2"
 )
 
