@@ -18,5 +18,6 @@ exports[`test Should render 1`] = `
       test1
     </option>
   </select>
+  <div />
 </div>
 `;

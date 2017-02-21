@@ -12,6 +12,7 @@ exports[`test Should render no image when none provided 1`] = `
       + Add Image from Grid
     </button>
   </div>
+  <div />
 </div>
 `;
 
@@ -60,5 +61,6 @@ exports[`test Should render with image when provided 1`] = `
       </div>
     </div>
   </div>
+  <div />
 </div>
 `;
