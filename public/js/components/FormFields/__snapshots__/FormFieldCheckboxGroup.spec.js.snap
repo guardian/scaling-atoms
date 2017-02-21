@@ -1,5 +1,6 @@
 exports[`test Should render 1`] = `
-<div>
+<div
+  className="form__row">
   <label
     className="form__label"
     htmlFor="test">
@@ -18,7 +19,6 @@ exports[`test Should render 1`] = `
       className="form__label form__label--checkbox">
       test-0
     </span>
-    <div />
   </div>
   <div
     className="form__group form__group--checkbox">
@@ -33,7 +33,6 @@ exports[`test Should render 1`] = `
       className="form__label form__label--checkbox">
       test-1
     </span>
-    <div />
   </div>
   <div
     className="form__group form__group--checkbox">
@@ -48,8 +47,6 @@ exports[`test Should render 1`] = `
       className="form__label form__label--checkbox">
       test-2
     </span>
-    <div />
   </div>
-  <div />
 </div>
 `;

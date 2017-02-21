@@ -1,5 +1,6 @@
 exports[`test Should render 1`] = `
-<div>
+<div
+  className="form__row">
   <label
     className="form__label"
     htmlFor="test">
@@ -12,6 +13,5 @@ exports[`test Should render 1`] = `
     placeholder=""
     type="text"
     value="test" />
-  <div />
 </div>
 `;

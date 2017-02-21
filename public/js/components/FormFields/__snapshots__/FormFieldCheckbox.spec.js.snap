@@ -13,6 +13,5 @@ exports[`test Should render 1`] = `
     onChange={[Function]}
     type="checkbox"
     value={true} />
-  <div />
 </div>
 `;
