@@ -16,13 +16,14 @@ export default class FormFieldCheckboxGroup extends React.Component {
   };
 
   isChecked = (checkValue) => {
-    return this.props.fieldValue.includes(checkValue);
+    return this.props.fieldValue.indexOf(checkValue) !== -1;
   }
 
   renderCheckbox(fieldName, i) {
+
     const updateFn = (newValue) => {
       let newFieldValue = [];
-      
+
       if(newValue && !this.isChecked(newValue)) {
         newFieldValue = this.props.fieldValue.concat([fieldName]);
       } else {
