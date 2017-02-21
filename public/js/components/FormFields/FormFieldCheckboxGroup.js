@@ -15,20 +15,6 @@ export default class FormFieldCheckboxGroup extends React.Component {
     onUpdateField: PropTypes.func.isRequired
   };
 
-  addOrRemoveValue = (fieldName) => {
-    let newFieldValue = [];
-
-    if(this.props.fieldValue.includes(fieldName)) {
-      newFieldValue = this.props.fieldValue.filter((value, currentIndex) => {
-        return currentIndex !== fieldName;
-      });
-    } else {
-      newFieldValue = this.props.fieldValue.concat(fieldName);
-    }
-
-    return newFieldValue;
-  }
-
   isChecked = (checkValue) => {
     return this.props.fieldValue.includes(checkValue);
   }
@@ -36,7 +22,8 @@ export default class FormFieldCheckboxGroup extends React.Component {
   renderCheckbox(fieldName, i) {
     const updateFn = (newValue) => {
       let newFieldValue = [];
-      if(newValue && !this.props.fieldValue.includes(newValue)) {
+      
+      if(newValue && !this.isChecked(newValue)) {
         newFieldValue = this.props.fieldValue.concat([fieldName]);
       } else {
         newFieldValue = this.props.fieldValue.filter((oldFieldName) => {
