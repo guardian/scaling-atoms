@@ -17,33 +17,7 @@ export default class Header extends React.Component {
               </div>
             </Link>
           </header>
-
-          <div className="toolbar__container">
-            <nav className="main-nav" role="navigation">
-              <ul className="main-nav__list">
-                <li className="toolbar__item main-nav__item">
-                  Plain text
-                </li>
-                <li className="toolbar__item toolbar__item--no-spacing main-nav__item">
-                  <a href="#" className="toolbar__button main-nav__link">Link 1</a>
-                </li>
-                <li className="toolbar__item toolbar__item--no-spacing main-nav__item">
-                  <a href="#" className="toolbar__button main-nav__link">Link 2</a>
-                </li>
-                <li className="main-nav__item toolbar__item toolbar__item--no-spacing ">
-                  <label className="toolbar__item__dropdown-label toolbar__button" >Toolbar dropdown
-                    <select className="toolbar__item__dropdown">
-                      <option value="#">Option 1</option>
-                      <option value="#">Option 2</option>
-                      <option value="#">Option 3</option>
-                      <option value="#">Option 4</option>
-                    </select>
-                  </label>
-                </li>
-              </ul>
-            </nav>
-            <button className="toolbar__item toolbar__button">Button</button>
-          </div>
+          
         </div>
     );
   }
