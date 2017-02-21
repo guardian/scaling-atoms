@@ -7,7 +7,7 @@ export const ManagedForm = (props) => {
       updateData: props.updateData
     });
   });
-  return <div>{hydratedChildren}</div>;
+  return <form className="form">{hydratedChildren}</form>;
 };
 
 ManagedForm.propTypes = {

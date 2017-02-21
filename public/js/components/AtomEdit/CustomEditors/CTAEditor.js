@@ -8,7 +8,8 @@ export class CTAEditor extends React.Component {
 
   static propTypes = {
     atom: PropTypes.shape({
-      type: PropTypes.string
+      type: PropTypes.string,
+      id: PropTypes.string
     }).isRequired,
     onUpdate: PropTypes.func.isRequired
   }
@@ -16,7 +17,8 @@ export class CTAEditor extends React.Component {
   render () {
 
     return (
-      <div className="editor editor-cta">
+      <div className="atom-editor atom-editor--cta">
+        <h1 className="atom-editor__title">{`Editing CTA: ${this.props.atom.id}`}</h1>
         <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
           <ManagedField fieldLocation="data.url" name="Link Url" isRequired={true}>
             <FormFieldTextInput/>

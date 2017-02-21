@@ -7,7 +7,7 @@ export default class FormFieldRadioButtons extends React.Component {
   static propTypes = {
     fieldLabel: PropTypes.string,
     fieldName: PropTypes.string,
-    selectValues: PropTypes.array.isRequired,
+    selectValues: PropTypes.arrayOf(PropTypes.string),
     fieldValue: PropTypes.string,
     fieldErrors: PropTypes.arrayOf(errorPropType),
     onUpdateField: PropTypes.func
