@@ -39,23 +39,25 @@ class AtomCreateGenericInfo extends React.Component {
 
     return (
       <div className="create">
-        <h2>Create</h2>
+        <h1>{`Create new ${this.props.routeParams.atomType}`}</h1>
         <div>
           <AtomTypeCard atomType={atomType} />
         </div>
         <Link to="/create">Select different atom</Link>
-        <div className="create__form">
-          <FormFieldTextInput
-            fieldLabel="Title"
-            fieldName="title"
-            fieldValue={this.state.title}
-            fieldPlaceholder="Enter a title for this atom"
-            onUpdateField={this.updateTitle}
-          />
-        </div>
-        <div className="create__buttons">
-          <button className="btn" onClick={this.triggerAtomCreate}>Create Atom</button>
-        </div>
+          <form className="form">
+            <div className="create__form">
+              <FormFieldTextInput
+                fieldLabel="Title"
+                fieldName="title"
+                fieldValue={this.state.title}
+                fieldPlaceholder="Enter a title for this atom"
+                onUpdateField={this.updateTitle}
+              />
+            </div>
+            <div className="create__buttons">
+              <button className="btn" type="button" onClick={this.triggerAtomCreate}>Create Atom</button>
+            </div>
+          </form>
       </div>
     );
   }
