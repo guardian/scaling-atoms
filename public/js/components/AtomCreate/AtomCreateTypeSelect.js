@@ -11,11 +11,13 @@ export class AtomCreateTypeSelect extends React.Component {
     return (
       <div className="create">
         <h2>Create an Atom</h2>
-        {allAtomTypes.map((atomType) => (
-          <Link to={`/create/${atomType.type}`} className="create__link" key={atomType.type}>
-            <AtomTypeCard atomType={atomType} />
-          </Link>
-        ))}
+        <div className="create__cards">
+          {allAtomTypes.map((atomType) => (
+            <Link to={`/create/${atomType.type}`} className="create__link" key={atomType.type}>
+              <AtomTypeCard atomType={atomType} />
+            </Link>
+          ))}
+        </div>
       </div>
     );
   }

@@ -1,0 +1,19 @@
+.atom-card {
+  display: flex;
+  border: 1px solid $color300Grey;
+  background-color: $color200Grey;
+}
+
+.atom-card__details {
+  width: 100%;
+  padding: 10px;
+  color: $textColor;
+}
+
+.atom-card__icon {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $brandColor;
+}
