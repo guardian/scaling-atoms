@@ -50,7 +50,7 @@ export default class FormFieldArrayWrapper extends React.Component {
     return (
       <div>
         {hydratedChildren}
-        <button className="btn" onClick={removeFn.bind(this, i)}>Delete</button>
+        <button className="btn" type="button" onClick={removeFn.bind(this, i)}>Delete</button>
       </div>
     );
   }
@@ -60,7 +60,7 @@ export default class FormFieldArrayWrapper extends React.Component {
       <div className="form__row">
         <h3>{this.props.fieldLabel}</h3>
         {this.props.fieldValue.map((value, i) => this.renderValue(value, i))}
-        <button className="btn" onClick={this.onAddClick}>Add</button>
+        <button className="btn" type="button" onClick={this.onAddClick}>Add</button>
       </div>
     );
   }
