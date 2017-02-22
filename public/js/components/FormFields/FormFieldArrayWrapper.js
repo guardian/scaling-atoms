@@ -59,7 +59,7 @@ export default class FormFieldArrayWrapper extends React.Component {
   render () {
     return (
       <div className="form__row">
-        <h3>{this.props.fieldLabel}</h3>
+        <h3 className="form__subheading">{this.props.fieldLabel}</h3>
         {this.props.fieldValue.map((value, i) => this.renderValue(value, i))}
         <button className="btn" type="button" onClick={this.onAddClick}>Add</button>
       </div>

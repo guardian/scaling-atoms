@@ -91,8 +91,8 @@ export class RecipeServings extends React.Component {
 
   render () {
     return (
-      <div>
-        <h3>Servings</h3>
+      <div className="form__row">
+        <h3 className="form__subheading">Servings</h3>
         <FormFieldRadioButtons
           onUpdateField={this.updateServingType}
           selectValues={this.servingTypes.map(servingType => servingType.name)}

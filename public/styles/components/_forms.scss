@@ -59,7 +59,7 @@
   display: inline-block;
 
   & + .form__label {
-
+    margin-left: 5px;
   }
 }
 
@@ -86,4 +86,9 @@
   &--error {
     color: $cRedB5;
   }
+}
+
+.form__subheading {
+  margin-bottom: 10px;
+  border-bottom: 1px solid $color300Grey;
 }
