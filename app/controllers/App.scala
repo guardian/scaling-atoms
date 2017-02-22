@@ -15,6 +15,7 @@ import io.circe.generic.auto._
 import util.AtomLogic._
 import util.Parser._
 import services.AtomPublishers._
+import util.AtomUpdateOperations._
 
 class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends Controller with PanDomainAuthActions {
 
@@ -61,8 +62,8 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
         atomType <- validateAtomType(atomType)
         previewDs <- AtomDataStores.getDataStore(atomType, Preview)
         liveDs <- AtomDataStores.getDataStore(atomType, Live)
-        currentAtom <- atomWorkshopDB.getAtom(previewDs, atomType, id)
-        updatedAtom <- atomWorkshopDB.createOrUpdateAtom(liveDs, atomType, req.user, currentAtom)
+        currentDraftAtom <- atomWorkshopDB.getAtom(previewDs, atomType, id)
+        updatedAtom <- atomWorkshopDB.publishAtom(liveDs, req.user, updateTopLevelFields(currentDraftAtom, req.user, publish=true))
         _ <- sendKinesisEvent(updatedAtom, liveAtomPublisher, EventType.Update)
       } yield updatedAtom
     }
@@ -75,8 +76,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
         payload <- extractRequestBody(req.body.asText)
         newAtom <- stringToAtom(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
-        currentAtom <- atomWorkshopDB.getAtom(datastore, atomType, id)
-        updatedAtom <- atomWorkshopDB.updateAtom(datastore, atomType, req.user, currentAtom, Some(newAtom))
+        updatedAtom <- atomWorkshopDB.updateAtom(datastore, updateTopLevelFields(newAtom, req.user))
         _ <- sendKinesisEvent(updatedAtom, previewAtomPublisher, EventType.Update)
       } yield updatedAtom
     }
@@ -90,7 +90,8 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
         newJson <- stringToJson(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
         currentAtom <- atomWorkshopDB.getAtom(datastore, atomType, id)
-        updatedAtom <- atomWorkshopDB.updateAtomByPath(datastore, atomType, req.user, currentAtom.asJson, newJson)
+        newAtom <- updateAtomFromJson(currentAtom, newJson, req.user)
+        updatedAtom <- atomWorkshopDB.updateAtom(datastore, updateTopLevelFields(newAtom, req.user))
         _ <- sendKinesisEvent(updatedAtom, previewAtomPublisher, EventType.Update)
       } yield updatedAtom
     }

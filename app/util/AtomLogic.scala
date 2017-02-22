@@ -1,10 +1,6 @@
 package util
 
-import com.gu.atom.data.{DynamoCompositeKey, DynamoDataStore, IDNotFound}
-import com.gu.contentatom.thrift.atom.cta.CTAAtom
-import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
-import com.gu.contentatom.thrift.atom.media.MediaAtom
-import com.gu.contentatom.thrift.atom.recipe.RecipeAtom
+import com.gu.atom.data.DynamoCompositeKey
 import com.gu.contentatom.thrift.{Atom, AtomType}
 import io.circe.{DecodingFailure, ParsingFailure, parser}
 import cats.syntax.either._
@@ -17,7 +13,6 @@ import io.circe._
 import io.circe.parser.decode
 import io.circe.generic.auto._
 import models._
-import AtomDataStores._
 
 object AtomLogic {
 
@@ -36,12 +31,6 @@ object AtomLogic {
   def checkAtomCanBeDeletedFromPreview(responseFromLiveDatastore:Either[AtomAPIError, Atom]): Either[AtomAPIError, String] =
     responseFromLiveDatastore.fold(_ => Right("Atom does not exist on live"), _ => Left(DeleteAtomFromPreviewError))
 
-  def checkAtomExistsInDatastore(datastore: AtomWorkshopDataStore, atomType: AtomType, id: String): Either[AtomAPIError, Boolean] =
-    datastore.getAtom(buildKey(atomType, id)).fold({
-      case IDNotFound => Right(false)
-      case e => Left(AtomWorkshopDynamoDatastoreError(e.msg))
-    }, _ => Right(true))
-
   def processException(exception: Exception): Either[AtomAPIError, Nothing] = {
     val atomApiError = exception match {
       case e: ParsingFailure => AtomJsonParsingError(e.message)
@@ -53,9 +42,8 @@ object AtomLogic {
     Left(atomApiError)
   }
 
-  def extractRequestBody(body: Option[String]): Either[AtomAPIError, String]= {
+  def extractRequestBody(body: Option[String]): Either[AtomAPIError, String] =
     Either.cond(body.isDefined, body.get, BodyRequiredForUpdateError)
-  }
 }
 
 object Parser {
