@@ -17,7 +17,7 @@ export class CTAEditor extends React.Component {
   render () {
 
     return (
-      <div className="atom-editor atom-editor--cta">
+      <div className="atom-editor">
         <h1 className="atom-editor__title">{`Editing CTA: ${this.props.atom.id}`}</h1>
         <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
           <ManagedField fieldLocation="data.url" name="Link Url" isRequired={true}>

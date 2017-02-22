@@ -28,3 +28,11 @@ h3 {
 p {
   margin: 0;
 }
+
+.link {
+  color: $textColor;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

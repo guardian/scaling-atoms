@@ -23,7 +23,7 @@ export class RecipeEditor extends React.Component {
   render () {
 
     return (
-      <div className="atom-editor atom-editor--recipe">
+      <div className="atom-editor">
         <h1 className="atom-editor__title">{`Editing recipe: ${this.props.atom.id}`}</h1>
         <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
           <ManagedField fieldLocation="data.recipe.time.preparation" name="Preparation Time (mins)">

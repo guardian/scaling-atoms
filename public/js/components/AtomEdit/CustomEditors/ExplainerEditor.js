@@ -16,7 +16,7 @@ export class ExplainerEditor extends React.Component {
 
   render() {
     return (
-      <div className="atom-editor atom-editor--explainer">
+      <div className="atom-editor">
         <h1 className="atom-editor__title">{`Editing explainer: ${this.props.atom.id}`}</h1>
         <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
           <ManagedField fieldLocation="data.title" name="Title" isRequired={true}>
