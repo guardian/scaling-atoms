@@ -30,6 +30,7 @@ class FormFieldImageSelect extends React.Component {
     fieldName: PropTypes.string.isRequired,
     fieldLabel: PropTypes.string.isRequired,
     fieldErrors: PropTypes.arrayOf(errorPropType),
+    formRowClass: PropTypes.string,
     gridUrl: PropTypes.string.isRequired
   }
 
@@ -109,8 +110,8 @@ class FormFieldImageSelect extends React.Component {
 
   render () {
     return (
-      <div className="form__row">
-        <label className="form__label">{this.props.fieldLabel}</label>
+      <div className={this.props.formRowClass || "form__row"}>
+        {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
         <div className="image-select form__group">
             {this.props.fieldValue ? this.renderWithImage() : this.renderWithoutImage()}
 

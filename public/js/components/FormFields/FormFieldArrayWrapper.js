@@ -43,14 +43,15 @@ export default class FormFieldArrayWrapper extends React.Component {
         fieldName: `${this.props.fieldName}-${i}`,
         fieldValue: value,
         fieldErrors: this.props.fieldErrors,
+        formRowClass: 'form__row--flex-width',
         onUpdateField: updateFn
       });
     });
 
     return (
-      <div>
+      <div className="form__row form__row--field-with-btn">
         {hydratedChildren}
-        <button className="btn" type="button" onClick={removeFn.bind(this, i)}>Delete</button>
+        <button className="btn form__field-btn" type="button" onClick={removeFn.bind(this, i)}>Delete</button>
       </div>
     );
   }
