@@ -20,7 +20,7 @@ object AtomUpdateOperations {
   def updateAtomFromJson(atom: Atom, json: Json, user: User): Either[AtomAPIError, Atom] = {
     val updatedAtomJson: Json = atom.asJson.deepMerge(json)
 
-    jsonToAtom(updatedAtomJson)
+    jsonToModel[Atom](updatedAtomJson)
   }
 
 }

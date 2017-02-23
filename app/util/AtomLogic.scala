@@ -44,6 +44,15 @@ object AtomLogic {
 
   def extractRequestBody(body: Option[String]): Either[AtomAPIError, String] =
     Either.cond(body.isDefined, body.get, BodyRequiredForUpdateError)
+
+  def extractCreateAtomFields(body: Option[String]): Either[AtomAPIError, Option[CreateAtomFields]] = {
+    body.map { body =>
+      for {
+        json <- Parser.stringToJson(body)
+        createAtomFields <- Parser.jsonToModel[CreateAtomFields](json)
+      } yield createAtomFields
+    }.getOrElse(Right(None))
+  }
 }
 
 object Parser {
@@ -53,16 +62,13 @@ object Parser {
     Logger.info(s"Parsing atom json: $atomString")
     for {
       json <- stringToJson(atomString)
-      atom <- jsonToAtom(json)
+      atom <- jsonToModel[Atom](json)
     } yield atom
   }
 
-  def jsonToAtom(atomJson: Json): Either[AtomAPIError, Atom] = {
-    Logger.info(s"Parsing atom json: $atomJson")
-    val parsingResult = for {
-      decodedAtom <- atomJson.as[Atom]
-    } yield decodedAtom
-    parsingResult.fold(processException, a => Right(a))
+  def jsonToModel[T](json: Json): Either[AtomAPIError, T] = {
+    Logger.info(s"Parsing json: $json")
+    json.as[T].fold(processException, m => Right(m))
   }
 
   def stringToJson(atomJson: String): Either[AtomAPIError, Json] = {
