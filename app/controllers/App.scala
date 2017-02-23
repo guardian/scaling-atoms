@@ -65,6 +65,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
         currentDraftAtom <- atomWorkshopDB.getAtom(previewDs, atomType, id)
         updatedAtom <- atomWorkshopDB.publishAtom(liveDs, req.user, updateTopLevelFields(currentDraftAtom, req.user, publish=true))
         _ <- sendKinesisEvent(updatedAtom, liveAtomPublisher, EventType.Update)
+        _ <- sendKinesisEvent(updatedAtom, previewAtomPublisher, EventType.Update)
       } yield updatedAtom
     }
   }
