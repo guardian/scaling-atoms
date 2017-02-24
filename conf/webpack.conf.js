@@ -50,8 +50,7 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin('main.css'),
         new webpack.ProvidePlugin({
-            'Promise': 'es6-promise',
-            'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
+            'Promise': 'es6-promise'
         })
     ]
 };
