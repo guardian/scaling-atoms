@@ -1,17 +1,17 @@
 exports[`test Should render 1`] = `
 <div
-  className="form__row">
+  className="form__group form__group--checkbox">
   <label
     className="form__label"
     htmlFor="test">
     test
   </label>
   <input
-    className="form__field "
-    id="test"
+    checked={true}
+    className="form__checkbox"
+    name="test"
     onChange={[Function]}
-    placeholder=""
-    type="text"
-    value="test" />
+    type="checkbox"
+    value={true} />
 </div>
 `;

@@ -17,7 +17,7 @@ object EC2Client {
 trait AwsInstanceTags {
   lazy val instanceId = Option(EC2MetadataUtils.getInstanceId)
 
-  def readTag(tagName: String) = {
+  def readTag(tagName: String): Option[String] = {
     instanceId.flatMap { id =>
       val tagsResult = EC2Client.EC2Client.describeTags(
         new DescribeTagsRequest().withFilters(

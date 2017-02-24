@@ -10,6 +10,7 @@ export default class FormFieldSelectBox extends React.Component {
     fieldValue: PropTypes.string,
     fieldErrors: PropTypes.arrayOf(errorPropType),
     selectValues: PropTypes.array,
+    formRowClass: PropTypes.string,
     onUpdateField: PropTypes.func
   };
 
@@ -30,12 +31,12 @@ export default class FormFieldSelectBox extends React.Component {
 
   render() {
     return (
-        <div>
-          <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
+        <div className={this.props.formRowClass || "form__row"}>
+          {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
           <select className="form__field form__field--select" value={this.props.fieldValue} onChange={this.onUpdate}>
             {this.renderOptions()}
           </select>
-          {this.props.fieldErrors && this.props.fieldErrors.length ? <ShowErrors errors={this.props.fieldErrors}/>  : false}
+          <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
   }

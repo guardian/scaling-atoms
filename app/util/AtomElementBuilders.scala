@@ -29,7 +29,7 @@ object AtomElementBuilders {
     )
   }
 
-  def buildDefaultAtom(atomType: AtomType, user: PandaUser) = {
+  def buildDefaultAtom(atomType: AtomType, user: PandaUser): Atom = {
     val defaultAtoms: Map[AtomType, AtomData] = Map(
       AtomType.Explainer -> AtomData.Explainer(ExplainerAtom("-", "-", DisplayType.Flat)),
       AtomType.Cta -> AtomData.Cta(CTAAtom("-")),
@@ -45,7 +45,7 @@ object AtomElementBuilders {
   }
 
   // this is just a stub - will eventually need to generate default HTML for all the atom types we support
-  def buildDefaultHtml(atomType: AtomType, atomData: AtomData, currentDefaultHtml: Option[String] = None): String = {
-    currentDefaultHtml.getOrElse(s"""<div class="atom-${atomType.name}"></div>""")
+  def buildDefaultHtml(atomType: AtomType, atomData: AtomData): String = {
+    s"""<div class="atom-${atomType.name}"></div>"""
   }
 }

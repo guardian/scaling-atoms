@@ -4,10 +4,10 @@ import {logError} from './logger';
 const validateField = (fieldValue, isRequired: false, customValidation) => {
   const errors = [];
 
-  const checkError = (err, resolve, reject) => {
+  const checkError = (err) => {
     if (!(err instanceof FieldError)) {
       logError('Invalid error format', err);
-      reject(err);
+      throw err;
     }
     return err !== true ? err : false;
   };

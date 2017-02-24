@@ -3,6 +3,7 @@ package config
 import com.amazonaws.auth.{AWSCredentialsProviderChain, InstanceProfileCredentialsProvider}
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient
+import com.amazonaws.services.kinesis.AmazonKinesisClient
 import play.api.Configuration
 import services.AwsInstanceTags
 import com.gu.cm.{Mode, Configuration => ConfigurationMagic}
@@ -28,12 +29,18 @@ object Config extends AwsInstanceTags {
   }
   val config = ConfigurationMagic(appName, configMagicMode).load
 
-  def getOptionalProperty[T](path: String, getVal: String => T) = {
+  def getOptionalProperty[T](path: String, getVal: String => T): Option[T] = {
     if (config.hasPath(path)) Some(getVal(path))
     else None
   }
 
-  val elkKinesisStream = config.getString("elk.kinesis.stream")
+  def getPropertyIfEnabled(enabled: Boolean, path: String): String =
+    if (enabled) getOptionalProperty(path, config.getString).getOrElse(sys.error(s"Property $path is required"))
+    else s"feature requiring $path is disabled"
+
+  val kinesisEnabled = getOptionalProperty("aws.kinesis.publish.enabled", config.getBoolean).getOrElse(true)
+
+  val elkKinesisStream = getPropertyIfEnabled(kinesisEnabled, "elk.kinesis.stream")
   val elkLoggingEnabled = getOptionalProperty("elk.logging.enabled", config.getBoolean).getOrElse(true)
 
   val pandaDomain = config.getString("panda.domain")
@@ -51,4 +58,14 @@ object Config extends AwsInstanceTags {
 
   val gridUrl = config.getString("grid.url")
 
+  val liveKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.publish.live")
+  val previewKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.publish.preview")
+  val liveReindexKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.reindex.live")
+  val previewReindexKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.reindex.preview")
+
+  val kinesisClient = region.createClient(
+    classOf[AmazonKinesisClient],
+    awsCredentialsProvider,
+    null
+  )
 }

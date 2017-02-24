@@ -10,12 +10,14 @@ import com.gu.scanamo.DynamoFormat
 import com.gu.scanamo.scrooge.ScroogeDynamoFormat._
 import config.Config
 import cats.syntax.either._
-import models.{Live, Preview, UnsupportedAtomTypeError, Version}
+import models.{Live, Preview, UnsupportedAtomTypeError, Version, AtomAPIError}
 
 import scala.reflect.ClassTag
 
 
 object AtomDataStores {
+
+  type AtomWorkshopDataStore = DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom with RecipeAtom]
 
   val explainerDynamoFormats = new AtomDynamoFormats[ExplainerAtom] {
     def fromAtomData: PartialFunction[AtomData, ExplainerAtom] = { case AtomData.Explainer(data) => data }
@@ -48,14 +50,14 @@ object AtomDataStores {
       })
   }
 
-  val dataStores: Map[AtomType, Map[Version, DynamoDataStore[_ >: ExplainerAtom with CTAAtom with MediaAtom with RecipeAtom]]] = Map(
+  val dataStores: Map[AtomType, Map[Version, AtomWorkshopDataStore]] = Map(
     AtomType.Explainer -> getDataStores[ExplainerAtom](explainerDynamoFormats),
     AtomType.Cta -> getDataStores[CTAAtom](ctaDynamoFormats),
     AtomType.Media -> getDataStores[MediaAtom](mediaDynamoFormats),
     AtomType.Recipe -> getDataStores[RecipeAtom](recipeDynamoFormats)
   )
 
-  def getDataStore(atomType: AtomType, version: Version) = {
+  def getDataStore(atomType: AtomType, version: Version): Either[AtomAPIError, AtomWorkshopDataStore] = {
     val store = for {
       atomDataStores <- AtomDataStores.dataStores.get(atomType)
       atomDataStore <- atomDataStores.get(version)

@@ -1,11 +1,13 @@
 package util
 
+import com.gu.atom.data.DynamoCompositeKey
 import com.gu.contentatom.thrift.{Atom, AtomType}
 import io.circe.{DecodingFailure, ParsingFailure, parser}
 import cats.syntax.either._
 import com.amazonaws.services.dynamodbv2.model.AmazonDynamoDBException
 import play.api.Logger
 import com.gu.fezziwig.CirceScroogeMacros._
+import db.AtomDataStores
 import io.circe.syntax._
 import io.circe._
 import io.circe.parser.decode
@@ -13,6 +15,9 @@ import io.circe.generic.auto._
 import models._
 
 object AtomLogic {
+
+  def buildKey(atomType: AtomType, id: String) = DynamoCompositeKey(atomType.name, Some(id))
+
   def getVersion(version: String): Version = version match {
     case "preview" => Preview
     case "live" => Live
@@ -37,20 +42,22 @@ object AtomLogic {
     Left(atomApiError)
   }
 
-  def extractRequestBody(body: Option[String]): Either[AtomAPIError, String]= {
+  def extractRequestBody(body: Option[String]): Either[AtomAPIError, String] =
     Either.cond(body.isDefined, body.get, BodyRequiredForUpdateError)
-  }
+}
 
-  def parseStringToAtom(atomString: String): Either[AtomAPIError, Atom] = {
+object Parser {
+  import AtomLogic._
+
+  def stringToAtom(atomString: String): Either[AtomAPIError, Atom] = {
     Logger.info(s"Parsing atom json: $atomString")
-    val parsingResult = for {
-      parsedAtom <- parser.parse(atomString)
-      decodedAtom <- parsedAtom.as[Atom]
-    } yield decodedAtom
-    parsingResult.fold(processException, a => Right(a))
+    for {
+      json <- stringToJson(atomString)
+      atom <- jsonToAtom(json)
+    } yield atom
   }
 
-  def parseJsonToAtom(atomJson: Json): Either[AtomAPIError, Atom] = {
+  def jsonToAtom(atomJson: Json): Either[AtomAPIError, Atom] = {
     Logger.info(s"Parsing atom json: $atomJson")
     val parsingResult = for {
       decodedAtom <- atomJson.as[Atom]
@@ -58,12 +65,7 @@ object AtomLogic {
     parsingResult.fold(processException, a => Right(a))
   }
 
-  def parseAtomToJson(atom: Atom): Json = {
-    Logger.info(s"Parsing atom to json: $atom")
-    atom.asJson
-  }
-
-  def parseBody(atomJson: String): Either[AtomAPIError, Json] = {
+  def stringToJson(atomJson: String): Either[AtomAPIError, Json] = {
     Logger.info(s"Parsing body to json: $atomJson")
     val parsingResult = for {
       parsedJson <- parser.parse(atomJson)

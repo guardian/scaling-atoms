@@ -5,6 +5,7 @@ import scribePluginToolbar from 'scribe-plugin-toolbar';
 import scribePluginLinkPromptCommand from 'scribe-plugin-link-prompt-command';
 import scribePluginSanitizer from 'scribe-plugin-sanitizer';
 import {errorPropType} from '../../constants/errorPropType';
+import ShowErrors from '../Utilities/ShowErrors';
 
 export default class FormFieldsScribeEditor extends React.Component {
 
@@ -13,6 +14,7 @@ export default class FormFieldsScribeEditor extends React.Component {
     fieldName: PropTypes.string,
     fieldValue: PropTypes.string,
     fieldErrors: PropTypes.arrayOf(errorPropType),
+    formRowClass: PropTypes.string,
     onUpdateField: PropTypes.func
   }
 
@@ -67,15 +69,16 @@ export default class FormFieldsScribeEditor extends React.Component {
 
   render () {
     return (
-        <div className="scribe">
-          <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
+        <div className={(this.props.formRowClass || "form__row") + " scribe"}>
+          {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
           <div ref="toolbar" className="scribe__toolbar">
-            <button type="button" data-command-name="bold" className="scribe__toolbar__btn">Bold</button>
-            <button type="button" data-command-name="italic" className="scribe__toolbar__btn">Italic</button>
-            <button type="button" data-command-name="linkPrompt" className="scribe__toolbar__btn">Link</button>
-            <button type="button" data-command-name="unlink" className="scribe__toolbar__btn">Unlink</button>
+            <button type="button" data-command-name="bold" className="scribe__toolbar__item">Bold</button>
+            <button type="button" data-command-name="italic" className="scribe__toolbar__item">Italic</button>
+            <button type="button" data-command-name="linkPrompt" className="scribe__toolbar__item">Link</button>
+            <button type="button" data-command-name="unlink" className="scribe__toolbar__item">Unlink</button>
           </div>
           <div id={this.props.fieldName} dangerouslySetInnerHTML={{__html: this.props.fieldValue}} ref="editor" className="scribe__editor"></div>
+          <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
   }

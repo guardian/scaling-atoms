@@ -43,14 +43,15 @@ export default class FormFieldArrayWrapper extends React.Component {
         fieldName: `${this.props.fieldName}-${i}`,
         fieldValue: value,
         fieldErrors: this.props.fieldErrors,
+        formRowClass: 'form__row--flex-width',
         onUpdateField: updateFn
       });
     });
 
     return (
-      <div>
+      <div className="form__row form__row--field-with-btn">
         {hydratedChildren}
-        <button className="btn" onClick={removeFn.bind(this, i)}>Delete</button>
+        <button className="btn form__field-btn" type="button" onClick={removeFn.bind(this, i)}>Delete</button>
       </div>
     );
   }
@@ -60,10 +61,10 @@ export default class FormFieldArrayWrapper extends React.Component {
     const values = this.props.fieldValue || [];
 
     return (
-      <div>
-        <h3>{this.props.fieldLabel}</h3>
+      <div className="form__row">
+        <h3 className="form__subheading">{this.props.fieldLabel}</h3>
         {values.map((value, i) => this.renderValue(value, i))}
-        <button className="btn" onClick={this.onAddClick}>Add</button>
+        <button className="btn" type="button" onClick={this.onAddClick}>Add</button>
       </div>
     );
   }

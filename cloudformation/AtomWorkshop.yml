@@ -261,6 +261,19 @@ Resources:
             - kinesis:PutRecord
             - kinesis:DescribeStream
             Resource: !Sub arn:aws:kinesis:eu-west-1:743583969668:stream/${ELKKinesisStream}
+      - PolicyName: AtomKinesisPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - kinesis:PutRecord
+            - kinesis:DescribeStream
+            Resource:
+              - !Sub arn:aws:kinesis:eu-west-1:743583969668:stream/content-atom-events-preview-${Stage}
+              - !Sub arn:aws:kinesis:eu-west-1:743583969668:stream/content-atom-events-live-${Stage}
+              - !Sub arn:aws:kinesis:eu-west-1:743583969668:stream/content-atom-events-reindex-live-${Stage}
+              - !Sub arn:aws:kinesis:eu-west-1:743583969668:stream/content-atom-events-reindex-preview-${Stage}
       - PolicyName: AtomWorkshopPanDomainPolicy
         PolicyDocument:
           Version: '2012-10-17'
