@@ -1,10 +1,22 @@
 const publishState = (atom) => {
   // @TODO - Add "Taken down" state when the API returns a taken down time
   if (atom.contentChangeDetails.published) {
-    return(atom.contentChangeDetails.published == atom.contentChangeDetails.lastModified ? 'published' : 'unpublished changes');
+    if (atom.contentChangeDetails.published == atom.contentChangeDetails.lastModified) {
+      return {
+        id: 'published',
+        text: 'Published'
+      };
+    }
+    return {
+      id: 'unpublished-changes',
+      text: 'Unpublished changes'
+    };
   }
 
-  return 'draft';
+  return {
+    id: 'draft',
+    text: 'Draft'
+  };
 };
 
 export default publishState;
