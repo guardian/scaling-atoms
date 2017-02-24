@@ -10,6 +10,9 @@ export default function atom(state = null, action) {
     case 'ATOM_UPDATE_REQUEST':
       return action.atom || false;
 
+    case 'ATOM_PUBLISH_REQUEST':
+      return action.atom || false;
+
     default:
       return state;
   }
