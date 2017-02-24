@@ -51,7 +51,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
     APIResponse{
       for {
         atomType <- validateAtomType(atomType)
-        createAtomFields <- extractCreateAtomFields(req.body.asText)
+        createAtomFields <- extractCreateAtomFields(req.body.asJson.map(_.toString))
         ds <- AtomDataStores.getDataStore(atomType, Preview)
         atomToCreate = AtomElementBuilders.buildDefaultAtom(atomType, req.user, createAtomFields)
         atom <- atomWorkshopDB.createAtom(ds, atomType, req.user, atomToCreate)
@@ -77,7 +77,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
     APIResponse {
       for {
         atomType <- validateAtomType(atomType)
-        payload <- extractRequestBody(req.body.asText)
+        payload <- extractRequestBody(req.body.asJson.map(_.toString))
         newAtom <- stringToAtom(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
         updatedAtom <- atomWorkshopDB.updateAtom(datastore, updateTopLevelFields(newAtom, req.user))
