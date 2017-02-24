@@ -8,6 +8,15 @@
 
 .form__row {
   margin-bottom: 20px;
+
+  &--field-with-btn {
+    display: flex;
+  }
+
+  // Not great naming
+  &--flex-width {
+    width: 100%;
+  }
 }
 
 .form__field {
@@ -39,7 +48,6 @@
   &--error, &--error:focus {
     border-color: $cRedB5;
   }
-
 }
 
 .form__group {
@@ -78,4 +86,9 @@
   &--error {
     color: $cRedB5;
   }
+}
+
+.form__subheading {
+  margin-bottom: 10px;
+  border-bottom: 1px solid $color300Grey;
 }

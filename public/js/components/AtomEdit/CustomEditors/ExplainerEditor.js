@@ -8,17 +8,19 @@ export class ExplainerEditor extends React.Component {
 
   static propTypes = {
     atom: PropTypes.shape({
-      type: PropTypes.string
+      type: PropTypes.string,
+      id: PropTypes.string
     }).isRequired,
     onUpdate: PropTypes.func.isRequired
   }
 
   render() {
     return (
-      <div className="editor editor-explainer">
+      <div className="atom-editor">
+        <h1 className="atom-editor__title">{`Editing explainer: ${this.props.atom.id}`}</h1>
         <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
           <ManagedField fieldLocation="data.title" name="Title" isRequired={true}>
-            <FormFieldTextInput/>
+            <FormFieldTextInput />
           </ManagedField>
           <ManagedField fieldLocation="data.body" name="Body">
             <FormFieldsScribeEditor />

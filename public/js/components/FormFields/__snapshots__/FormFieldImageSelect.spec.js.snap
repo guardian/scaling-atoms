@@ -1,29 +1,32 @@
 exports[`test Should render no image when none provided 1`] = `
-<div>
+<div
+  className="form__row">
   <label
-    className="form__label">
+    className="form__label"
+    htmlFor="test field name">
     test field label
   </label>
   <div
-    className="image-select form__group">
+    className="image-select">
     <button
       className="image-select__button"
       onClick={[Function]}>
       + Add Image from Grid
     </button>
   </div>
-  <div />
 </div>
 `;
 
 exports[`test Should render with image when provided 1`] = `
-<div>
+<div
+  className="form__row">
   <label
-    className="form__label">
+    className="form__label"
+    htmlFor="test field name">
     test field label
   </label>
   <div
-    className="image-select form__group">
+    className="image-select">
     <div
       className="image-select__image-display">
       <div
@@ -55,12 +58,12 @@ exports[`test Should render with image when provided 1`] = `
         </div>
         <button
           className="image-select__button"
-          onClick={[Function]}>
+          onClick={[Function]}
+          type="button">
           Replace Image
         </button>
       </div>
     </div>
   </div>
-  <div />
 </div>
 `;

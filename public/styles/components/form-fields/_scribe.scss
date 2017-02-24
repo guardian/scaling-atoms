@@ -26,4 +26,9 @@
   padding: 20px;
   background: $cWhite;
   border: 1px solid $greyBorderColor;
+
+  &:focus {
+    border-color: $brandColor;
+    outline: none;
+  }
 }

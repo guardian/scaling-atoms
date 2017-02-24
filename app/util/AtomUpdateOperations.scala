@@ -4,7 +4,6 @@ import com.gu.contentatom.thrift.Atom
 import AtomElementBuilders._
 import com.gu.pandomainauth.model.User
 import io.circe.Json
-import com.gu.fezziwig.CirceScroogeMacros
 import com.gu.fezziwig.CirceScroogeMacros._
 import io.circe.syntax._
 import models.AtomAPIError

@@ -1,11 +1,10 @@
 package db
 
-import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
+import com.gu.contentatom.thrift.{Atom, AtomType}
 import com.gu.atom.data.{DataStoreResult, IDNotFound}
 import play.api.Logger
 import cats.syntax.either._
 import models.{AtomAPIError, AtomWorkshopDynamoDatastoreError}
-import util.AtomElementBuilders._
 import com.gu.pandomainauth.model.User
 import util.AtomLogic._
 import AtomDataStores._
@@ -18,6 +17,7 @@ trait AtomWorkshopDBAPI {
   }
 
   def createAtom(datastore: AtomWorkshopDataStore, atomType: AtomType, user: User, atom: Atom): Either[AtomAPIError, Atom]
+
 
   def getAtom(datastore: AtomWorkshopDataStore, atomType: AtomType, id: String): Either[AtomAPIError, Atom]
 
@@ -65,6 +65,7 @@ class AtomWorkshopDB() extends AtomWorkshopDBAPI {
     checkAtomExistsInDatastore(datastore, newAtom.atomType, newAtom.id).fold(err => Left(err), result => {
       if (result) updateAtom(datastore, newAtom)
       else createAtom(datastore, newAtom.atomType, user, newAtom)
+
     })
   }
 

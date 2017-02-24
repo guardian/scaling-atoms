@@ -54,6 +54,7 @@ object AtomLogic {
       } yield Some(createAtomFields)
     }.getOrElse(Right(None))
   }
+
 }
 
 object Parser {

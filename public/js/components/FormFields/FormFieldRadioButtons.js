@@ -7,9 +7,10 @@ export default class FormFieldRadioButtons extends React.Component {
   static propTypes = {
     fieldLabel: PropTypes.string,
     fieldName: PropTypes.string,
-    selectValues: PropTypes.array.isRequired,
+    selectValues: PropTypes.arrayOf(PropTypes.string),
     fieldValue: PropTypes.string,
     fieldErrors: PropTypes.arrayOf(errorPropType),
+    formRowClass: PropTypes.string,
     onUpdateField: PropTypes.func
   };
 
@@ -32,8 +33,8 @@ export default class FormFieldRadioButtons extends React.Component {
 
   render() {
     return (
-        <div>
-          <label className="form__label" htmlFor={this.props.fieldName}>{this.props.fieldLabel}</label>
+        <div className={this.props.formRowClass || "form__row"}>
+          {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
           {this.renderButtons()}
           <ShowErrors errors={this.props.fieldErrors}/>
         </div>

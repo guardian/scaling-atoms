@@ -30,6 +30,7 @@ class FormFieldImageSelect extends React.Component {
     fieldName: PropTypes.string.isRequired,
     fieldLabel: PropTypes.string.isRequired,
     fieldErrors: PropTypes.arrayOf(errorPropType),
+    formRowClass: PropTypes.string,
     gridUrl: PropTypes.string.isRequired
   }
 
@@ -99,7 +100,7 @@ class FormFieldImageSelect extends React.Component {
           <div className="image-select__image-details__detail">
             Dimensions: {this.props.fieldValue.master.dimensions.width} x {this.props.fieldValue.master.dimensions.height}
           </div>
-          <button className="image-select__button" onClick={this.openModal}>
+          <button className="image-select__button" type="button" onClick={this.openModal}>
               Replace Image
           </button>
         </div>
@@ -109,9 +110,9 @@ class FormFieldImageSelect extends React.Component {
 
   render () {
     return (
-      <div>
-        <label className="form__label">{this.props.fieldLabel}</label>
-        <div className="image-select form__group">
+      <div className={this.props.formRowClass || "form__row"}>
+        {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
+        <div className="image-select">
             {this.props.fieldValue ? this.renderWithImage() : this.renderWithoutImage()}
 
             <Modal isOpen={this.state.modalOpen} dismiss={this.closeModal}>

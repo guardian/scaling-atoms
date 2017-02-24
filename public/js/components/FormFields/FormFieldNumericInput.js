@@ -10,6 +10,7 @@ export default class FormFieldNumericInput extends React.Component {
     fieldValue: PropTypes.number,
     fieldPlaceholder: PropTypes.string,
     fieldErrors: PropTypes.arrayOf(errorPropType),
+    formRowClass: PropTypes.string,
     onUpdateField: PropTypes.func
   };
 
@@ -26,8 +27,8 @@ export default class FormFieldNumericInput extends React.Component {
 
   render() {
     return (
-        <div>
-          <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>
+        <div className={this.props.formRowClass || "form__row"}>
+          {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
           <input type="number" className="form__field" id={this.props.fieldName} placeholder={this.props.fieldPlaceholder || ''} value={this.props.fieldValue || ''} onChange={this.onUpdate}/>
           <ShowErrors errors={this.props.fieldErrors}/>
         </div>
