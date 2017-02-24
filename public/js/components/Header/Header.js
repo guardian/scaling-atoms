@@ -20,7 +20,7 @@ class Header extends React.Component {
   }
 
   publishAtom = () => {
-    this.props.atomActions.publishAtom(this.props.atom)
+    this.props.atomActions.publishAtom(this.props.atom);
   }
 
   renderPublishedState = () => {

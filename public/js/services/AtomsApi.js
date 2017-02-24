@@ -42,6 +42,6 @@ export default {
         credentials: 'same-origin',
         body: JSON.stringify(atom)
       }
-    )
+    );
   }
 };
