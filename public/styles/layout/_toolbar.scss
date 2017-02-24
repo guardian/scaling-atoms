@@ -198,6 +198,27 @@ $toolbarHeight: 50px;
   }
 }
 
+.publish-state {
+  text-transform: uppercase;
+  padding: 2px 8px;
+  color: $cWhite;
+  background-color: $color600Grey;
+  border-radius: 2em;
+
+  &--draft {
+    background-color: $cBlue;
+  }
+
+  &--published {
+    background-color: $cGreen33;
+  }
+
+  &--unpublished-changes {
+    background-color: $cYellow;
+    color: $textColor;
+  }
+}
+
 .word-count__message {
   display: none;
 }
