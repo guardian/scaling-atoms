@@ -13,7 +13,14 @@ const atomPropType = PropTypes.shape({
 class Header extends React.Component {
 
   static propTypes = {
-    atom: atomPropType
+    atom: atomPropType,
+    atomActions: PropTypes.shape({
+      publishAtom: PropTypes.func.isRequired
+    }).isRequired,
+  }
+
+  publishAtom = () => {
+    this.props.atomActions.publishAtom(this.props.atom)
   }
 
   renderPublishedState = () => {
@@ -30,6 +37,7 @@ class Header extends React.Component {
               </li>
             </ul>
           </nav>
+          <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button>
         </div>
       );
     }
@@ -58,6 +66,8 @@ class Header extends React.Component {
 
 //REDUX CONNECTIONS
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
 
 function mapStateToProps(state) {
   return {
@@ -65,4 +75,10 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Header);
+function mapDispatchToProps(dispatch) {
+  return {
+    atomActions: bindActionCreators(Object.assign({}, publishAtomActions), dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
