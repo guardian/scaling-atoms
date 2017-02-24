@@ -1,7 +1,40 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
+import publishState from '../../util/publishState';
 
-export default class Header extends React.Component {
+const atomPropType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  atomType: PropTypes.string.isRequired,
+  labels: PropTypes.array.isRequired,
+  defaultHtml: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired
+});
+
+class Header extends React.Component {
+
+  static propTypes = {
+    atom: atomPropType
+  }
+
+  renderPublishedState = () => {
+    if(this.props.atom) {
+
+      const atomPublishState = publishState(this.props.atom);
+
+      return (
+        <div className="toolbar__container">
+          <nav className="main-nav" role="navigation">
+            <ul className="main-nav__list">
+              <li className="toolbar__item main-nav__item">
+                <span className={`publish-state publish-state--${atomPublishState.id}`}>{atomPublishState.text}</span>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      );
+    }
+    return false;
+  }
 
   render () {
     return (
@@ -17,8 +50,19 @@ export default class Header extends React.Component {
               </div>
             </Link>
           </header>
-          
+          {this.renderPublishedState()}
         </div>
     );
   }
 }
+
+//REDUX CONNECTIONS
+import { connect } from 'react-redux';
+
+function mapStateToProps(state) {
+  return {
+    atom: state.atom
+  };
+}
+
+export default connect(mapStateToProps)(Header);
