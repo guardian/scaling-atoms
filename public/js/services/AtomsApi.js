@@ -29,7 +29,10 @@ export default {
       {
         method: 'put',
         credentials: 'same-origin',
-        body: JSON.stringify(atom)
+        body: JSON.stringify(atom),
+        headers: {
+            'Content-Type': 'application/json'
+        }
       }
     );
   },
@@ -40,7 +43,10 @@ export default {
       {
         method: 'post',
         credentials: 'same-origin',
-        body: JSON.stringify(atom)
+        body: JSON.stringify(atom),
+        headers: {
+            'Content-Type': 'application/json'
+        }
       }
     );
   }

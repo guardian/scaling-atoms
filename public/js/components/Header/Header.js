@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import publishState from '../../util/publishState';
+import {saveStateVals} from '../../constants/saveStateVals';
 
 const atomPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -14,6 +15,7 @@ class Header extends React.Component {
 
   static propTypes = {
     atom: atomPropType,
+    saveState: PropTypes.object,
     atomActions: PropTypes.shape({
       publishAtom: PropTypes.func.isRequired
     }).isRequired,
@@ -23,20 +25,46 @@ class Header extends React.Component {
     this.props.atomActions.publishAtom(this.props.atom);
   }
 
+  renderSaveState = () => {
+
+    if(this.props.saveState.saving === saveStateVals.inprogress) {
+      return (
+          <span className="loader save-state__loader">Saving</span>
+      );
+    }
+    return (
+      <span className="save-state">Saved</span>
+    );
+  }
+
   renderPublishedState = () => {
     if(this.props.atom) {
 
       const atomPublishState = publishState(this.props.atom);
 
       return (
+        <nav className="main-nav" role="navigation">
+          <ul className="main-nav__list">
+            <li className="toolbar__item main-nav__item">
+              <span className={`publish-state publish-state--${atomPublishState.id}`}>{atomPublishState.text}</span>
+            </li>
+            <li className="toolbar__item main-nav__item">
+              {this.renderSaveState()}
+            </li>
+          </ul>
+        </nav>
+      );
+    }
+    return false;
+  }
+
+  renderPublishButton = () => {
+    if(this.props.atom) {
+
+      const atomPublishState = publishState(this.props.atom);
+
+      return (
         <div className="toolbar__container">
-          <nav className="main-nav" role="navigation">
-            <ul className="main-nav__list">
-              <li className="toolbar__item main-nav__item">
-                <span className={`publish-state publish-state--${atomPublishState.id}`}>{atomPublishState.text}</span>
-              </li>
-            </ul>
-          </nav>
           <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button>
         </div>
       );
@@ -47,18 +75,20 @@ class Header extends React.Component {
   render () {
     return (
         <div className="toolbar">
-
-          <header className="toolbar__container">
-            <Link className="toolbar__title" href="/">
-              <div className="toolbar__logo"></div>
-              <div className="toolbar__page-icon"></div>
-              <div className="toolbar__title__hover-state">
-                <span className="toolbar__title__hover-state__subtitle">Back to</span><br />
-                <span className="toolbar__title__hover-state__title">Dashboard</span>
-              </div>
-            </Link>
-          </header>
-          {this.renderPublishedState()}
+          <div className="toolbar__container">
+            <header className="toolbar__container">
+              <Link className="toolbar__title" href="/">
+                <div className="toolbar__logo"></div>
+                <div className="toolbar__page-icon"></div>
+                <div className="toolbar__title__hover-state">
+                  <span className="toolbar__title__hover-state__subtitle">Back to</span><br />
+                  <span className="toolbar__title__hover-state__title">Dashboard</span>
+                </div>
+              </Link>
+            </header>
+            {this.renderPublishedState()}
+          </div>
+            {this.renderPublishButton()}
         </div>
     );
   }
@@ -71,7 +101,8 @@ import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
 
 function mapStateToProps(state) {
   return {
-    atom: state.atom
+    atom: state.atom,
+    saveState: state.saveState
   };
 }
 
