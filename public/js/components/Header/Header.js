@@ -28,11 +28,8 @@ class Header extends React.Component {
 
   renderSaveState = () => {
     const dateNow = Date.now();
-    const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : dateNow;
-
+    const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : this.props.atom.contentChangeDetails.created.date;
     const timeSinceLastModified = distanceInWords(dateNow, lastModified, {addSuffix: true});
-
-    console.log(dateNow, lastModified, timeSinceLastModified);
 
     if(this.props.saveState.saving === saveStateVals.inprogress) {
       return (
