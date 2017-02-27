@@ -25,7 +25,8 @@ class AtomCreateGenericInfo extends React.Component {
     });
   }
 
-  triggerAtomCreate = () => {
+  triggerAtomCreate = (e) => {
+    e.preventDefault();
     this.props.atomActions.createAtom(this.props.routeParams.atomType);
   }
 
@@ -52,7 +53,7 @@ class AtomCreateGenericInfo extends React.Component {
               fieldPlaceholder="Enter a title for this atom"
               onUpdateField={this.updateTitle}
             />
-            <button className="btn" type="button" onClick={this.triggerAtomCreate}>Create Atom</button>
+            <button className="btn" onClick={this.triggerAtomCreate}>Create Atom</button>
           </form>
       </div>
     );
