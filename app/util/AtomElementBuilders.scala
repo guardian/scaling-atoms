@@ -33,11 +33,13 @@ object AtomElementBuilders {
     val title = createAtomFields.flatMap(_.title).getOrElse("-")
     val defaultAtoms: Map[AtomType, AtomData] = Map(
       AtomType.Explainer -> AtomData.Explainer(ExplainerAtom(title, "-", DisplayType.Flat)),
-      AtomType.Cta -> AtomData.Cta(CTAAtom(title)),
+      AtomType.Cta -> AtomData.Cta(CTAAtom("-")),
       AtomType.Recipe -> AtomData.Recipe(RecipeAtom(title, RecipeTags(), RecipeTime()))
     )
 
-    Atom(id = java.util.UUID.randomUUID.toString,
+    Atom(
+      title = createAtomFields.flatMap(_.title),
+      id = java.util.UUID.randomUUID.toString,
       atomType = atomType,
       defaultHtml = createAtomFields.flatMap(_.defaultHtml).getOrElse(buildDefaultHtml(atomType = atomType, atomData = defaultAtoms(atomType))),
       data = defaultAtoms(atomType),

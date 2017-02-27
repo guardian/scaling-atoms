@@ -27,7 +27,18 @@ class AtomCreateGenericInfo extends React.Component {
 
   triggerAtomCreate = (e) => {
     e.preventDefault();
-    this.props.atomActions.createAtom(this.props.routeParams.atomType);
+
+    this.props.atomActions.createAtom(this.props.routeParams.atomType, {
+      title: this.state.title
+    });
+  }
+
+  shouldEnableCreateButton = () => {
+    if (!this.state.title || !this.state.title.length) {
+      return false;
+    }
+
+    return true;
   }
 
   render () {
@@ -53,7 +64,7 @@ class AtomCreateGenericInfo extends React.Component {
               fieldPlaceholder="Enter a title for this atom"
               onUpdateField={this.updateTitle}
             />
-            <button className="btn" onClick={this.triggerAtomCreate}>Create Atom</button>
+            <button className="btn" type="button" disabled={!this.shouldEnableCreateButton()} onClick={this.triggerAtomCreate}>Create Atom</button>
           </form>
       </div>
     );

@@ -29,10 +29,10 @@ function errorCreatingAtom(error) {
   };
 }
 
-export function createAtom(atomType) {
+export function createAtom(atomType, atomInfo) {
   return dispatch => {
     dispatch(requestAtomCreate(atomType));
-    return AtomsApi.createAtom(atomType)
+    return AtomsApi.createAtom(atomType, atomInfo)
         .then(res => res.json())
         .then(atom => {
           dispatch(receiveAtomCreate(atom));
