@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import publishState from '../../util/publishState';
 import {saveStateVals} from '../../constants/saveStateVals';
+import distanceInWords from 'date-fns/distance_in_words';
 
 const atomPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -26,6 +27,12 @@ class Header extends React.Component {
   }
 
   renderSaveState = () => {
+    const dateNow = Date.now();
+    const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : dateNow;
+
+    const timeSinceLastModified = distanceInWords(dateNow, lastModified, {addSuffix: true});
+
+    console.log(dateNow, lastModified, timeSinceLastModified);
 
     if(this.props.saveState.saving === saveStateVals.inprogress) {
       return (
@@ -33,7 +40,7 @@ class Header extends React.Component {
       );
     }
     return (
-      <span className="save-state">Saved</span>
+      <span><span className="save-state">Saved</span> {timeSinceLastModified}</span>
     );
   }
 
