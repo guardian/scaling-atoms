@@ -69,6 +69,6 @@
     "scribe-plugin-link-prompt-command": "^1.0.0",
     "scribe-plugin-sanitizer": "^0.1.10",
     "scribe-plugin-toolbar": "^1.0.0",
-    "whatwg-fetch": "^2.0.2"
+    "unfetch": "^1.0.1"
   }
 }
