@@ -177,24 +177,12 @@ $toolbarHeight: 50px;
 }
 
 .save-state {
-  position: relative;
+  color: $cGreen33;
+  text-transform: uppercase;
 
-  &__icon {
+  .save-state__loader {
     visibility: hidden;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  &--loading {
-    .save-state__icon {
-      visibility: visible;
-    }
-
-    .save-state__message {
-      visibility: hidden;
-    }
+    display: block;
   }
 }
 
