@@ -15,6 +15,7 @@ import io.circe.generic.auto._
 import util.AtomLogic._
 import util.Parser._
 import services.AtomPublishers._
+import util.AtomElementBuilders
 import util.AtomUpdateOperations._
 
 class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends Controller with PanDomainAuthActions {
@@ -49,8 +50,10 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
     APIResponse{
       for {
         atomType <- validateAtomType(atomType)
+        createAtomFields <- extractCreateAtomFields(req.body.asJson.map(_.toString))
         ds <- AtomDataStores.getDataStore(atomType, Preview)
-        atom <- atomWorkshopDB.createAtom(ds, atomType, req.user)
+        atomToCreate = AtomElementBuilders.buildDefaultAtom(atomType, req.user, createAtomFields)
+        atom <- atomWorkshopDB.createAtom(ds, atomType, req.user, atomToCreate)
         _ <- sendKinesisEvent(atom, previewAtomPublisher, EventType.Update)
       } yield atom
     }
@@ -74,7 +77,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
     APIResponse {
       for {
         atomType <- validateAtomType(atomType)
-        payload <- extractRequestBody(req.body.asText)
+        payload <- extractRequestBody(req.body.asJson.map(_.toString))
         newAtom <- stringToAtom(payload)
         datastore <- AtomDataStores.getDataStore(atomType, Preview)
         updatedAtom <- atomWorkshopDB.updateAtom(datastore, updateTopLevelFields(newAtom, req.user))

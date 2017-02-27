@@ -23,7 +23,7 @@ export function pandaFetch(url, body) {
 
             reEstablishSession(reauthUrl, 5000).then(
                 () => {
-                  fetch(requestBody)
+                  fetch(url, body)
                   .then(checkStatus)
                   .then(res => resolve(res))
                   .catch(err => reject(err));

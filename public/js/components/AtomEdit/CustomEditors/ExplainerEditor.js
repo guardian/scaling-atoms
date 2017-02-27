@@ -19,13 +19,13 @@ export class ExplainerEditor extends React.Component {
       <div className="atom-editor">
         <h1 className="atom-editor__title">{`Editing explainer: ${this.props.atom.id}`}</h1>
         <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
-          <ManagedField fieldLocation="data.title" name="Title" isRequired={true}>
+          <ManagedField fieldLocation="data.explainer.title" name="Title" isRequired={true}>
             <FormFieldTextInput />
           </ManagedField>
-          <ManagedField fieldLocation="data.body" name="Body">
+          <ManagedField fieldLocation="data.explainer.body" name="Body">
             <FormFieldsScribeEditor />
           </ManagedField>
-          <ManagedField fieldLocation="data.displayType" name="Display type">
+          <ManagedField fieldLocation="data.explainer.displayType" name="Display type">
             <ExplainerDisplayTypes />
           </ManagedField>
         </ManagedForm>

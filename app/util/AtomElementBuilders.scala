@@ -3,9 +3,9 @@ package util
 import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentatom.thrift.atom.explainer.{DisplayType, ExplainerAtom}
 import com.gu.contentatom.thrift.atom.recipe.{RecipeAtom, Tags => RecipeTags, Time => RecipeTime}
-
 import com.gu.contentatom.thrift.{User, _}
 import com.gu.pandomainauth.model.{User => PandaUser}
+import models.CreateAtomFields
 import org.joda.time.DateTime
 
 object AtomElementBuilders {
@@ -29,16 +29,17 @@ object AtomElementBuilders {
     )
   }
 
-  def buildDefaultAtom(atomType: AtomType, user: PandaUser): Atom = {
+  def buildDefaultAtom(atomType: AtomType, user: PandaUser, createAtomFields: Option[CreateAtomFields]): Atom = {
+    val title = createAtomFields.flatMap(_.title).getOrElse("-")
     val defaultAtoms: Map[AtomType, AtomData] = Map(
-      AtomType.Explainer -> AtomData.Explainer(ExplainerAtom("-", "-", DisplayType.Flat)),
-      AtomType.Cta -> AtomData.Cta(CTAAtom("-")),
-      AtomType.Recipe -> AtomData.Recipe(RecipeAtom("-", RecipeTags(), RecipeTime()))
+      AtomType.Explainer -> AtomData.Explainer(ExplainerAtom(title, "-", DisplayType.Flat)),
+      AtomType.Cta -> AtomData.Cta(CTAAtom(title)),
+      AtomType.Recipe -> AtomData.Recipe(RecipeAtom(title, RecipeTags(), RecipeTime()))
     )
 
     Atom(id = java.util.UUID.randomUUID.toString,
       atomType = atomType,
-      defaultHtml = buildDefaultHtml(atomType = atomType, atomData = defaultAtoms(atomType)),
+      defaultHtml = createAtomFields.flatMap(_.defaultHtml).getOrElse(buildDefaultHtml(atomType = atomType, atomData = defaultAtoms(atomType))),
       data = defaultAtoms(atomType),
       contentChangeDetails = buildContentChangeDetails(user, None, updateCreated = true)
     )

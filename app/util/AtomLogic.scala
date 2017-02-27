@@ -12,6 +12,7 @@ import io.circe.syntax._
 import io.circe._
 import io.circe.parser.decode
 import io.circe.generic.auto._
+import io.circe.generic.semiauto._
 import models._
 
 object AtomLogic {
@@ -44,6 +45,16 @@ object AtomLogic {
 
   def extractRequestBody(body: Option[String]): Either[AtomAPIError, String] =
     Either.cond(body.isDefined, body.get, BodyRequiredForUpdateError)
+
+  def extractCreateAtomFields(body: Option[String]): Either[AtomAPIError, Option[CreateAtomFields]] = {
+    body.map { body =>
+      for {
+        json <- Parser.stringToJson(body)
+        createAtomFields <- json.as[CreateAtomFields].fold(processException, m => Right(m))
+      } yield Some(createAtomFields)
+    }.getOrElse(Right(None))
+  }
+
 }
 
 object Parser {
@@ -57,12 +68,9 @@ object Parser {
     } yield atom
   }
 
-  def jsonToAtom(atomJson: Json): Either[AtomAPIError, Atom] = {
-    Logger.info(s"Parsing atom json: $atomJson")
-    val parsingResult = for {
-      decodedAtom <- atomJson.as[Atom]
-    } yield decodedAtom
-    parsingResult.fold(processException, a => Right(a))
+  def jsonToAtom(json: Json): Either[AtomAPIError, Atom] = {
+    Logger.info(s"Parsing json: $json")
+    json.as[Atom].fold(processException, m => Right(m))
   }
 
   def stringToJson(atomJson: String): Either[AtomAPIError, Json] = {

@@ -1,11 +1,10 @@
 package db
 
-import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
+import com.gu.contentatom.thrift.{Atom, AtomType}
 import com.gu.atom.data.{DataStoreResult, IDNotFound}
 import play.api.Logger
 import cats.syntax.either._
 import models.{AtomAPIError, AtomWorkshopDynamoDatastoreError}
-import util.AtomElementBuilders._
 import com.gu.pandomainauth.model.User
 import util.AtomLogic._
 import AtomDataStores._
@@ -17,7 +16,8 @@ trait AtomWorkshopDBAPI {
     case Right(r) => Right(r)
   }
 
-  def createAtom(datastore: AtomWorkshopDataStore, atomType: AtomType, user: User, atom: Option[Atom] = None): Either[AtomAPIError, Atom]
+  def createAtom(datastore: AtomWorkshopDataStore, atomType: AtomType, user: User, atom: Atom): Either[AtomAPIError, Atom]
+
 
   def getAtom(datastore: AtomWorkshopDataStore, atomType: AtomType, id: String): Either[AtomAPIError, Atom]
 
@@ -30,12 +30,11 @@ trait AtomWorkshopDBAPI {
 
 class AtomWorkshopDB() extends AtomWorkshopDBAPI {
 
-  def createAtom(datastore: AtomWorkshopDataStore, atomType: AtomType, user: User, atom: Option[Atom] = None): Either[AtomAPIError, Atom] = {
-    val defaultAtom = atom.getOrElse(buildDefaultAtom(atomType, user))
-    Logger.info(s"Attempting to create atom of type ${atomType.name} with id ${defaultAtom.id}")
+  def createAtom(datastore: AtomWorkshopDataStore, atomType: AtomType, user: User, atom: Atom): Either[AtomAPIError, Atom] = {
+    Logger.info(s"Attempting to create atom of type ${atomType.name} with id ${atom.id}")
     try {
-      val result = datastore.createAtom(buildKey(atomType, defaultAtom.id), defaultAtom)
-      Logger.info(s"Successfully created atom of type ${atomType.name} with id ${defaultAtom.id}")
+      val result = datastore.createAtom(buildKey(atomType, atom.id), atom)
+      Logger.info(s"Successfully created atom of type ${atomType.name} with id ${atom.id}")
       transformAtomLibResult(result)
     } catch {
       case e: Exception => processException(e)
@@ -65,7 +64,8 @@ class AtomWorkshopDB() extends AtomWorkshopDBAPI {
 
     checkAtomExistsInDatastore(datastore, newAtom.atomType, newAtom.id).fold(err => Left(err), result => {
       if (result) updateAtom(datastore, newAtom)
-      else createAtom(datastore, newAtom.atomType, user, Some(newAtom))
+      else createAtom(datastore, newAtom.atomType, user, newAtom)
+
     })
   }
 
