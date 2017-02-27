@@ -11,10 +11,27 @@
   color: $textColor;
 }
 
+.atom-card__heading {
+  padding-bottom: 10px;
+}
+
 .atom-card__icon {
   width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: $brandColor;
+}
+
+.atom-card {
+  .form__label {
+    font-size: 17px;
+    padding-right: 10px;
+  }
+}
+
+.atom-card__dates {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

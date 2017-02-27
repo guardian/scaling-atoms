@@ -2,14 +2,9 @@ import React, { PropTypes } from 'react';
 import {CTAEditor} from './CustomEditors/CTAEditor';
 import {RecipeEditor} from './CustomEditors/RecipeEditor';
 import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
+import AtomEditHeader from './AtomEditHeader';
 
-const atomPropType = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  atomType: PropTypes.string.isRequired,
-  labels: PropTypes.array.isRequired,
-  defaultHtml: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired
-});
+import {atomPropType} from '../../constants/atomPropType.js';
 
 class AtomEdit extends React.Component {
 
@@ -36,11 +31,7 @@ class AtomEdit extends React.Component {
     this.props.atomActions.updateAtom(newAtom);
   }
 
-  render () {
-
-    if (!this.props.atom) {
-      return <div>Loading...</div>;
-    }
+  renderSpecificEditor () {
 
     //TODO: This is brittle, can we improve?
     const atomType = this.props.atom.atomType.toLowerCase();
@@ -57,6 +48,21 @@ class AtomEdit extends React.Component {
           <div>Atom Workshop cannot edit this type of atom currently</div>
         );
     }
+  }
+
+  render() {
+    if (!this.props.atom) {
+      return <div>Loading...</div>;
+    }
+
+    return (
+      <div className="atom-editor">
+        <AtomEditHeader atom={this.props.atom} onUpdate={this.updateAtom}/>
+        <div className="atom-editor__form">
+          {this.renderSpecificEditor()}
+        </div>
+      </div>
+    );
   }
 }
 
