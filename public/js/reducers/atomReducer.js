@@ -11,10 +11,14 @@ export default function atom(state = null, action) {
       return action.atom || false;
 
     case 'ATOM_UPDATE_RECEIVE':
-        return action.atom || false;
+      return Object.assign({}, state, {
+        contentChangeDetails: action.atom.contentChangeDetails
+      }) || false;
 
     case 'ATOM_PUBLISH_RECEIVE':
-      return action.atom || false;
+      return Object.assign({}, state, {
+        contentChangeDetails: action.atom.contentChangeDetails
+      }) || false;
 
     default:
       return state;
