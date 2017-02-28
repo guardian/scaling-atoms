@@ -64,7 +64,7 @@ class AtomCreateGenericInfo extends React.Component {
               fieldPlaceholder="Enter a title for this atom"
               onUpdateField={this.updateTitle}
             />
-            <button className="btn" type="button" disabled={!this.shouldEnableCreateButton()} onClick={this.triggerAtomCreate}>Create Atom</button>
+            <button className="btn" type="submit" disabled={!this.shouldEnableCreateButton()} onClick={this.triggerAtomCreate}>Create Atom</button>
           </form>
       </div>
     );
