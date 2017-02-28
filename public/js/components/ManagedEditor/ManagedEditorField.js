@@ -1,18 +1,13 @@
 import React, {PropTypes} from 'react';
 import _get from 'lodash/fp/get';
 import _set from 'lodash/fp/set';
-import _debounce from 'lodash/fp/debounce';
 import validateField from '../../util/validateField';
 
 export class ManagedField extends React.Component {
 
   state = {
     fieldErrors: [],
-    fieldValue: _get(this.props.fieldLocation, this.props.data),
   };
-
-  // debounce the passed in dispatch method
-  updateData = _debounce(250, this.props.updateData);
 
   static propTypes = {
     fieldLocation: PropTypes.string.isRequired,
@@ -34,12 +29,8 @@ export class ManagedField extends React.Component {
           fieldErrors: fieldErrors
         });
       });
-
-    this.setState({
-      fieldValue: newValue
-    }, () => {
-      this.updateData(_set(this.props.fieldLocation, this.state.fieldValue, this.props.data));
-    });
+      
+      this.props.updateData(_set(this.props.fieldLocation, newValue, this.props.data));
   }
 
   render () {
@@ -48,7 +39,7 @@ export class ManagedField extends React.Component {
       return React.cloneElement(child, {
         fieldName: this.props.name,
         fieldLabel: this.props.name,
-        fieldValue: this.state.fieldValue,
+        fieldValue: _get(this.props.fieldLocation, this.props.data),
         fieldErrors: this.state.fieldErrors,
         onUpdateField: this.updateFn,
       });
