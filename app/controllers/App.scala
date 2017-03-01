@@ -126,7 +126,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
         result <- atomWorkshopDB.deleteAtom(liveDataStore, atomType, id)
         _ <- sendKinesisEvent(updatedAtom, liveAtomPublisher, EventType.Takedown)
         _ <- sendKinesisEvent(updatedAtom, previewAtomPublisher, EventType.Update)
-      } yield AtomWorkshopAPIResponse("Atom taken down")
+      } yield updatedAtom
     }
   }
 
