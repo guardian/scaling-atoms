@@ -4,12 +4,13 @@ import {logError} from './logger';
 const validateField = (fieldValue, isRequired: false, customValidation) => {
   const errors = [];
 
-  const checkError = (err) => {
-    if (!(err instanceof FieldError) && err !== true) {
-      logError('Invalid error format', err);
-      throw err;
+  const checkValidation = (res) => {
+    // Validate functions either return true for a pass or a FieldError on a fail
+    if (!(res instanceof FieldError) && res !== true) {
+      logError('Invalid error format', res);
+      throw res;
     }
-    return err !== true ? err : false;
+    return res !== true ? res : false;
   };
 
   // isRequired check
@@ -23,7 +24,7 @@ const validateField = (fieldValue, isRequired: false, customValidation) => {
     const customValidationResults = customValidation.map((validator) => validator(fieldValue));
 
     return Promise.all(customValidationResults)
-      .then(res => res.filter(checkError))
+      .then(res => res.filter(checkValidation))
       .then(customErrors => Promise.resolve(errors.concat(customErrors)))
       .catch(err => logError('Validation error', err));
   }
