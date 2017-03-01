@@ -27,3 +27,7 @@ POST  /api/live/:atomType/:id                    controllers.App.publishAtom(ato
 
 PATCH /api/preview/:atomType/:id                 controllers.App.updateAtomByPath(atomType: String, id: String)
 PUT   /api/preview/:atomType/:id                 controllers.App.updateEntireAtom(atomType: String, id: String)
+
+
+#Support
+GET /support/previewCapi/*path                   controllers.Support.previewCapiProxy(path: String)

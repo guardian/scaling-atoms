@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import {CTAEditor} from './CustomEditors/CTAEditor';
 import {RecipeEditor} from './CustomEditors/RecipeEditor';
 import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
+import {StoryQuestionsEditor} from './CustomEditors/StoryQuestionsEditor';
+
 import AtomEditHeader from './AtomEditHeader';
 
 import {atomPropType} from '../../constants/atomPropType.js';
@@ -43,6 +45,8 @@ class AtomEdit extends React.Component {
         return <RecipeEditor atom={this.props.atom} onUpdate={this.updateAtom} config={this.props.config}/>;
       case ("explainer"):
         return <ExplainerEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
+      case ("storyquestions"):
+        return <StoryQuestionsEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
       default:
         return (
           <div>Atom Workshop cannot edit this type of atom currently</div>

@@ -3,6 +3,7 @@ package util
 import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentatom.thrift.atom.explainer.{DisplayType, ExplainerAtom}
 import com.gu.contentatom.thrift.atom.recipe.{RecipeAtom, Tags => RecipeTags, Time => RecipeTime}
+import com.gu.contentatom.thrift.atom.storyquestions.{StoryQuestionsAtom, RelatedStoryLinkType}
 import com.gu.contentatom.thrift.{User, _}
 import com.gu.pandomainauth.model.{User => PandaUser}
 import models.CreateAtomFields
@@ -35,7 +36,8 @@ object AtomElementBuilders {
     val defaultAtoms: Map[AtomType, AtomData] = Map(
       AtomType.Explainer -> AtomData.Explainer(ExplainerAtom(title, "-", DisplayType.Flat)),
       AtomType.Cta -> AtomData.Cta(CTAAtom("-")),
-      AtomType.Recipe -> AtomData.Recipe(RecipeAtom(title, RecipeTags(), RecipeTime()))
+      AtomType.Recipe -> AtomData.Recipe(RecipeAtom(title, RecipeTags(), RecipeTime())),
+      AtomType.Storyquestions -> AtomData.Storyquestions(StoryQuestionsAtom("-", RelatedStoryLinkType.Tag, title))
     )
 
     Atom(
