@@ -13,7 +13,7 @@ const publishState = (atom) => {
       return {
         id: 'taken-down',
         text: 'Taken down'
-      }
+      };
     }
 
     return {
