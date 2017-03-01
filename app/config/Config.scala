@@ -63,6 +63,10 @@ object Config extends AwsInstanceTags {
   val liveReindexKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.reindex.live")
   val previewReindexKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.reindex.preview")
 
+  val capiPreviewUrl = config.getString("capi.previewUrl")
+  val capiUsername = config.getString("capi.previewUsername")
+  val capiPassword = config.getString("capi.previewPassword")
+
   val kinesisClient = region.createClient(
     classOf[AmazonKinesisClient],
     awsCredentialsProvider,

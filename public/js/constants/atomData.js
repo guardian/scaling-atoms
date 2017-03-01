@@ -23,7 +23,13 @@ export const recipe = {
   description: "Structured recipes for better website presentation within articles",
 };
 
-export const allAtomTypes = [cta, explainer, recipe];
+export const storyQuestions = {
+  type: "storyquestions",
+  fullName: "Story Questions",
+  description: "Pose further questions to the audience and gather interest",
+};
+
+export const allAtomTypes = [cta, explainer, recipe, storyQuestions];
 
 export function getAtomByType(type) {
   return allAtomTypes.filter((atomData) => atomData.type.toLowerCase() === type.toLowerCase())[0];
