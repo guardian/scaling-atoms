@@ -26,6 +26,9 @@ export class ManagedField extends React.Component {
   updateFn = (newValue) => {
     Promise.resolve(validateField(newValue, this.props.isRequired, this.props.customValidation))
       .then(fieldErrors => {
+        this.setState({
+          fieldErrors: fieldErrors
+        });
         this.props.updateFormErrors(fieldErrors, this.props.name);
       });
 

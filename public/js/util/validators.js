@@ -8,7 +8,7 @@ import FieldError from '../constants/FieldError';
 
 export const isHttpsUrl = (value) => {
   const stringValue = typeof value === 'string' ? value : '';
-  if (stringValue.match(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/)) {
+  if (stringValue.match(/^(https:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/)) {
     return Promise.resolve(true);
   } else {
     const error = new FieldError('not-https', 'Not a HTTPS url');

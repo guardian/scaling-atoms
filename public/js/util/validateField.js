@@ -5,7 +5,7 @@ const validateField = (fieldValue, isRequired: false, customValidation) => {
   const errors = [];
 
   const checkError = (err) => {
-    if (!(err instanceof FieldError)) {
+    if (!(err instanceof FieldError) && err !== true) {
       logError('Invalid error format', err);
       throw err;
     }
