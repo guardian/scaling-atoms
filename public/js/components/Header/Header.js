@@ -83,9 +83,10 @@ class Header extends React.Component {
   }
 
   renderTakeDownButton = (atomPublishState) => {
-    if(atomPublishState.id !== 'draft' && atomPublishState !== 'taken-down') {
+
+    if(atomPublishState.id !== 'draft') {
       return (
-        <button type="button" onClick={this.takeDownAtom} className="toolbar__item toolbar__button">Take down</button>
+        <button type="button" disabled={atomPublishState.id === 'taken-down'} onClick={this.takeDownAtom} className="toolbar__item toolbar__button">Take down</button>
       );
     }
     return false;
