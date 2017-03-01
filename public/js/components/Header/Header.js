@@ -26,6 +26,10 @@ class Header extends React.Component {
     this.props.atomActions.publishAtom(this.props.atom);
   }
 
+  takeDownAtom = () => {
+    this.props.atomActions.takeDownAtom(this.props.atom);
+  }
+
   renderSaveState = () => {
     const dateNow = Date.now();
     const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : this.props.atom.contentChangeDetails.created.date;
@@ -70,7 +74,17 @@ class Header extends React.Component {
       return (
         <div className="toolbar__container">
           <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button>
+          {this.renderTakeDownButton(atomPublishState)}
         </div>
+      );
+    }
+    return false;
+  }
+
+  renderTakeDownButton = (atomPublishState) => {
+    if(atomPublishState.id !== 'draft' && atomPublishState !== 'taken-down') {
+      return (
+        <button type="button" onClick={this.takeDownAtom} className="toolbar__item toolbar__button">Take down</button>
       );
     }
     return false;
@@ -102,6 +116,7 @@ class Header extends React.Component {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
+import * as takeDownAtomActions from '../../actions/AtomActions/takeDownAtom.js';
 
 function mapStateToProps(state) {
   return {
@@ -112,7 +127,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    atomActions: bindActionCreators(Object.assign({}, publishAtomActions), dispatch)
+    atomActions: bindActionCreators(Object.assign({}, publishAtomActions, takeDownAtomActions), dispatch)
   };
 }
 
