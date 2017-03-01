@@ -18,7 +18,8 @@ class Header extends React.Component {
     atom: atomPropType,
     saveState: PropTypes.object,
     atomActions: PropTypes.shape({
-      publishAtom: PropTypes.func.isRequired
+      publishAtom: PropTypes.func.isRequired,
+      takeDownAtom: PropTypes.func.isRequired
     }).isRequired,
   }
 
