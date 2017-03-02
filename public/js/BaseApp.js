@@ -6,7 +6,7 @@ import {Page} from './components/Page';
 import {AtomCreateTypeSelect} from './components/AtomCreate/AtomCreateTypeSelect';
 import AtomCreateGenericInfo from './components/AtomCreate/AtomCreateGenericInfo';
 import AtomEdit from './components/AtomEdit/AtomEdit';
-import AtomStats from './components/AtomStats/AtomStats';
+import {AtomStats} from './components/AtomStats/AtomStats';
 
 export class BaseApp extends React.Component {
 
@@ -22,7 +22,7 @@ export class BaseApp extends React.Component {
             <Route path="/create" component={AtomCreateTypeSelect} />
             <Route path="/create/:atomType" component={AtomCreateGenericInfo} />
             <Route path="/atoms/:atomType/:id/edit" component={AtomEdit} />
-            <Route path="/atoms/:atomType/:id/stats" component={AtomStats} />
+            <Route path="/atoms/:id/stats" component={AtomStats} />
             <IndexRedirect to="/create" />
           </Route>
         </Router>
