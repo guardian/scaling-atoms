@@ -205,6 +205,10 @@ $toolbarHeight: 50px;
     background-color: $cYellow;
     color: $textColor;
   }
+
+  &--taken-down {
+    background-color: $cRedB5;
+  }
 }
 
 .word-count__message {

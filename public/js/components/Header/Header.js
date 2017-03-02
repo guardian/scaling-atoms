@@ -18,12 +18,17 @@ class Header extends React.Component {
     atom: atomPropType,
     saveState: PropTypes.object,
     atomActions: PropTypes.shape({
-      publishAtom: PropTypes.func.isRequired
+      publishAtom: PropTypes.func.isRequired,
+      takeDownAtom: PropTypes.func.isRequired
     }).isRequired,
   }
 
   publishAtom = () => {
     this.props.atomActions.publishAtom(this.props.atom);
+  }
+
+  takeDownAtom = () => {
+    this.props.atomActions.takeDownAtom(this.props.atom);
   }
 
   renderSaveState = () => {
@@ -70,7 +75,18 @@ class Header extends React.Component {
       return (
         <div className="toolbar__container">
           <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button>
+          {this.renderTakeDownButton(atomPublishState)}
         </div>
+      );
+    }
+    return false;
+  }
+
+  renderTakeDownButton = (atomPublishState) => {
+
+    if(atomPublishState.id !== 'draft') {
+      return (
+        <button type="button" disabled={atomPublishState.id === 'taken-down'} onClick={this.takeDownAtom} className="toolbar__item toolbar__button">Take down</button>
       );
     }
     return false;
@@ -102,6 +118,7 @@ class Header extends React.Component {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
+import * as takeDownAtomActions from '../../actions/AtomActions/takeDownAtom.js';
 
 function mapStateToProps(state) {
   return {
@@ -112,7 +129,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    atomActions: bindActionCreators(Object.assign({}, publishAtomActions), dispatch)
+    atomActions: bindActionCreators(Object.assign({}, publishAtomActions, takeDownAtomActions), dispatch)
   };
 }
 

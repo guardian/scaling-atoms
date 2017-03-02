@@ -20,6 +20,11 @@ export default function atom(state = null, action) {
         contentChangeDetails: action.atom.contentChangeDetails
       }) || false;
 
+    case 'ATOM_TAKE_DOWN_RECEIVE':
+      return Object.assign({}, state, {
+        contentChangeDetails: action.atom.contentChangeDetails
+      }) || false;
+
     default:
       return state;
   }

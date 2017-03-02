@@ -67,6 +67,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
         liveDs <- AtomDataStores.getDataStore(atomType, Live)
         currentDraftAtom <- atomWorkshopDB.getAtom(previewDs, atomType, id)
         updatedAtom <- atomWorkshopDB.publishAtom(liveDs, req.user, updateTopLevelFields(currentDraftAtom, req.user, publish=true))
+        _ <- atomWorkshopDB.updateAtom(previewDs, updatedAtom)
         _ <- sendKinesisEvent(updatedAtom, liveAtomPublisher, EventType.Update)
         _ <- sendKinesisEvent(updatedAtom, previewAtomPublisher, EventType.Update)
       } yield updatedAtom
@@ -121,12 +122,13 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
       for {
         atomType <- validateAtomType(atomType)
         liveDataStore <- AtomDataStores.getDataStore(atomType, Live)
+        previewDataStore <- AtomDataStores.getDataStore(atomType, Preview)
         atom <- atomWorkshopDB.getAtom(liveDataStore, atomType, id)
-        updatedAtom = updateTakenDownChangeRecord(atom, req.user)
+        updatedAtom <- atomWorkshopDB.updateAtom(previewDataStore, updateTakenDownChangeRecord(atom, req.user))
         result <- atomWorkshopDB.deleteAtom(liveDataStore, atomType, id)
         _ <- sendKinesisEvent(updatedAtom, liveAtomPublisher, EventType.Takedown)
         _ <- sendKinesisEvent(updatedAtom, previewAtomPublisher, EventType.Update)
-      } yield AtomWorkshopAPIResponse("Atom taken down")
+      } yield updatedAtom
     }
   }
 

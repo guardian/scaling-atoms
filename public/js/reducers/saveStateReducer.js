@@ -22,6 +22,11 @@ export default function saveState(state = {
         saving: saveStateVals.inprogress
       });
 
+    case 'ATOM_TAKE_DOWN_REQUEST':
+      return Object.assign({}, state, {
+        saving: saveStateVals.inprogress
+      });
+
     case 'ATOM_GET_RECEIVE':
       return Object.assign({}, state, {
         saving: false
@@ -33,6 +38,11 @@ export default function saveState(state = {
       });
 
     case 'ATOM_UPDATE_RECEIVE':
+      return Object.assign({}, state, {
+        saving: false
+      });
+
+    case 'ATOM_TAKE_DOWN_RECEIVE':
       return Object.assign({}, state, {
         saving: false
       });
