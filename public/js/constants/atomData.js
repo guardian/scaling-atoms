@@ -30,7 +30,7 @@ export const storyQuestions = {
 };
 
 export const allAtomTypes = [cta, explainer, recipe, storyQuestions];
-export const supportedAtomTypes = [cta, storyQuestions];
+export const supportedAtomTypes = [cta, storyQuestions, recipe];
 
 export function getAtomByType(type) {
   return allAtomTypes.filter((atomData) => atomData.type.toLowerCase() === type.toLowerCase())[0];

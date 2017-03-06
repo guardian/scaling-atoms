@@ -1,14 +1,11 @@
 import React, { PropTypes } from 'react';
-
 import {allAtomTypes} from '../../constants/atomData';
-import {atomTitleExtractor} from '../../util/atomTitleExtractor';
-import publishState from '../../util/publishState';
-import {supportedAtomTypes} from '../../constants/atomData';
 import {ManagedField} from '../ManagedEditor';
 import FormFieldTextInput from '../FormFields/FormFieldTextInput';
 import FormFieldCheckboxGroup from '../FormFields/FormFieldCheckboxGroup';
 import FormFieldSelectBox from '../FormFields/FormFieldSelectBox';
-import {Link} from 'react-router';
+import AtomListItem from '../AtomListItem/AtomListItem';
+
 
 class AtomList extends React.Component {
 
@@ -43,40 +40,7 @@ class AtomList extends React.Component {
             params: newParams
         }, () => this.props.atomListActions.getAtomList(this.state.params));
     };
-
-    getUserString = (changeRecord) => {
-        if (!changeRecord || !changeRecord.user) return 'unknown';
-        if (!changeRecord.user.firstName || !changeRecord.user.lastName) return changeRecord.user.email;
-        return `${changeRecord.user.firstName} ${changeRecord.user.lastName}`;
-    };
-
-    getDateString = (changeRecord) => {
-        if (!changeRecord) return 'unknown';
-        const date = new Date(changeRecord.date);
-        return `${date.toLocaleDateString()} ${date.toLocaleTimeString('en-GB', {formatMatcher: "basic"})}`;
-    };
-
-    renderEditorLink = (atom) => {
-        const title = atomTitleExtractor(atom);
-        if (supportedAtomTypes.map((t)=>t.type).indexOf(atom.atomType) !== -1) {
-            return <Link to={`/atoms/${atom.atomType}/${atom.id}/edit`}
-                         className="atom-list__link atom-list__editor-link"
-                         key={atom.id}>
-                {title}</Link>;
-        }
-        function externalEditorUrl(editorUrls) {
-            switch(atom.atomType) {
-                case ("explainer"): return `${editorUrls.explainer}/explain/${atom.id}`;
-                case ("media"): return `${editorUrls.media}/videos/${atom.id}`;
-            }
-        }
-
-        return <a target="_blank"
-                  href={externalEditorUrl(this.props.config.atomEditorUrls)}
-                  className="atom-list__link atom-list__editor-link">
-                {title}</a>;
-    };
-
+    
     render () {
 
         if (!this.props.atomList) {
@@ -98,11 +62,7 @@ class AtomList extends React.Component {
                                           updateData={this.updateAtomList}
                                           fieldLocation="types"
                                           name="Atom Types:">
-                                <FormFieldCheckboxGroup
-                                    fieldLabel="Atom Types:"
-                                    fieldName="Atom Types"
-                                    fieldValue={[]}
-                                    checkValues={allAtomTypes.map((t)=>t.type)}/>
+                                <FormFieldCheckboxGroup checkValues={allAtomTypes.map((t)=>t.type)}/>
                             </ManagedField>
                         </div>
                         <div className="atom-list-filters__page-size">
@@ -125,24 +85,7 @@ class AtomList extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                        {this.props.atomList.map((atom) => (
-                            <tr className="atom-list__row" key={atom.id}>
-                                <td className="atom-list__item">
-                                    {this.renderEditorLink(atom)}
-                                </td>
-                                <td className="atom-list__item">{atom.atomType}</td>
-                                <td className="atom-list__item">{this.getDateString(atom.contentChangeDetails.lastModified)}</td>
-                                <td className="atom-list__item">
-                                    {this.getUserString(atom.contentChangeDetails.created)}
-                                </td>
-                                <td className="atom-list__item">{publishState(atom).text}</td>
-                                <td className="atom-list__item">
-                                    <Link to={`/atoms/${atom.atomType}/${atom.id}/stats`} className="atom-list__link " key={atom.id}>
-                                        Atom stats
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
+                        {this.props.atomList.map((atom) => <AtomListItem atom={atom} config={this.props.config} key={atom.id}/>)}
                         </tbody>
                     </table>
                 </div>

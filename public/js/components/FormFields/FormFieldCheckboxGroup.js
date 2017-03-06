@@ -7,13 +7,13 @@ export default class FormFieldCheckboxGroup extends React.Component {
 
   static propTypes = {
 
-    fieldLabel: PropTypes.string.isRequired,
-    fieldName: PropTypes.string.isRequired,
-    fieldValue: PropTypes.array.isRequired,
+    fieldLabel: PropTypes.string,
+    fieldName: PropTypes.string,
+    fieldValue: PropTypes.array,
     checkValues: PropTypes.array.isRequired,
     fieldErrors: PropTypes.arrayOf(errorPropType),
     formRowClass: PropTypes.string,
-    onUpdateField: PropTypes.func.isRequired
+    onUpdateField: PropTypes.func
   };
 
   isChecked = (checkValue) => {
