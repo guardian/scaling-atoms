@@ -69,6 +69,6 @@ export default class AtomListItem extends React.Component {
                     Atom stats
                 </Link>
             </td>
-        </tr>
+        </tr>;
     }
 }
