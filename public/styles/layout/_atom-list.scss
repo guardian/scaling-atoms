@@ -26,29 +26,29 @@
   }
 
   &__row {
-    background-color: #edf7f9;
+    background-color: $color100Grey;
     border: {
-      bottom: 1px solid $color150Grey;
-      left: 5px solid #00adee;
-      right: 5px solid #00adee;
+      bottom: 1px solid $color200Grey;
+      left: 5px solid $brandColor;
+      right: 5px solid $brandColor;
     };
 
     &:hover {
       border: {
-        left: 5px solid $color150Grey;
-        right: 5px solid $color150Grey;
+        left: 5px solid $color200Grey;
+        right: 5px solid $color200Grey;
       };
-      background-color: $color150Grey;
+      background-color: $color200Grey;
     }
   }
 
   &__header-row {
-    background-color: $color150Grey;
+    background-color: $color300Grey;
     border: {
-      left: 5px solid $color150Grey;
-      right: 5px solid $color150Grey;
+      left: 5px solid $color300Grey;
+      right: 5px solid $color300Grey;
     };
-    color: $color700Grey;
+    color: $textColor;
     text-align: left;
     font-size: 13px;
     font-weight: bold;
