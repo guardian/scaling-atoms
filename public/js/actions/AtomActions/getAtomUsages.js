@@ -1,4 +1,4 @@
-import capi from '../../services/capi';
+import {fetchAtomUsages, getByPath} from '../../services/capi';
 import {logError} from '../../util/logger';
 
 
@@ -32,12 +32,12 @@ function errorReceivingAtomUsages(error) {
 export function getAtomUsages(atomId, atomType) {
   return dispatch => {
     dispatch(requestAtomUsages());
-    return capi.getAtomUsages(atomId, atomType)
+    return fetchAtomUsages(atomId, atomType)
     .then(res => {
 
       // the atom usage endpoint in capi only returns article paths,
       // lookup the articles in capi to get their fields
-      Promise.all(res.map(capi.getByPath))
+      Promise.all(res.map(getByPath))
         .then(capiResponse => {
           const usages = capiResponse.reduce((all, item) => {
             all.push(item.response.content);

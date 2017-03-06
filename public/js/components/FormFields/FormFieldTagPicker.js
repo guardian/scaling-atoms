@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import ShowErrors from '../Utilities/ShowErrors';
 import { errorPropType } from '../../constants/errorPropType';
-import capi from '../../services/capi';
+import {searchTags} from '../../services/capi';
 
 export default class FormFieldTagPicker extends React.Component {
 
@@ -42,7 +42,7 @@ export default class FormFieldTagPicker extends React.Component {
       searchText: searchText
     });
 
-    capi.searchTags(searchText).then((results) => {
+    searchTags(searchText).then((results) => {
       this.setState({
         suggestions: results
       });

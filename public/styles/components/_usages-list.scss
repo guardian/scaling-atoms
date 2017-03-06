@@ -7,19 +7,20 @@
 .usages-list__item {
   padding: 10px 0;
 
-  &__link {
-    text-decoration: none;
+  &__name {
     font-weight: bold;
-    display: block;
-    margin-bottom: 2px;
-    color: $textColor;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    margin-bottom: 2px
   }
 
   &:not(:last-child) {
     border-bottom: 1px solid $color300Grey;
   }
+}
+
+.usages-list__details {
+  margin-right: 10px;
+}
+
+.usages-list__link {
+  padding-left: 10px;
 }

@@ -1,4 +1,4 @@
-import capi from '../../services/capi';
+import {searchAtoms} from '../../services/capi';
 import {logError} from '../../util/logger';
 
 
@@ -31,7 +31,7 @@ function errorReceivingAtomList(error) {
 export function getAtomList(searchParams) {
     return dispatch => {
         dispatch(requestAtomList(searchParams));
-        return capi.searchAtoms(searchParams)
+        return searchAtoms(searchParams)
             .then(atomList => dispatch(receiveAtomList(atomList)))
             .catch(error => dispatch(errorReceivingAtomList(error)));
     };

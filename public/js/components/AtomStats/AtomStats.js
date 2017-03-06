@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {atomPropType} from '../../constants/atomPropType';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import {FrontendIcon, ComposerIcon, ViewerIcon} from '../../util/icons.js';
 
 class AtomStats extends React.Component {
   static propTypes = {
@@ -12,7 +13,11 @@ class AtomStats extends React.Component {
       getAtomUsages: PropTypes.func.isRequired,
     }).isRequired,
     atom: atomPropType,
-    atomUsages: PropTypes.array
+    atomUsages: PropTypes.array,
+    config: PropTypes.shape({
+      composerUrl: PropTypes.string.isRequired,
+      viewerUrl: PropTypes.string.isRequired
+    }).isRequired
   }
 
   componentWillMount() {
@@ -43,20 +48,24 @@ class AtomStats extends React.Component {
   }
 
   renderAtomUsage = (usage, i) => {
-    const composerLink = `${this.config.composerUrl}/content/${usage.fields.internalComposerCode}`;
-    const viewerLink = `${this.config.viewerUrl}/preview/${usage.id}`;
+    const composerLink = `${this.props.config.composerUrl}/content/${usage.fields.internalComposerCode}`;
+    const viewerLink = `${this.props.config.viewerUrl}/preview/${usage.id}`;
     const websiteLink = `https://www.theguardian.com/${usage.id}`;
 
     return (
       <li className="usages-list__item" key={`usage-${i}`}>
-        <div className="usages-list__details">
-          <a className="usages-list__item__link" href={usage.webUrl}>{usage.fields.headline}</a>
-          <p className="usages-list__item__date">Created: {distanceInWordsToNow(usage.fields.creationDate, {addSuffix: true})}</p>
-        </div>
+        <p className="usages-list__item__name">{usage.fields.headline}</p>
         <div className="usages-list__links">
-          <a href={composerLink}>Composer</a>
-          <a href={viewerLink}>Viewer</a>
-          <a href={websiteLink}>Website</a>
+          <p className="usages-list__item__date">Created: {distanceInWordsToNow(usage.fields.creationDate, {addSuffix: true})}
+          <a className="usages-list__link" href={websiteLink} title="Open on theguardian.com" target="_blank">
+            <FrontendIcon />
+          </a>
+          <a className="usages-list__link" href={composerLink} title="Open in Composer" target="_blank">
+            <ComposerIcon />
+          </a>
+          <a className="usages-list__link" href={viewerLink} title="Open in Viewer" target="_blank">
+            <ViewerIcon />
+          </a></p>
         </div>
       </li>
     );
