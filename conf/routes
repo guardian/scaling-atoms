@@ -1,10 +1,11 @@
 #Client Side Routes
 GET     /                                        controllers.App.index(placeholder = "")
 GET     /create                                  controllers.App.index(placeholder = "")
+GET     /find                                    controllers.App.index(placeholder = "")
 GET     /create/:placeholder                     controllers.App.index(placeholder)
 GET     /atoms/:placeholder                      controllers.App.index(placeholder)
 GET     /atoms/:placeholder/:placeholder/edit    controllers.App.index(placeholder)
-GET     /atoms/:placeholder/stats                controllers.App.index(placeholder)
+GET     /atoms/:placeholder/:placeholder/stats   controllers.App.index(placeholder)
 
 
 GET     /healthcheck                             controllers.Healthcheck.healthcheck

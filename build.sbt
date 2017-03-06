@@ -30,7 +30,7 @@ routesGenerator := InjectedRoutesGenerator
 import com.typesafe.sbt.packager.archetypes.ServerLoader.Systemd
 serverLoading in Debian := Systemd
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, RiffRaffArtifact, JDebPackaging, net.virtualvoid.optimizer.SbtOptimizerPlugin)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, RiffRaffArtifact, JDebPackaging)
   .settings(Defaults.coreDefaultSettings: _*)
   .settings(
     name in Universal := normalizedName.value,

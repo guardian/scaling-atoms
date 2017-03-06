@@ -1,0 +1,16 @@
+.details-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__title {
+    font-weight: bold;
+  }
+}
+
+.details-list__item {
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}

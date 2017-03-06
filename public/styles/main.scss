@@ -14,6 +14,7 @@
 
 // 4. Layout-related sections
 @import 'layout/toolbar';
+@import 'layout/atom-list';
 
 // 5. Components
 @import 'components/buttons',
@@ -22,6 +23,9 @@
 'components/page',
 'components/modal',
 'components/loader',
+'components/icons',
+'components/details-list',
+'components/usages-list',
 'components/form-fields/image-select',
 'components/form-fields/scribe',
 'components/atom',

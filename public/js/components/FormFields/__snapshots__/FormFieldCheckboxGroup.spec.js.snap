@@ -11,13 +11,13 @@ exports[`test Should render 1`] = `
     <input
       checked={true}
       className="form__checkbox"
-      name="test-0"
+      name="one"
       onChange={[Function]}
       type="checkbox"
       value={true} />
     <span
       className="form__label form__label--checkbox">
-      test-0
+      one
     </span>
   </div>
   <div
@@ -25,13 +25,13 @@ exports[`test Should render 1`] = `
     <input
       checked={true}
       className="form__checkbox"
-      name="test-1"
+      name="two"
       onChange={[Function]}
       type="checkbox"
       value={true} />
     <span
       className="form__label form__label--checkbox">
-      test-1
+      two
     </span>
   </div>
   <div
@@ -39,13 +39,13 @@ exports[`test Should render 1`] = `
     <input
       checked={false}
       className="form__checkbox"
-      name="test-2"
+      name="three"
       onChange={[Function]}
       type="checkbox"
       value={false} />
     <span
       className="form__label form__label--checkbox">
-      test-2
+      three
     </span>
   </div>
 </div>

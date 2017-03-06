@@ -82,6 +82,19 @@ class Header extends React.Component {
     return false;
   }
 
+  renderCreateNewButton = () => {
+    if(location.pathname === "/find") {
+      return (
+          <div className="toolbar__container">
+            <Link to="/create" className="toolbar__item toolbar__button">
+            <button type="button" className="">Create new</button>
+              </Link>
+          </div>
+      );
+    }
+    return false;
+  }
+
   renderTakeDownButton = (atomPublishState) => {
 
     if(atomPublishState.id !== 'draft') {
@@ -109,6 +122,7 @@ class Header extends React.Component {
             {this.renderPublishedState()}
           </div>
             {this.renderPublishButton()}
+          {this.renderCreateNewButton()}
         </div>
     );
   }

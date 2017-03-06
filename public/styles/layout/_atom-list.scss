@@ -1,0 +1,103 @@
+.atom-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+
+  &__table {
+    width: 100%;
+    text-align: left;
+    background: $cWhite;
+  }
+
+  &__header {
+    padding: 5px;
+  }
+
+  &__header, &__item {
+    padding: 10px;
+  }
+
+  &__item {
+    padding: 0 5px;
+    text-align: left;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  &__row {
+    background-color: #edf7f9;
+    border: {
+      bottom: 1px solid $color150Grey;
+      left: 5px solid #00adee;
+      right: 5px solid #00adee;
+    };
+
+    &:hover {
+      border: {
+        left: 5px solid $color150Grey;
+        right: 5px solid $color150Grey;
+      };
+      background-color: $color150Grey;
+    }
+  }
+
+  &__header-row {
+    background-color: $color150Grey;
+    border: {
+      left: 5px solid $color150Grey;
+      right: 5px solid $color150Grey;
+    };
+    color: $color700Grey;
+    text-align: left;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  &__link {
+    font-weight: bold;
+    text-decoration: none;
+    color: $cBlueLink;
+    cursor: pointer;
+    padding: 5px 0;
+    display: block;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__editor-link {
+    width: 200px;
+  }
+
+  &__delete {
+    width: 100px;
+    text-align: right;
+
+    & button {
+      vertical-align: middle;
+    }
+  }
+}
+
+.atom-list-filters {
+
+  &__search-box {
+    width: 45%;
+    float: left;
+    padding: 10px;
+  }
+
+  &__types-filter {
+    width:45%;
+    float:left;
+    padding: 10px;
+
+  }
+
+  &__page-size {
+    width: 10%;
+    float:left;
+  }
+}

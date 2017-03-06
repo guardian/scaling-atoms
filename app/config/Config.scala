@@ -5,6 +5,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient
 import com.amazonaws.services.kinesis.AmazonKinesisClient
 import play.api.Configuration
+import models.AtomEditorUrls
 import services.AwsInstanceTags
 import com.gu.cm.{Mode, Configuration => ConfigurationMagic}
 
@@ -57,6 +58,8 @@ object Config extends AwsInstanceTags {
   val publishedDynamoTableName = config.getString("aws.dynamo.live.tableName")
 
   val gridUrl = config.getString("grid.url")
+  val composerUrl = config.getString("composer.url")
+  val viewerUrl = config.getString("viewer.url")
 
   val liveKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.publish.live")
   val previewKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.publish.preview")
@@ -67,6 +70,8 @@ object Config extends AwsInstanceTags {
   val capiLiveUrl = config.getString("capi.liveUrl")
   val capiUsername = config.getString("capi.previewUsername")
   val capiPassword = config.getString("capi.previewPassword")
+
+  val atomEditorUrls = AtomEditorUrls(config.getString("atom.editor.url.explainer"), config.getString("atom.editor.url.media"))
 
   val kinesisClient = region.createClient(
     classOf[AmazonKinesisClient],
