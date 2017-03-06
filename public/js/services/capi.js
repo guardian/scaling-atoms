@@ -22,7 +22,7 @@ export const sanitiseQuery = (query) => {
 
 export const searchAtoms = (query) => {
   return pandaFetch(
-    `/support/previewCapi/atoms?${uriEncodeParams(this.sanitiseQuery(query))}`,
+    `/support/previewCapi/atoms?${uriEncodeParams(sanitiseQuery(query))}`,
     {
       method: 'get',
       credentials: 'same-origin'
