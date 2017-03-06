@@ -15,7 +15,8 @@ case class ClientConfig(
                          atomEditorUrls: AtomEditorUrls,
                          composerUrl: String,
                          viewerUrl: String,
-                         capiLiveUrl: String
+                         capiLiveUrl: String,
+                         presenceEndpointURL: String
                        )
 
 object ClientConfig {
