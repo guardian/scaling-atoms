@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
-
+import configurePresence from './util/configurePresence';
 import configureStore from './util/configureStore';
 import { setStore } from './util/storeAccessor';
 
@@ -23,14 +23,22 @@ function extractConfigFromPage() {
 
 
 const store = configureStore();
+const config = extractConfigFromPage();
+const presence = configurePresence(config.presenceEndpointURL, config.user);
 
 setStore(store);
 
 // Send config to store on init
 store.dispatch({
     type:       'CONFIG_RECEIVED',
-    config:     extractConfigFromPage(),
+    config:     config,
     receivedAt: Date.now()
+});
+
+store.dispatch({
+  type: 'PRESENCE_STARTED',
+  presence: presence,
+  receivedAt: Date.now()
 });
 
 const render = (Component) => {

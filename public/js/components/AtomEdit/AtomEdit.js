@@ -5,8 +5,7 @@ import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
 import {StoryQuestionsEditor} from './CustomEditors/StoryQuestionsEditor';
 
 import AtomEditHeader from './AtomEditHeader';
-
-import {atomPropType} from '../../constants/atomPropType.js';
+import {atomPropType} from '../../constants/atomPropType';
 
 class AtomEdit extends React.Component {
 
@@ -19,7 +18,6 @@ class AtomEdit extends React.Component {
       gridUrl: PropTypes.string,
     })
   }
-
 
   updateAtom = (newAtom) => {
     this.props.atomActions.updateAtom(newAtom);
