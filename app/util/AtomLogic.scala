@@ -16,6 +16,8 @@ import io.circe.generic.auto._
 import io.circe.generic.semiauto._
 import models._
 import util.AtomElementBuilders._
+import cats.data.{NonEmptyList, Validated}
+
 
 object AtomLogic {
 
@@ -37,7 +39,6 @@ object AtomLogic {
   def processException(exception: Exception): Either[AtomAPIError, Nothing] = {
     val atomApiError = exception match {
       case e: ParsingFailure => AtomJsonParsingError(e.message)
-      case e: DecodingFailure => AtomThriftDeserialisingError(e.message)
       case e: AmazonDynamoDBException => AmazonDynamoError(e.getMessage)
       case _ => UnexpectedExceptionError
     }
@@ -45,8 +46,27 @@ object AtomLogic {
     Left(atomApiError)
   }
 
-  def extractRequestBody(body: Option[String]): Either[AtomAPIError, String] =
+  def processExceptionList(errorList:NonEmptyList[DecodingFailure]) = {
+    val niceErrorList:Map[String,String] = errorList.toList.map(error=>{
+      val errorPath = error.history.reverse.foldLeft("") { (accum:String, history:CursorOp)=>history match {
+        case CursorOp.DownField(f)=>accum +  f + "."
+        case _=>accum + "." + history.toString
+      }
+
+      }
+      val xtractor = "Missing field: (\\S+)$".r
+      val fieldname = xtractor.findAllMatchIn(error.message).toList.head.group(1)
+
+      //s"""{"$fieldname$errorPath":"${error.message}"}"""
+      s"$errorPath$fieldname" -> error.message
+    })(collection.breakOut)
+
+    AtomThriftDeserialisingError(s"Unable to process json into atom", niceErrorList)
+  }
+
+  def extractRequestBody(body: Option[String]): Either[AtomAPIError, String]= {
     Either.cond(body.isDefined, body.get, BodyRequiredForUpdateError)
+  }
 
   def extractCreateAtomFields(body: Option[String]): Either[AtomAPIError, Option[CreateAtomFields]] = {
     body.map { body =>
@@ -74,7 +94,11 @@ object Parser {
 
   def jsonToAtom(json: Json): Either[AtomAPIError, Atom] = {
     Logger.info(s"Parsing json: $json")
-    json.as[Atom].fold(processException, m => Right(m))
+    val decoder = Decoder[Atom]
+    decoder.accumulating(json.hcursor) match {
+      case Validated.Valid(atom)=>Right(atom)
+      case Validated.Invalid(errorList)=>Left(processExceptionList(errorList))
+    }
   }
 
   def stringToJson(atomJson: String): Either[AtomAPIError, Json] = {

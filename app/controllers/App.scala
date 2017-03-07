@@ -117,7 +117,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
         result <- atomWorkshopDB.deleteAtom(previewDataStore, atomType, id)
         atom <- liveAtom
         _ <- sendKinesisEvent(atom, previewAtomPublisher, EventType.Takedown)
-      } yield AtomWorkshopAPIResponse("Atom deleted from preview")
+      } yield AtomWorkshopAPIResponse("Atom deleted from preview", None)
     }
   }
 
