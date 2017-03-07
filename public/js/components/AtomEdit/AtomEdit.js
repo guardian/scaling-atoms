@@ -4,6 +4,8 @@ import {RecipeEditor} from './CustomEditors/RecipeEditor';
 import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
 import {StoryQuestionsEditor} from './CustomEditors/StoryQuestionsEditor';
 
+import {connectPresenceToAtom} from '../../util/presenceHelpers';
+
 import AtomEditHeader from './AtomEditHeader';
 import {atomPropType} from '../../constants/atomPropType';
 
@@ -17,6 +19,10 @@ class AtomEdit extends React.Component {
     config: PropTypes.shape({
       gridUrl: PropTypes.string,
     })
+  }
+
+  componentWillMount() {
+    connectPresenceToAtom();
   }
 
   updateAtom = (newAtom) => {
