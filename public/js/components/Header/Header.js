@@ -137,7 +137,8 @@ import * as takeDownAtomActions from '../../actions/AtomActions/takeDownAtom.js'
 function mapStateToProps(state) {
   return {
     atom: state.atom,
-    saveState: state.saveState
+    saveState: state.saveState,
+    presence: state.presence
   };
 }
 

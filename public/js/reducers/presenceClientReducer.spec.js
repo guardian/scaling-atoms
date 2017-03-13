@@ -1,16 +1,16 @@
-import presence from './presenceReducer';
+import presenceClient from './presenceClientReducer';
 
 describe('presence reducer', () => {
 
   it('should return the initial state', () => {
     expect(
-      presence(undefined, {})
+      presenceClient(undefined, {})
     ).toEqual({}, {});
   });
 
   it('should handle PRESENCE_STARTED', () => {
     expect(
-      presence({}, {
+      presenceClient({}, {
         type: 'PRESENCE_STARTED',
         presence: 'this is presence'
       })

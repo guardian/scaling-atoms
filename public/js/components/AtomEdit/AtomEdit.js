@@ -4,7 +4,7 @@ import {RecipeEditor} from './CustomEditors/RecipeEditor';
 import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
 import {StoryQuestionsEditor} from './CustomEditors/StoryQuestionsEditor';
 
-import {connectPresenceToAtom} from '../../util/presenceHelpers';
+import {subscribeToPresence, enterPresence} from '../../services/presence';
 
 import AtomEditHeader from './AtomEditHeader';
 import {atomPropType} from '../../constants/atomPropType';
@@ -12,6 +12,10 @@ import {atomPropType} from '../../constants/atomPropType';
 class AtomEdit extends React.Component {
 
   static propTypes = {
+    routeParams: PropTypes.shape({
+      atomType: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired
+    }).isRequired,
     atomActions: PropTypes.shape({
       updateAtom: PropTypes.func.isRequired
     }).isRequired,
@@ -22,11 +26,12 @@ class AtomEdit extends React.Component {
   }
 
   componentWillMount() {
-    connectPresenceToAtom();
+    subscribeToPresence(this.props.routeParams.id, this.props.routeParams.atomType);
   }
 
   updateAtom = (newAtom) => {
     this.props.atomActions.updateAtom(newAtom);
+    enterPresence(this.props.routeParams.id, this.props.routeParams.atomType);
   }
 
   renderSpecificEditor () {
@@ -75,7 +80,8 @@ import * as updateAtomActions from '../../actions/AtomActions/updateAtom.js';
 function mapStateToProps(state) {
   return {
     config: state.config,
-    atom: state.atom
+    atom: state.atom,
+    presence: state.presence
   };
 }
 
