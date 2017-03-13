@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
 import publishState from '../../util/publishState';
+import PresenceIndicator from '../Utilities/PresenceIndicator';
 import {saveStateVals} from '../../constants/saveStateVals';
 import distanceInWords from 'date-fns/distance_in_words';
 
@@ -16,6 +17,7 @@ class Header extends React.Component {
 
   static propTypes = {
     atom: atomPropType,
+    presence: PropTypes.object,
     saveState: PropTypes.object,
     atomActions: PropTypes.shape({
       publishAtom: PropTypes.func.isRequired,
@@ -74,6 +76,9 @@ class Header extends React.Component {
 
       return (
         <div className="toolbar__container">
+          <div className="toolbar__item">
+            {this.props.presence ? <PresenceIndicator presence={this.props.presence} /> : false}
+          </div>
           <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button>
           {this.renderTakeDownButton(atomPublishState)}
         </div>
