@@ -8,11 +8,11 @@ describe('presence reducer', () => {
     ).toEqual({}, {});
   });
 
-  it('should handle PRESENCE_STARTED', () => {
+  it('should handle PRESENCE_CLIENT_STARTED', () => {
     expect(
       presenceClient({}, {
-        type: 'PRESENCE_STARTED',
-        presence: 'this is presence'
+        type: 'PRESENCE_CLIENT_STARTED',
+        presenceClient: 'this is presence'
       })
     ).toEqual('this is presence');
   });
