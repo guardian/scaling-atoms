@@ -24,7 +24,7 @@ function extractConfigFromPage() {
 
 const store = configureStore();
 const config = extractConfigFromPage();
-const presence = configurePresence(config.presenceEndpointURL, config.user);
+const presenceClient = configurePresence(config.presenceEndpointURL, config.user);
 
 setStore(store);
 
@@ -36,8 +36,8 @@ store.dispatch({
 });
 
 store.dispatch({
-  type: 'PRESENCE_STARTED',
-  presence: presence,
+  type: 'PRESENCE_CLIENT_STARTED',
+  presenceClient: presenceClient,
   receivedAt: Date.now()
 });
 
