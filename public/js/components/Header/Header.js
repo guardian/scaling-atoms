@@ -33,6 +33,13 @@ class Header extends React.Component {
     this.props.atomActions.takeDownAtom(this.props.atom);
   }
 
+  isEditor = () => {
+    return location.pathname.search(new RegExp('\/atoms\/.*\/.*\/edit', 'g')) >= 0;
+  }
+
+  isList = () =>  location.pathname === "/find";
+
+
   renderSaveState = () => {
     const dateNow = Date.now();
     const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : this.props.atom.contentChangeDetails.created.date;
@@ -49,7 +56,7 @@ class Header extends React.Component {
   }
 
   renderPublishedState = () => {
-    if(this.props.atom) {
+    if(this.isEditor() && this.props.atom) {
 
       const atomPublishState = publishState(this.props.atom);
 
@@ -70,7 +77,7 @@ class Header extends React.Component {
   }
 
   renderPublishButton = () => {
-    if(this.props.atom) {
+    if(this.isEditor() && this.props.atom) {
 
       const atomPublishState = publishState(this.props.atom);
 
@@ -88,7 +95,7 @@ class Header extends React.Component {
   }
 
   renderCreateNewButton = () => {
-    if(location.pathname === "/find") {
+    if(this.isList()) {
       return (
           <div className="toolbar__container">
             <Link to="/create" className="toolbar__item toolbar__button">
@@ -102,7 +109,7 @@ class Header extends React.Component {
 
   renderTakeDownButton = (atomPublishState) => {
 
-    if(atomPublishState.id !== 'draft') {
+    if(this.isEditor() && atomPublishState.id !== 'draft') {
       return (
         <button type="button" disabled={atomPublishState.id === 'taken-down'} onClick={this.takeDownAtom} className="toolbar__item toolbar__button">Take down</button>
       );
