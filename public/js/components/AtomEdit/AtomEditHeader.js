@@ -22,8 +22,8 @@ export default class AtomEditHeader extends React.Component {
     }
 
     const date = new Date(dateInfo.date);
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}` +
-            ` by ${dateInfo.user.firstName} ${dateInfo.user.lastName}`;
+    const nameOfUser = dateInfo.user ? ` by ${dateInfo.user.firstName} ${dateInfo.user.lastName}` : '';
+    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()} ${nameOfUser}`;
   }
 
 

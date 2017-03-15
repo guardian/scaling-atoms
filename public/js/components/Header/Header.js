@@ -43,10 +43,16 @@ class Header extends React.Component {
     return location.pathname.search(new RegExp('\/atoms\/.*\/.*\/edit', 'g')) >= 0;
   }
 
+  timeSinceLastModified = () => {
+    if (this.props.atom.contentChangeDetails.created || this.props.atom.contentChangeDetails.lastModified) {
+      const dateNow = Date.now();
+      const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : this.props.atom.contentChangeDetails.created.date;
+      return distanceInWords(dateNow, lastModified, {addSuffix: true});
+    }
+    return false;
+  }
+
   renderSaveState = () => {
-    const dateNow = Date.now();
-    const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : this.props.atom.contentChangeDetails.created.date;
-    const timeSinceLastModified = distanceInWords(dateNow, lastModified, {addSuffix: true});
 
     if(this.props.saveState.saving === saveStateVals.inprogress) {
       return (
@@ -54,7 +60,7 @@ class Header extends React.Component {
       );
     }
     return (
-      <span><span className="save-state">Saved</span> {timeSinceLastModified}</span>
+      <span><span className="save-state">Saved</span> {this.timeSinceLastModified()}</span>
     );
   }
 

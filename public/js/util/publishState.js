@@ -10,7 +10,7 @@ const publishState = (atom) => {
       };
     }
 
-    if (atom.contentChangeDetails.published.date >= atom.contentChangeDetails.lastModified.date) {
+    if (atom.contentChangeDetails.lastModified && atom.contentChangeDetails.published.date >= atom.contentChangeDetails.lastModified.date) {
       return {
         id: 'published',
         text: 'Published'
