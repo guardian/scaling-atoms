@@ -1,4 +1,5 @@
 const publishState = (atom) => {
+  if (!atom) return {};
   // @TODO - Add "Taken down" state when the API returns a taken down time
   if (atom.contentChangeDetails.published) {
 

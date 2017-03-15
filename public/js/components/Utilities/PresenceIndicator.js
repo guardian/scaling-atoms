@@ -28,9 +28,11 @@ export default class PresenceIndicator extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.renderPresenceUsers()}
-      </div>
+        <div className="toolbar__item">
+          <div>
+            {this.renderPresenceUsers()}
+          </div>
+        </div>
     );
   }
 }
