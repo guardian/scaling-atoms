@@ -3,6 +3,7 @@ import {CTAEditor} from './CustomEditors/CTAEditor';
 import {RecipeEditor} from './CustomEditors/RecipeEditor';
 import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
 import {StoryQuestionsEditor} from './CustomEditors/StoryQuestionsEditor';
+import EmbeddedAtomPick from './EmbeddedAtomPick';
 
 import {subscribeToPresence, enterPresence} from '../../services/presence';
 
@@ -17,11 +18,14 @@ class AtomEdit extends React.Component {
       id: PropTypes.string.isRequired
     }).isRequired,
     atomActions: PropTypes.shape({
-      updateAtom: PropTypes.func.isRequired
+      updateAtom: PropTypes.func.isRequired,
+      publishAtom: PropTypes.func.isRequired
     }).isRequired,
     atom: atomPropType,
     config: PropTypes.shape({
       gridUrl: PropTypes.string,
+      embeddedMode: PropTypes.string,
+      isEmbedded: PropTypes.bool.isRequired
     })
   }
 
@@ -55,6 +59,14 @@ class AtomEdit extends React.Component {
     }
   }
 
+  renderEmbeddedCreate() {
+    if (!this.props.config.isEmbedded || this.props.config.embeddedMode !== "browse") {
+      return false;
+    }
+
+    return <EmbeddedAtomPick atom={this.props.atom} publishAtom={this.props.atomActions.publishAtom}/>;
+  }
+
   render() {
     if (!this.props.atom) {
       return <div>Loading...</div>;
@@ -62,6 +74,7 @@ class AtomEdit extends React.Component {
 
     return (
         <div className="atom-editor">
+          {this.renderEmbeddedCreate()}
           <AtomEditHeader atom={this.props.atom} onUpdate={this.updateAtom}/>
           <div className="atom-editor__form">
             {this.renderSpecificEditor()}
@@ -74,8 +87,8 @@ class AtomEdit extends React.Component {
 //REDUX CONNECTIONS
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as getAtomActions from '../../actions/AtomActions/getAtom.js';
 import * as updateAtomActions from '../../actions/AtomActions/updateAtom.js';
+import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
 
 function mapStateToProps(state) {
   return {
@@ -87,7 +100,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    atomActions: bindActionCreators(Object.assign({}, updateAtomActions, getAtomActions), dispatch)
+    atomActions: bindActionCreators(Object.assign({}, updateAtomActions, publishAtomActions), dispatch)
   };
 }
 

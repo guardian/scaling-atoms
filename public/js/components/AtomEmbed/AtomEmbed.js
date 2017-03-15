@@ -7,7 +7,8 @@ class AtomEmbed extends React.Component {
   static propTypes = {
     atom: atomPropType,
     config: PropTypes.shape({
-      capiLiveUrl: PropTypes.string
+      capiLiveUrl: PropTypes.string.isRequired,
+      isEmbedded: PropTypes.bool.isRequired
     })
   }
 
@@ -35,6 +36,11 @@ class AtomEmbed extends React.Component {
   }
 
   render () {
+
+    if (this.props.config.isEmbedded) {
+      return false;
+    }
+
     return (
       <div className="atom-embed">
         <div className="form">

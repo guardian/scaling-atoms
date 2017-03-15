@@ -38,7 +38,7 @@ export default class AtomEditHeader extends React.Component {
     return (
       <div className="atom-card--header" key={this.props.atom.atomType}>
         <div className="atom-card__icon">
-          <img src={`/assets/images/typeicons/${this.props.atom.atomType}-icon.svg`} />
+          <img src={`/assets/images/typeicons/${this.props.atom.atomType.toLowerCase()}-icon.svg`} />
         </div>
         <div className="atom-card__details">
           <h3 className="atom-card__heading">{atomTypeName} Atom</h3>

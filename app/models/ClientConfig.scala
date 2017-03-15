@@ -3,12 +3,6 @@ package models
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 
-case class AtomEditorUrls(explainer: String, media: String)
-object AtomEditorUrls {
-  implicit val atomEditorEncoder: Encoder[AtomEditorUrls] = deriveEncoder
-  implicit val atomEditorDecoder: Decoder[AtomEditorUrls] = deriveDecoder
-}
-
 case class User(firstName: String, lastName: String, email: String)
 object User {
   implicit val userEncoder: Encoder[User] = deriveEncoder
@@ -18,10 +12,12 @@ object User {
 case class ClientConfig(
                          user: User,
                          gridUrl: String,
-                         atomEditorUrls: AtomEditorUrls,
                          composerUrl: String,
                          viewerUrl: String,
                          capiLiveUrl: String,
+                         isEmbedded: Boolean,
+                         embeddedMode: Option[String],
+                         atomEditorGutoolsDomain: String,
                          presenceEndpointURL: String
                        )
 

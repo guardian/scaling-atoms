@@ -15,6 +15,11 @@ $toolbarHeight: 50px;
 
   box-shadow: 0px 1px 2px $color200Grey;
 
+  &--embedded {
+    background-color: $color200Grey;
+    width: 100%;
+  }
+
 }
 
 .toolbar__title {
@@ -124,6 +129,24 @@ $toolbarHeight: 50px;
 
   &:disabled {
     opacity: 0.5;
+  }
+
+  .toolbar--embedded & {
+    display: inline-block;
+    flex-grow: 0;
+    align-items: center;
+    text-decoration: none;
+    background-color: $brandColor;
+    color: white;
+
+    padding: 5px 20px;
+    margin: 10px;
+
+    &:hover:not(:disabled) {
+      background: $darkBrandColor;
+      box-shadow: none;
+    }
+
   }
 }
 

@@ -4,54 +4,31 @@
   width: 100%;
   margin: 0 auto;
 
-  &__table {
-    width: 100%;
-    text-align: left;
-    background: $cWhite;
-  }
-
-  &__header {
-    padding: 5px;
-  }
-
-  &__header, &__item {
-    padding: 10px;
-  }
-
   &__item {
-    padding: 0 5px;
-    text-align: left;
-    font-size: 13px;
-    line-height: 18px;
-  }
+    width: 100%;
+    background-color: #edf7f9;
+    display: flex;
+    margin-bottom: 5px;
 
-  &__row {
-    background-color: $color100Grey;
-    border: {
-      bottom: 1px solid $color200Grey;
-      left: 5px solid $brandColor;
-      right: 5px solid $brandColor;
-    };
-
-    &:hover {
-      border: {
-        left: 5px solid $color200Grey;
-        right: 5px solid $color200Grey;
-      };
-      background-color: $color200Grey;
+    &__icon {
+      justify-content: center;
+      align-items: center;
+      background-color: $brandColor;
+      padding: 5px;
     }
+
+    &__content {
+      flex-grow: 2;
+      padding: 10px;
+      text-align: left;
+      font-size: 13px;
+      line-height: 18px;
+    }
+
   }
 
-  &__header-row {
-    background-color: $color300Grey;
-    border: {
-      left: 5px solid $color300Grey;
-      right: 5px solid $color300Grey;
-    };
-    color: $textColor;
-    text-align: left;
-    font-size: 13px;
-    font-weight: bold;
+  &__item:nth-child(odd) {
+    background-color: #dbebef;
   }
 
   &__link {
@@ -59,45 +36,50 @@
     text-decoration: none;
     color: $cBlueLink;
     cursor: pointer;
-    padding: 5px 0;
-    display: block;
+    display: inline-block;
 
     &:hover {
       text-decoration: underline;
     }
   }
 
-  &__editor-link {
-    width: 200px;
+  &__icon {
+    background-color: $color600Grey;
+    width: 15px;
+    height: 15px;
+    position:relative;
+    top: 3px;
+    margin-left: 5px;
   }
 
-  &__delete {
-    width: 100px;
-    text-align: right;
+  &__title {
+    font-size: 15px;
 
-    & button {
-      vertical-align: middle;
-    }
+    padding: 5px 0;
   }
+
 }
 
 .atom-list-filters {
 
+  display: flex;
+  flex-wrap: wrap;
+
   &__search-box {
-    width: 45%;
-    float: left;
+    flex-grow: 1;
     padding: 10px;
+    min-width: 350px;
   }
 
   &__types-filter {
-    width:45%;
-    float:left;
     padding: 10px;
-
+    max-width: 260px;
+    flex-grow: 1
   }
 
   &__page-size {
-    width: 10%;
-    float:left;
+    flex-grow: 0;
+    width: 100px;
+    padding: 10px;
   }
 }

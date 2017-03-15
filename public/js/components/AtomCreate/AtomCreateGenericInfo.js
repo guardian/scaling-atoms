@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
-import {getAtomByType} from '../../constants/atomData';
+import {getAtomByType, isAtomTypeEditable} from '../../constants/atomData';
 import {AtomTypeCard} from '../AtomTypeCard/AtomTypeCard.js';
 import FormFieldTextInput from '../FormFields/FormFieldTextInput';
+import AtomCreateExternalApp from './AtomCreateExternalApp';
 
 class AtomCreateGenericInfo extends React.Component {
 
@@ -49,6 +50,10 @@ class AtomCreateGenericInfo extends React.Component {
       return <div>Unrecognised Atom Type</div>;
     }
 
+    if (!isAtomTypeEditable(this.props.routeParams.atomType)) {
+      return <AtomCreateExternalApp atomType={atomType} />;
+    }
+
     return (
       <div className="atom-editor">
         <h1 className="atom-editor__title">{`Create new ${this.props.routeParams.atomType}`}</h1>
@@ -56,16 +61,16 @@ class AtomCreateGenericInfo extends React.Component {
           <AtomTypeCard atomType={atomType} />
           <Link className="link" to="/create">Select different atom</Link>
         </div>
-          <form className="form">
-            <FormFieldTextInput
-              fieldLabel="Title"
-              fieldName="title"
-              fieldValue={this.state.title}
-              fieldPlaceholder="Enter a title for this atom"
-              onUpdateField={this.updateTitle}
-            />
-            <button className="btn" type="submit" disabled={!this.shouldEnableCreateButton()} onClick={this.triggerAtomCreate}>Create Atom</button>
-          </form>
+        <form className="form">
+          <FormFieldTextInput
+            fieldLabel="Title"
+            fieldName="title"
+            fieldValue={this.state.title}
+            fieldPlaceholder="Enter a title for this atom"
+            onUpdateField={this.updateTitle}
+          />
+          <button className="btn" type="submit" disabled={!this.shouldEnableCreateButton()} onClick={this.triggerAtomCreate}>Create Atom</button>
+        </form>
       </div>
     );
   }

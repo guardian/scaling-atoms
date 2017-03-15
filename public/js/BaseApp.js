@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import { Provider } from 'react-redux';
 import {Router, Route, browserHistory, IndexRedirect} from 'react-router';
 
-import {Page} from './components/Page';
+import Page from './components/Page';
 import {AtomCreateTypeSelect} from './components/AtomCreate/AtomCreateTypeSelect';
 import AtomCreateGenericInfo from './components/AtomCreate/AtomCreateGenericInfo';
 import AtomEdit from './components/AtomEdit/AtomEdit';

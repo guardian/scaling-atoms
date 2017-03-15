@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+
 import {allAtomTypes} from '../../constants/atomData';
 import {ManagedField} from '../ManagedEditor';
 import FormFieldTextInput from '../FormFields/FormFieldTextInput';
@@ -14,14 +15,15 @@ class AtomList extends React.Component {
             atomEditorUrls: PropTypes.shape({
                 explainer: PropTypes.string,
                 media: PropTypes.string
-            })
+            }),
+            isEmbedded: PropTypes.bool.isRequired
         }),
         atomListActions: PropTypes.shape({
             getAtomList: PropTypes.func.isRequired
         }).isRequired,
         atomList: PropTypes.array
     };
-    
+
     state = {
         params: {
             types:[],
@@ -30,7 +32,7 @@ class AtomList extends React.Component {
             searchFields: "data.title,data.label,title,labels,data.body"
         }
     };
-    
+
     componentWillMount() {
         this.props.atomListActions.getAtomList(this.state.params);
     }
@@ -40,7 +42,8 @@ class AtomList extends React.Component {
             params: newParams
         }, () => this.props.atomListActions.getAtomList(this.state.params));
     };
-    
+
+
     render () {
 
         if (!this.props.atomList) {
@@ -51,43 +54,27 @@ class AtomList extends React.Component {
             <div className="page__section">
                 <h1 className="page__subheading">Atom Finder</h1>
                 <div className="atom-list-filters">
-                    <form className="form atom-list-filters">
-                        <div className="atom-list-filters__search-box">
-                            <ManagedField data={this.state.params} updateData={this.updateAtomList} fieldLocation="q" name="Search:">
-                                <FormFieldTextInput/>
-                            </ManagedField>
-                        </div>
-                        <div className="atom-list-filters__types-filter">
-                            <ManagedField data={this.state.params}
-                                          updateData={this.updateAtomList}
-                                          fieldLocation="types"
-                                          name="Atom Types:">
-                                <FormFieldCheckboxGroup checkValues={allAtomTypes.map((t)=>t.type)}/>
-                            </ManagedField>
-                        </div>
-                        <div className="atom-list-filters__page-size">
-                            <ManagedField data={this.state.params} updateData={this.updateAtomList} fieldLocation="page-size" name="Page size:">
-                                <FormFieldSelectBox selectValues={["20","50","100","150","200"]}/>
-                            </ManagedField>
-                        </div>
-                    </form>
+                  <div className="atom-list-filters__search-box">
+                      <ManagedField data={this.state.params} updateData={this.updateAtomList} fieldLocation="q" name="Search:">
+                          <FormFieldTextInput/>
+                      </ManagedField>
+                  </div>
+                  <div className="atom-list-filters__types-filter">
+                      <ManagedField data={this.state.params}
+                                    updateData={this.updateAtomList}
+                                    fieldLocation="types"
+                                    name="Atom Types:">
+                          <FormFieldCheckboxGroup checkValues={allAtomTypes.map((t)=>t.type)}/>
+                      </ManagedField>
+                  </div>
+                  <div className="atom-list-filters__page-size">
+                      <ManagedField data={this.state.params} updateData={this.updateAtomList} fieldLocation="page-size" name="Page size:">
+                          <FormFieldSelectBox selectValues={["20","50","100","150","200"]}/>
+                      </ManagedField>
+                  </div>
                 </div>
                 <div className="atom-list">
-                    <table className="atom-list__table">
-                        <thead>
-                            <tr className="atom-list__header-row">
-                                <th className="atom-list__header">Title</th>
-                                <th className="atom-list__header">Type</th>
-                                <th className="atom-list__header">Last Modified</th>
-                                <th className="atom-list__header">Created by</th>
-                                <th className="atom-list__header">Publication status</th>
-                                <th className="atom-list__header"> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {this.props.atomList.map((atom) => <AtomListItem atom={atom} config={this.props.config} key={atom.id}/>)}
-                        </tbody>
-                    </table>
+                    {this.props.atomList.map((atom) => <AtomListItem atom={atom} config={this.props.config} key={atom.id}/>)}
                 </div>
             </div>
         );

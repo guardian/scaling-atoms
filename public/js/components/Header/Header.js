@@ -1,9 +1,11 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
+
 import publishState from '../../util/publishState';
 import PresenceIndicator from '../Utilities/PresenceIndicator';
 import {saveStateVals} from '../../constants/saveStateVals';
 import distanceInWords from 'date-fns/distance_in_words';
+import EmbeddedHeader from './EmbeddedHeader';
 
 const atomPropType = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -23,6 +25,10 @@ class Header extends React.Component {
       publishAtom: PropTypes.func.isRequired,
       takeDownAtom: PropTypes.func.isRequired
     }).isRequired,
+    config: PropTypes.shape({
+      isEmbedded: PropTypes.bool.isRequired
+    }),
+    isFindPage: PropTypes.bool.isRequired
   }
 
   publishAtom = () => {
@@ -104,6 +110,11 @@ class Header extends React.Component {
   }
 
   render () {
+
+    if (this.props.config.isEmbedded) {
+      return <EmbeddedHeader config={this.props.config} isFindPage={this.props.isFindPage}/>;
+    }
+
     return (
         <div className="toolbar">
           <div className="toolbar__container">
@@ -135,6 +146,7 @@ function mapStateToProps(state) {
   return {
     atom: state.atom,
     saveState: state.saveState,
+    config: state.config,
     presence: state.presence
   };
 }
