@@ -43,9 +43,6 @@ class Header extends React.Component {
     return location.pathname.search(new RegExp('\/atoms\/.*\/.*\/edit', 'g')) >= 0;
   }
 
-  isList = () =>  location.pathname === "/find";
-
-
   renderSaveState = () => {
     const dateNow = Date.now();
     const lastModified = this.props.atom.contentChangeDetails.lastModified ? this.props.atom.contentChangeDetails.lastModified.date : this.props.atom.contentChangeDetails.created.date;
@@ -83,15 +80,15 @@ class Header extends React.Component {
 
     return (
         <div className="toolbar__container">
-          {this.props.presence ? <PresenceIndicator presence={this.props.presence} /> : false}
+          {this.isEditor() && this.props.presence ? <PresenceIndicator presence={this.props.presence} /> : false}
           {this.isEditor() && this.props.atom ? <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button> : false}
           {this.isEditor() && this.props.atom ? this.renderTakeDownButton(atomPublishState) : false}
-          {this.isList() ? <Link to="/create" className="toolbar__item toolbar__button"><button type="button" className="">Create new</button></Link> : false}
+          {this.props.isFindPage ? <Link to="/create" className="toolbar__item toolbar__button"><button type="button" className="">Create new</button></Link> : false}
         </div>
     );
   }
 
-  renderHeaderLeft = () => {
+  renderAtomStates = () => {
     if (this.isEditor() && this.props.atom) {
       return (
           <nav className="main-nav" role="navigation">
@@ -128,7 +125,7 @@ class Header extends React.Component {
                 </div>
               </Link>
             </header>
-            {this.renderHeaderLeft()}
+            {this.renderAtomStates()}
           </div>
             {this.renderHeaderRight()}
         </div>
