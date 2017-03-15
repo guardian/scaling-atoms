@@ -9,6 +9,7 @@ export default class FormFieldArrayWrapper extends React.Component {
     fieldValue: PropTypes.array,
     fieldErrors: PropTypes.arrayOf(errorPropType),
     onUpdateField: PropTypes.func,
+    nested: PropTypes.bool,
     children: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
@@ -49,7 +50,7 @@ export default class FormFieldArrayWrapper extends React.Component {
     });
 
     return (
-      <div className="form__row form__row--field-with-btn">
+      <div className="form__row">
         {hydratedChildren}
         <button className="btn form__field-btn" type="button" onClick={removeFn.bind(this, i)}>Delete</button>
       </div>
@@ -61,10 +62,12 @@ export default class FormFieldArrayWrapper extends React.Component {
     const values = this.props.fieldValue || [];
 
     return (
-      <div className="form__row">
-        <h3 className="form__subheading">{this.props.fieldLabel}</h3>
+      <div className={this.props.nested ? 'form__row form__row--nested' : 'form__row'}>
+        <div className="form__btn-heading">
+          {this.props.nested ? <h4 className="form__btn-heading__text">{this.props.fieldLabel}</h4> : <h3 className="form__btn-heading__text">{this.props.fieldLabel}</h3> }
+          <button className="form__btn-heading__btn" type="button" onClick={this.onAddClick}>Add</button>
+        </div>
         {values.map((value, i) => this.renderValue(value, i))}
-        <button className="btn" type="button" onClick={this.onAddClick}>Add</button>
       </div>
     );
   }

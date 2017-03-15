@@ -76,9 +76,9 @@ class AtomEdit extends React.Component {
         <div className="atom-editor">
           {this.renderEmbeddedCreate()}
           <AtomEditHeader atom={this.props.atom} onUpdate={this.updateAtom}/>
-          <div className="atom-editor__form">
+          <form className="atom-editor__form">
             {this.renderSpecificEditor()}
-          </div>
+          </form>
         </div>
     );
   }

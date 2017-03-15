@@ -6,6 +6,12 @@
   display: block;
 }
 
+// To separate blocks of related fields
+.form__section {
+  border-bottom: 1px solid $color300Grey;
+  margin-bottom: 20px;
+}
+
 .form__row {
   margin-bottom: 20px;
 
@@ -16,6 +22,11 @@
   // Not great naming
   &--flex-width {
     width: 100%;
+  }
+
+  &--nested {
+    background: $color300Grey;
+    padding: 10px;
   }
 }
 
@@ -110,4 +121,27 @@
   width: 100%;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+.form__btn-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $color300Grey;
+
+  &__btn {
+    border-radius: 2em;
+    background: $darkBrandColor;
+    padding: 5px 7px;
+    line-height: 1;
+    color: $cWhite;
+    margin-left: 10px;
+
+    &:hover {
+      background: $brandColor;
+    }
+  }
 }
