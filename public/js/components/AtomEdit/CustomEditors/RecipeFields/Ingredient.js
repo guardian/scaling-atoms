@@ -157,10 +157,10 @@ class Quantity extends React.Component {
 }
 
 class Units extends React.Component {
-  unitTypes = ['cup', 'g', 'kg', 'oz', 'lb', 'bottle', 'floz', 'l', 'litre', 'ml', 'tsp', 'tbsp', 'dsp', 'bunch', 'cm', 'can', 'clove', 'dash', 'grating', 'handful', 'packet', 'piece', 'pinch', 'sheet', 'sprig', 'stick'];
+  unitTypes = ['', 'cup', 'g', 'kg', 'oz', 'lb', 'bottle', 'floz', 'l', 'litre', 'ml', 'tsp', 'tbsp', 'dsp', 'bunch', 'cm', 'can', 'clove', 'dash', 'grating', 'handful', 'packet', 'piece', 'pinch', 'sheet', 'sprig', 'stick'];
 
   static propTypes = {
-    fieldValue: Proptypes.string,
+    fieldValue: PropTypes.string,
     updateUnit: PropTypes.func.isRequired
   };
 
