@@ -54,7 +54,7 @@ export class Ingredient extends React.Component {
           quantityRange={this.props.fieldValue && this.props.fieldValue.quantityRange}
           updateQuantity={this.updateQuantity}/>
         <Units
-          updateUnit={this.updateQuantity}
+          updateUnit={this.updateUnit}
           fieldValue={this.props.fieldValue ? this.props.fieldValue.unit : ""}/>
 
       </ManagedForm>
