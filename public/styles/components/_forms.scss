@@ -7,8 +7,7 @@
 }
 
 // To separate blocks of related fields
-.form__section {
-  border-bottom: 1px solid $color300Grey;
+.form__section:not(:last-child) {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
@@ -29,8 +28,8 @@
     background: $color250Grey;
     padding: 10px;
 
-    .form__section, .form__btn-heading {
-      border-bottom: 1px solid $color400Grey;
+    .form__section:not(:last-child), .form__btn-heading {
+      border-color: $color400Grey;
     }
   }
 }
