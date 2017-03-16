@@ -40,7 +40,7 @@ export class RecipeEditor extends React.Component {
           </FormFieldArrayWrapper>
         </ManagedField>
         <ManagedField fieldLocation="data.recipe.steps" name="Steps">
-          <FormFieldArrayWrapper>
+          <FormFieldArrayWrapper numbered={true} fieldClass="form__group form__group--flex">
             <FormFieldTextInput />
           </FormFieldArrayWrapper>
         </ManagedField>

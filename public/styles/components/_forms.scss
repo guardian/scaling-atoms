@@ -63,6 +63,22 @@
 
 .form__group {
   margin-bottom: 5px;
+
+  &--flex {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+
+    & .form__row--flex {
+      margin-bottom: 0;
+      width: 100%;
+    }
+  }
+}
+
+.form__field-number {
+  font-size: 16px;
+  margin-right: 10px;
 }
 
 // because they're special snowflakes

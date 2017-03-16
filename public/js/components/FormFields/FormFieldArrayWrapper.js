@@ -10,6 +10,8 @@ export default class FormFieldArrayWrapper extends React.Component {
     fieldErrors: PropTypes.arrayOf(errorPropType),
     onUpdateField: PropTypes.func,
     nested: PropTypes.bool,
+    numbered: PropTypes.bool,
+    fieldClass: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
@@ -41,16 +43,18 @@ export default class FormFieldArrayWrapper extends React.Component {
 
     const hydratedChildren = React.Children.map(this.props.children, (child) => {
       return React.cloneElement(child, {
+        key: `${this.props.fieldName}-${i}`,
         fieldName: `${this.props.fieldName}-${i}`,
         fieldValue: value,
         fieldErrors: this.props.fieldErrors,
-        formRowClass: 'form__row--flex-width',
+        formRowClass: 'form__row form__row--flex',
         onUpdateField: updateFn
       });
     });
 
     return (
-      <div className="form__row">
+      <div className={this.props.fieldClass ? this.props.fieldClass : 'form__group'}>
+        {this.props.numbered ? <span className="form__field-number">{`${i + 1}. `}</span> : false }
         {hydratedChildren}
         <button className="btn form__field-btn" type="button" onClick={removeFn.bind(this, i)}>Delete</button>
       </div>
