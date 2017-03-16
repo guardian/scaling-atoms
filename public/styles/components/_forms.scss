@@ -53,7 +53,7 @@
     -moz-appearance: none;
     border-radius: 0;
     text-indent: .01px;
-    text-overflow: '';
+    padding: 9px; // Select boxes don't adhere to box-sizing
   }
 
   &--error, &--error:focus {
@@ -141,6 +141,21 @@
 
     &:hover {
       background: $brandColor;
+    }
+  }
+}
+
+// Flex container for side by side fields and other adventures
+.form__flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; // makes sure items without a label line up
+
+  &__item {
+    flex-grow: 1;
+
+    &:not(:last-child) {
+      margin-right: 10px;
     }
   }
 }

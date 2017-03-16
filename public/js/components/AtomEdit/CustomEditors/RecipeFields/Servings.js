@@ -98,24 +98,32 @@ export class RecipeServings extends React.Component {
           selectValues={this.servingTypes.map(servingType => servingType.name)}
           fieldValue={this.getActiveServingType() ? this.getActiveServingType().name : ""}/>
 
-        <FormFieldNumericInput
-          fieldLabel="From"
-          fieldName="From"
-          fieldValue={this.props.fieldValue && this.props.fieldValue.from}
-          onUpdateField={this.updateFromField} />
+        <div className="form__flex-container">
+          <div className="form__flex-container__item">
+            <FormFieldNumericInput
+              fieldLabel="From"
+              fieldName="From"
+              fieldValue={this.props.fieldValue && this.props.fieldValue.from}
+              onUpdateField={this.updateFromField} />
+          </div>
+          <div className="form__flex-container__item">
+            <FormFieldNumericInput
+              fieldLabel="To"
+              fieldName="To"
+              fieldValue={this.props.fieldValue && this.props.fieldValue.to}
+              onUpdateField={this.updateToField} />
+          </div>
 
-        <FormFieldNumericInput
-          fieldLabel="To"
-          fieldName="To"
-          fieldValue={this.props.fieldValue && this.props.fieldValue.to}
-          onUpdateField={this.updateToField} />
+          { this.shouldShowUnitsPicker() ?
+            <div className="form__flex-container__item">
+            <FormFieldSelectBox
+              onUpdateField={this.updateUnits}
+              selectValues={this.units}
+              fieldValue={this.props.fieldValue ? this.props.fieldValue.unit : ""}/>
+            </div> : false
+          }
+        </div>
 
-        { this.shouldShowUnitsPicker() ?
-          <FormFieldSelectBox
-            onUpdateField={this.updateUnits}
-            selectValues={this.units}
-            fieldValue={this.props.fieldValue ? this.props.fieldValue.unit : ""}/> : false
-        }
       </div>
     );
   }
