@@ -10,6 +10,7 @@
 .form__section {
   border-bottom: 1px solid $color300Grey;
   margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .form__row {
@@ -27,6 +28,10 @@
   &--nested {
     background: $color250Grey;
     padding: 10px;
+
+    .form__section, .form__btn-heading {
+      border-bottom: 1px solid $color400Grey;
+    }
   }
 }
 
