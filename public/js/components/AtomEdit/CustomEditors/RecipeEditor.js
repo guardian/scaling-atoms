@@ -25,12 +25,19 @@ export class RecipeEditor extends React.Component {
 
     return (
       <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
-        <ManagedField fieldLocation="data.recipe.time.preparation" name="Preparation Time (mins)">
-          <FormFieldNumericInput/>
-        </ManagedField>
-        <ManagedField fieldLocation="data.recipe.time.cooking" name="Cooking Time (mins)">
-          <FormFieldNumericInput/>
-        </ManagedField>
+        <h3 className="form__subheading">Time</h3>
+        <div className="form__flex-container">
+          <div className="form__flex-container__item">
+            <ManagedField fieldLocation="data.recipe.time.preparation" name="Preparation Time (mins)">
+              <FormFieldNumericInput/>
+            </ManagedField>
+          </div>
+          <div className="form__flex-container__item">
+            <ManagedField fieldLocation="data.recipe.time.cooking" name="Cooking Time (mins)">
+              <FormFieldNumericInput/>
+            </ManagedField>
+          </div>
+        </div>
         <ManagedField fieldLocation="data.recipe.serves" name="Serving Information">
           <RecipeServings />
         </ManagedField>
