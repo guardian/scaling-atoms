@@ -23,10 +23,6 @@ export class Ingredient extends React.Component {
     onUpdateField: PropTypes.func
   };
 
-  shouldShowUnitsPicker = () => {
-
-  }
-
   updateQuantity = (newQuantity, newQuantityRange) => {
     this.props.onUpdateField(Object.assign({}, this.props.fieldValue, {
       quantity: newQuantity,
