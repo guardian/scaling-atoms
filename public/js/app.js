@@ -24,7 +24,7 @@ function extractConfigFromPage() {
 
 const store = configureStore();
 const config = extractConfigFromPage();
-const presenceClient = configurePresence(config.presenceEndpointURL, config.user);
+const presenceClient = config.presenceEnabled ? configurePresence(config.presenceEndpointURL, config.user) : {};
 
 setStore(store);
 

@@ -31,6 +31,7 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI) extends
       isEmbedded = req.queryString.get("embeddedMode").isDefined,
       embeddedMode = req.queryString.get("embeddedMode").map(_.head),
       atomEditorGutoolsDomain = Config.atomEditorGutoolsDomain,
+      presenceEnabled = Config.presenceEnabled,
       presenceEndpointURL = Config.presenceEndpointURL
     )
 

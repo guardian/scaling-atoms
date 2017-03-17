@@ -18,6 +18,7 @@ case class ClientConfig(
                          isEmbedded: Boolean,
                          embeddedMode: Option[String],
                          atomEditorGutoolsDomain: String,
+                         presenceEnabled: Boolean,
                          presenceEndpointURL: String
                        )
 
