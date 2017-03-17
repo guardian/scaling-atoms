@@ -21,7 +21,7 @@ export class ExplainerEditor extends React.Component {
           <FormFieldTextInput />
         </ManagedField>
         <ManagedField fieldLocation="data.explainer.body" name="Body">
-          <FormFieldsScribeEditor />
+          <FormFieldsScribeEditor showWordCount={true} suggestedLength={100}/>
         </ManagedField>
         <ManagedField fieldLocation="data.explainer.displayType" name="Display type">
           <ExplainerDisplayTypes />
