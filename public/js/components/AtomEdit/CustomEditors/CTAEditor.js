@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 
 import {ManagedForm, ManagedField} from '../../ManagedEditor';
 import FormFieldTextInput from '../../FormFields/FormFieldTextInput';
+import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
 import {isHttpsUrl} from '../../../util/validators';
 
 export class CTAEditor extends React.Component {
@@ -21,9 +22,11 @@ export class CTAEditor extends React.Component {
         <ManagedField fieldLocation="data.cta.url" name="Link Url" isRequired={true}>
           <FormFieldTextInput/>
         </ManagedField>
-          <ManagedField fieldLocation="labels" name="Campaign">
-              <FormFieldTextInput />
-          </ManagedField>
+        <ManagedField fieldLocation="labels" name="Campaign Labels">
+          <FormFieldArrayWrapper>
+            <FormFieldTextInput />
+          </FormFieldArrayWrapper>
+        </ManagedField>
         <ManagedField fieldLocation="data.cta.backgroundImage" name="Background Image Url" customValidation={[isHttpsUrl]}>
           <FormFieldTextInput />
         </ManagedField>
