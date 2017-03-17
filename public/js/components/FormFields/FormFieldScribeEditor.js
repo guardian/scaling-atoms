@@ -44,13 +44,14 @@ export default class FormFieldsScribeEditor extends React.Component {
 
 FormFieldsScribeEditor.defaultProps = {
   showWordCount: false
-}
+};
 
 export class ScribeEditor extends React.Component {
 
   static propTypes = {
     fieldName: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.string,
+    onUpdate: PropTypes.func
   }
 
   componentDidMount() {
@@ -112,6 +113,6 @@ export class ScribeEditor extends React.Component {
         </div>
         <div id={this.props.fieldName} dangerouslySetInnerHTML={{__html: this.props.value}} ref="editor" className="scribe__editor"></div>
         </div>
-  )
+  );
   }
 }
