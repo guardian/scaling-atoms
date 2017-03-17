@@ -21,13 +21,16 @@ export class CTAEditor extends React.Component {
         <ManagedField fieldLocation="data.cta.url" name="Link Url" isRequired={true}>
           <FormFieldTextInput/>
         </ManagedField>
-        <ManagedField fieldLocation="data.cta.btnText" name="Button Text">
-          <FormFieldTextInput />
-        </ManagedField>
+          <ManagedField fieldLocation="labels" name="Campaign">
+              <FormFieldTextInput />
+          </ManagedField>
         <ManagedField fieldLocation="data.cta.backgroundImage" name="Background Image Url" customValidation={[isHttpsUrl]}>
           <FormFieldTextInput />
         </ManagedField>
-        <ManagedField fieldLocation="data.cta.label" name="Background Text">
+        <ManagedField fieldLocation="data.cta.btnText" name="Button Text">
+          <FormFieldTextInput />
+        </ManagedField>
+        <ManagedField fieldLocation="data.cta.label" name="Label">
           <FormFieldTextInput />
         </ManagedField>
         <ManagedField fieldLocation="data.cta.trackingcode" name="Tracking Code">
