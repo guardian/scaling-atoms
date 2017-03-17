@@ -35,7 +35,7 @@ export default class FormFieldsScribeEditor extends React.Component {
           {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
           <ScribeEditor fieldName={this.props.fieldName} value={this.props.fieldValue} onUpdate={this.props.onUpdateField}/>
           {this.props.showWordCount ? <span className="form__word-count form__message__text">{wordCount} words</span> : false}
-          {this.tooLong(wordCount) ? <span className="form__message__text--error">(too long)</span>: false}
+          {this.tooLong(wordCount) ? <span className="form__message__text--error"> (too long)</span>: false}
           <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
