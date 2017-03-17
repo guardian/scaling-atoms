@@ -25,26 +25,30 @@ export default class FormFieldsScribeEditor extends React.Component {
   }
 
   wordCount = (text) => text.trim().replace(/<(?:.|\n)*?>/gm, '').split(/\s+/).length;
-  
-  tooLong = (wordCount) => this.props.suggestedLength && wordCount > this.props.suggestedLength;
+
+  renderWordCount = () => {
+    const wordCount = this.wordCount(this.props.fieldValue);
+    const tooLong = this.props.suggestedLength && wordCount > this.props.suggestedLength;
+    return (
+        <div>
+          <span className="form__message__text">{wordCount} words</span>
+          {tooLong ? <span className="form__message__text--error"> (too long)</span>: false}
+        </div>
+    )
+  }
+
 
   render () {
-    const wordCount = this.wordCount(this.props.fieldValue);
     return (
         <div className={(this.props.formRowClass || "form__row") + " scribe"}>
           {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
           <ScribeEditor fieldName={this.props.fieldName} value={this.props.fieldValue} onUpdate={this.props.onUpdateField}/>
-          {this.props.showWordCount ? <span className="form__message__text">{wordCount} words</span> : false}
-          {this.tooLong(wordCount) ? <span className="form__message__text--error"> (too long)</span>: false}
+          {this.props.showWordCount ? this.renderWordCount() : false}
           <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
   }
 }
-
-FormFieldsScribeEditor.defaultProps = {
-  showWordCount: false
-};
 
 export class ScribeEditor extends React.Component {
 
