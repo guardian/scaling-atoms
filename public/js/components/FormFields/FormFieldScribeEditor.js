@@ -34,7 +34,7 @@ export default class FormFieldsScribeEditor extends React.Component {
           <span className="form__message__text">{wordCount} words</span>
           {tooLong ? <span className="form__message__text--error"> (too long)</span>: false}
         </div>
-    )
+    );
   }
 
 
