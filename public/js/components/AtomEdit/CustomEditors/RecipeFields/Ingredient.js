@@ -48,11 +48,9 @@ export class Ingredient extends React.Component {
         <Quantity
           quantity={this.props.fieldValue && this.props.fieldValue.quantity}
           quantityRange={this.props.fieldValue && this.props.fieldValue.quantityRange}
-          updateQuantity={this.updateQuantity}/>
-        <Units
-          updateUnit={this.updateUnit}
-          fieldValue={this.props.fieldValue ? this.props.fieldValue.unit : ""}/>
-
+          unit={this.props.fieldValue ? this.props.fieldValue.unit : ""}
+          updateQuantity={this.updateQuantity}
+          updateUnit={this.updateUnit}/>
       </ManagedForm>
     );
   }
@@ -67,7 +65,9 @@ class Quantity extends React.Component {
       from: PropTypes.number,
       to: PropTypes.number
     }),
-    updateQuantity: PropTypes.func.isRequired
+    updateQuantity: PropTypes.func.isRequired,
+    unit: PropTypes.string,
+    updateUnit: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -117,33 +117,49 @@ class Quantity extends React.Component {
 
   renderRange() {
     return (
-      <div>
-        <FormFieldNumericInput
-          fieldLabel="from"
-          fieldValue={this.props.quantityRange && this.props.quantityRange.from}
-          onUpdateField={this.updateFrom}/>
-        <FormFieldNumericInput
-          fieldLabel="to"
-          fieldValue={this.props.quantityRange && this.props.quantityRange.to}
-          onUpdateField={this.updateTo}/>
+      <div className="form__flex-container">
+        <div className="form__flex-container__item">
+          <FormFieldNumericInput
+            fieldLabel="from"
+            fieldValue={this.props.quantityRange && this.props.quantityRange.from}
+            onUpdateField={this.updateFrom}/>
+        </div>
+        <div className="form__flex-container__item">
+          <FormFieldNumericInput
+            fieldLabel="to"
+            fieldValue={this.props.quantityRange && this.props.quantityRange.to}
+            onUpdateField={this.updateTo}/>
+        </div>
+        <div className="form__flex-container__item">
+          <Units
+            updateUnit={this.props.updateUnit}
+            fieldValue={this.props.unit}/>
+        </div>
       </div>
     );
   }
 
   renderNonRange() {
     return (
-      <div>
-        <FormFieldNumericInput
-          fieldLabel="quantity"
-          fieldValue={this.props.quantity}
-          onUpdateField={this.updateAbsoluteQuantity}/>
+      <div className="form__flex-container">
+        <div className="form__flex-container__item">
+          <FormFieldNumericInput
+            fieldLabel="quantity"
+            fieldValue={this.props.quantity}
+            onUpdateField={this.updateAbsoluteQuantity}/>
+        </div>
+        <div className="form__flex-container__item">
+          <Units
+            updateUnit={this.props.updateUnit}
+            fieldValue={this.props.unit}/>
+        </div>
       </div>
     );
   }
 
   render () {
     return (
-      <div className="form__group form__group--checkbox">
+      <div className="form__group">
         <input className="form__checkbox" type="checkbox" checked={this.state.isRange} onChange={this.toggleRange} />
         <span className="form__label form__label--checkbox">Range?</span>
         {this.state.isRange ? this.renderRange() : this.renderNonRange()}
@@ -153,7 +169,7 @@ class Quantity extends React.Component {
 }
 
 class Units extends React.Component {
-  unitTypes = ['', 'cup', 'g', 'kg', 'oz', 'lb', 'bottle', 'floz', 'l', 'litre', 'ml', 'tsp', 'tbsp', 'dsp', 'bunch', 'cm', 'can', 'clove', 'dash', 'grating', 'handful', 'packet', 'piece', 'pinch', 'sheet', 'sprig', 'stick'];
+  unitTypes = ['cup', 'g', 'kg', 'oz', 'lb', 'bottle', 'floz', 'l', 'litre', 'ml', 'tsp', 'tbsp', 'dsp', 'bunch', 'cm', 'can', 'clove', 'dash', 'grating', 'handful', 'packet', 'piece', 'pinch', 'sheet', 'sprig', 'stick'];
 
   static propTypes = {
     fieldValue: PropTypes.string,
@@ -167,7 +183,6 @@ class Units extends React.Component {
   render () {
     return (
       <FormFieldSelectBox
-        fieldLabel="units"
         fieldValue={this.props.fieldValue}
         selectValues={this.unitTypes}
         onUpdateField={this.updateIngredientUnit} />

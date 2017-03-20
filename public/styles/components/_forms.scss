@@ -7,9 +7,9 @@
 }
 
 // To separate blocks of related fields
-.form__section {
-  border-bottom: 1px solid $color300Grey;
+.form__section:not(:last-child) {
   margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .form__row {
@@ -27,6 +27,10 @@
   &--nested {
     background: $color250Grey;
     padding: 10px;
+
+    .form__section:not(:last-child), .form__btn-heading {
+      border-color: $color400Grey;
+    }
   }
 }
 
@@ -53,7 +57,7 @@
     -moz-appearance: none;
     border-radius: 0;
     text-indent: .01px;
-    text-overflow: '';
+    padding: 9px; // Select boxes don't adhere to box-sizing
   }
 
   &--error, &--error:focus {
@@ -64,10 +68,21 @@
 .form__group {
   margin-bottom: 5px;
 
-  &--checkbox {
-    display: inline-block;
-    padding: 5px;
+  &--flex {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+
+    & .form__row--flex {
+      margin-bottom: 0;
+      width: 100%;
+    }
   }
+}
+
+.form__field-number {
+  font-size: 16px;
+  margin-right: 10px;
 }
 
 // because they're special snowflakes
@@ -141,6 +156,21 @@
 
     &:hover {
       background: $brandColor;
+    }
+  }
+}
+
+// Flex container for side by side fields and other adventures
+.form__flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; // makes sure items without a label line up
+
+  &__item {
+    flex-grow: 1;
+
+    &:not(:last-child) {
+      margin-right: 10px;
     }
   }
 }

@@ -1,6 +1,6 @@
 exports[`test Should render 1`] = `
 <div
-  className="form__group form__group--checkbox">
+  className="form__group">
   <label
     className="form__label"
     htmlFor="test">
