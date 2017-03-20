@@ -8,7 +8,7 @@ export const subscribeToPresence = (atomId, atomType) => {
 
     presenceClient.on("connection.open", () => {
       presenceClient.subscribe(`${atomType}-${atomId}`);
-      enterPresence(atomId, atomType);
+      presenceClient.enter(`${atomType}-${atomId}`, 'document');
     });
 
     presenceClient.on('visitor-list-updated', presence => updatePresence(presence));
@@ -18,7 +18,12 @@ export const subscribeToPresence = (atomId, atomType) => {
 export const enterPresence = (atomId, atomType) => {
   const store = getStore();
   const presenceClient = store.getState().presenceClient;
-  presenceClient.enter(`${atomType}-${atomId}`, 'document');
+  const presence = store.getState().presence;
+  if(presence !== null) {
+    presenceClient.enter(`${atomType}-${atomId}`, 'document');
+  } else {
+    throw new Error('No Presence connection found');
+  }
 };
 
 const updatePresence = (presence) => {
