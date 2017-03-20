@@ -1,6 +1,5 @@
 import { reEstablishSession } from 'panda-session';
 import { getStore } from '../util/storeAccessor';
-import fetch from 'unfetch';
 
 function checkStatus(res) {
   if (res.status >= 200 && res.status < 300) {

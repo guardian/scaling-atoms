@@ -9,7 +9,9 @@ export class ManagedForm extends React.Component {
     children: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
-    ])
+    ]),
+    onFormErrorsUpdate: PropTypes.func,
+    onFormErrorStateUpdate: PropTypes.func // Helper method that just returns true/false
   };
 
   state: {
@@ -23,12 +25,23 @@ export class ManagedForm extends React.Component {
     });
   }
 
+  hasFormErrors(formErrorsObject) {
+    const fieldWithError = Object.keys(formErrorsObject).find((key) => formErrorsObject[key].length > 0);
+    return !!fieldWithError;
+  }
+
   updateFormErrors = (fieldErrors, fieldName) => {
-    this.setState({
-      formErrors: {
-        [fieldName]: fieldErrors
-      }
+
+    const formErrors = Object.assign({}, this.state.formErrors, {
+      [fieldName]: fieldErrors
     });
+
+    this.setState({
+      formErrors: formErrors
+    });
+
+    this.props.onFormErrorsUpdate && this.props.onFormErrorsUpdate(formErrors);
+    this.props.onFormErrorStateUpdate && this.props.onFormErrorStateUpdate(this.hasFormErrors(formErrors));
   }
 
 

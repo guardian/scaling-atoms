@@ -7,6 +7,7 @@ export class ManagedField extends React.Component {
 
   state = {
     fieldErrors: [],
+    touched: false
   };
 
   static propTypes = {
@@ -23,26 +24,36 @@ export class ManagedField extends React.Component {
     customValidation: PropTypes.arrayOf(PropTypes.func)
   };
 
-  updateFn = (newValue) => {
-    Promise.resolve(validateField(newValue, this.props.isRequired, this.props.customValidation))
+  componentDidMount() {
+    this.runValidations(_get(this.props.fieldLocation, this.props.data));
+  }
+
+  runValidations(data) {
+    Promise.resolve(validateField(data, this.props.isRequired, this.props.customValidation))
       .then(fieldErrors => {
         this.setState({
           fieldErrors: fieldErrors
         });
         this.props.updateFormErrors(fieldErrors, this.props.name);
       });
+  }
 
-      this.props.updateData(_set(this.props.fieldLocation, newValue, this.props.data));
+  updateFn = (newValue) => {
+    this.setState({
+      touched: true
+    });
+
+    this.runValidations(newValue);
+    this.props.updateData(_set(this.props.fieldLocation, newValue, this.props.data));
   }
 
   render () {
-
     const hydratedChildren = React.Children.map(this.props.children, (child) => {
       return React.cloneElement(child, {
         fieldName: this.props.name,
         fieldLabel: this.props.name,
         fieldValue: _get(this.props.fieldLocation, this.props.data),
-        fieldErrors: this.state.fieldErrors,
+        fieldErrors: this.state.touched ? this.state.fieldErrors : undefined,
         onUpdateField: this.updateFn,
       });
     });

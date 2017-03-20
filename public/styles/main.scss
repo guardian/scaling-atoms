@@ -4,7 +4,8 @@
 @import 'abstracts/variables';
 
 // 2. Vendors
-@import 'vendor/normalize';
+@import 'vendor/normalize',
+'vendor/datepicker';
 
 // 3. Base stuff
 @import 'base/base',
@@ -33,4 +34,5 @@
 'components/atom-create',
 'components/atom-card',
 'components/atom-editor',
-'components/atom-embed';
+'components/atom-embed',
+'components/targeting';

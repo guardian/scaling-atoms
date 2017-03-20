@@ -15,6 +15,7 @@ case class ClientConfig(
                          composerUrl: String,
                          viewerUrl: String,
                          capiLiveUrl: String,
+                         targetingUrl: String,
                          isEmbedded: Boolean,
                          embeddedMode: Option[String],
                          atomEditorGutoolsDomain: String,

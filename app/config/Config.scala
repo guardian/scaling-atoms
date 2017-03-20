@@ -58,6 +58,7 @@ object Config extends AwsInstanceTags {
   val gridUrl = config.getString("grid.url")
   val composerUrl = config.getString("composer.url")
   val viewerUrl = config.getString("viewer.url")
+  val targetingUrl = config.getString("targeting.url")
 
   val liveKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.publish.live")
   val previewKinesisStreamName = getPropertyIfEnabled(kinesisEnabled, "aws.kinesis.publish.preview")

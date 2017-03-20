@@ -1,0 +1,16 @@
+$react-dates-color-focus: white;
+$react-dates-color-text: $textColor;
+$react-dates-color-text-focus: $textColor;
+$react-dates-color-placeholder-text: $textColor;
+
+$react-dates-width-input: 100%;
+@import '~react-dates/css/variables.scss';
+@import '~react-dates/css/styles.scss';
+
+.SingleDatePicker {
+  width: 100%;
+}
+
+.DateInput {
+  font-size: inherit;
+}

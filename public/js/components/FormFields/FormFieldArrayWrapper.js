@@ -68,7 +68,7 @@ export default class FormFieldArrayWrapper extends React.Component {
     return (
       <div className={this.props.nested ? 'form__row form__row--nested' : 'form__row'}>
         <div className="form__btn-heading">
-          {this.props.nested ? <h4 className="form__btn-heading__text">{this.props.fieldLabel}</h4> : <h3 className="form__btn-heading__text">{this.props.fieldLabel}</h3> }
+          <span className="form__label">{this.props.fieldLabel}</span>
           <button className="form__btn-heading__btn" type="button" onClick={this.onAddClick}>Add</button>
         </div>
         {values.map((value, i) => this.renderValue(value, i))}

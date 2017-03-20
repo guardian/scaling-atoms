@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react';
 import {atomPropType} from '../../constants/atomPropType.js';
 import copy from 'copy-to-clipboard';
 
+import CurrentTargets from './CurrentTargets';
+
 class AtomEmbed extends React.Component {
 
   static propTypes = {
@@ -41,6 +43,10 @@ class AtomEmbed extends React.Component {
       return false;
     }
 
+    if (!this.props.atom) {
+      return false;
+    }
+
     return (
       <div className="atom-embed">
         <div className="form">
@@ -52,6 +58,12 @@ class AtomEmbed extends React.Component {
               <button className="btn" onClick={this.copyUrl}>
                 {this.state.copied ? "Copied!" : "Copy URL"}
               </button>
+            </div>
+          </div>
+          <div className="form__row">
+            <h3 className="form__subheading">Suggest This Atom</h3>
+            <div className="form__row">
+              <CurrentTargets atom={this.props.atom} />
             </div>
           </div>
         </div>
