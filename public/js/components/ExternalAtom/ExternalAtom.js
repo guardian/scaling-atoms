@@ -2,8 +2,9 @@ import React, {PropTypes} from 'react';
 import {atomPropType} from '../../constants/atomPropType.js';
 import {getTitleForAtom, getAtomEditorUrl} from '../../util/atomDataExtractors';
 import _capitalize from 'lodash/fp/capitalize';
+import AtomEditHeader from '../AtomEdit/AtomEditHeader';
 
-class AtomLink extends React.Component {
+class ExternalAtom extends React.Component {
   static propTypes = {
     routeParams: PropTypes.shape({
       atomType: PropTypes.string.isRequired,
@@ -22,12 +23,7 @@ class AtomLink extends React.Component {
   renderEditorLink = (atom) => {
     const title = getTitleForAtom(atom);
     return (
-      <div>
-        <h1 className="h2">The atom &ldquo;{title}&rdquo; is not managed in the atom workshop</h1>
-        <p className="h3">
-          Edit this atom in the <a target="_blank" href={getAtomEditorUrl(atom)} className="link">{_capitalize(atom.atomType)} atom editor</a>
-        </p>
-      </div>
+      <p>This atom is not managed in the atom workshop. Edit in the <a target="_blank" href={getAtomEditorUrl(atom)} className="link">{_capitalize(atom.atomType)} atom editor</a></p>
     );
   }
 
@@ -42,8 +38,11 @@ class AtomLink extends React.Component {
     }
 
     return (
-      <div className="page__section page__section--centered">
-        {this.renderEditorLink(this.props.externalAtom)}
+      <div className="atom-editor">
+        <AtomEditHeader atom={this.props.externalAtom}/>
+        <div className="atom-editor__form">
+          {this.renderEditorLink(this.props.externalAtom)}
+        </div>
       </div>
     );
 
@@ -68,4 +67,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AtomLink);
+export default connect(mapStateToProps, mapDispatchToProps)(ExternalAtom);

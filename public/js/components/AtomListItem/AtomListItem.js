@@ -43,7 +43,7 @@ export default class AtomListItem extends React.Component {
         }
 
         return (
-          <Link to={`/atoms/${atom.atomType}/${atom.id}/link`}
+          <Link to={`/external-atoms/${atom.atomType}/${atom.id}/link`}
             className="atom-list__link atom-list__editor-link"
             key={atom.id}>
             {_capitalize(atom.atomType)} - {title}

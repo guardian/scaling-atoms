@@ -3,6 +3,7 @@ import {atomPropType} from '../../constants/atomPropType.js';
 import {allAtomTypes} from '../../constants/atomData.js';
 
 import {ManagedForm, ManagedField} from '../ManagedEditor';
+import {getTitleForAtom, isAtomWorkshopEditable} from '../../util/atomDataExtractors';
 import FormFieldTextInput from '../FormFields/FormFieldTextInput';
 
 
@@ -10,7 +11,7 @@ export default class AtomEditHeader extends React.Component {
 
   static propTypes = {
     atom: atomPropType.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func
   }
 
   renderDate(dateType) {
@@ -24,6 +25,22 @@ export default class AtomEditHeader extends React.Component {
     const date = new Date(dateInfo.date);
     const nameOfUser = dateInfo.user ? ` by ${dateInfo.user.firstName} ${dateInfo.user.lastName}` : '';
     return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()} ${nameOfUser}`;
+  }
+
+  renderAtomTitleEdit = (atom) => {
+    if(isAtomWorkshopEditable(atom)) {
+      return (
+        <ManagedForm data={atom} updateData={this.props.onUpdate}>
+          <ManagedField fieldLocation="title" name="Title:">
+            <FormFieldTextInput/>
+          </ManagedField>
+        </ManagedForm>
+      );
+    }
+
+    return (
+      <h4 className="atom-card__subheading">Title: {getTitleForAtom(atom)}</h4>
+    );
   }
 
 
@@ -42,11 +59,7 @@ export default class AtomEditHeader extends React.Component {
         </div>
         <div className="atom-card__details">
           <h3 className="atom-card__heading">{atomTypeName} Atom</h3>
-          <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
-            <ManagedField fieldLocation="title" name="Title:">
-              <FormFieldTextInput/>
-            </ManagedField>
-          </ManagedForm>
+          {this.renderAtomTitleEdit(this.props.atom)}
           <ul className="atom-card__dates">
             <li><b>Created: </b>{this.renderDate('created')}</li>
             <li><b>Last Modified: </b>{this.renderDate('lastModified')}</li>
