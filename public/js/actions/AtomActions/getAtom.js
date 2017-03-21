@@ -2,11 +2,11 @@ import AtomsApi from '../../services/AtomsApi';
 import {logError} from '../../util/logger';
 
 
-function requestAtom(id, atomType) {
+function requestAtom(atomType, id) {
   return {
     type:       'ATOM_GET_REQUEST',
-    id:         id,
     atomType:   atomType,
+    id:         id,
     receivedAt: Date.now()
   };
 }
@@ -29,10 +29,10 @@ function errorReceivingAtom(error) {
   };
 }
 
-export function getAtom(id, atomType) {
+export function getAtom(atomType, id) {
   return dispatch => {
-    dispatch(requestAtom(id, atomType));
-    return AtomsApi.getAtom(id, atomType)
+    dispatch(requestAtom(atomType, id));
+    return AtomsApi.getAtom(atomType, id)
         .then(res => res.json())
         .then(atom => {
           dispatch(receiveAtom(atom));

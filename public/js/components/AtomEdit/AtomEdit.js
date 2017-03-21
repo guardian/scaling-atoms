@@ -30,12 +30,12 @@ class AtomEdit extends React.Component {
   }
 
   componentWillMount() {
-    subscribeToPresence(this.props.routeParams.id, this.props.routeParams.atomType);
+    subscribeToPresence(this.props.routeParams.atomType, this.props.routeParams.id);
   }
 
   updateAtom = (newAtom) => {
     this.props.atomActions.updateAtom(newAtom);
-    enterPresence(this.props.routeParams.id, this.props.routeParams.atomType);
+    enterPresence(this.props.routeParams.atomType, this.props.routeParams.id);
   }
 
   renderSpecificEditor () {

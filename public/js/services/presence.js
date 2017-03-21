@@ -1,6 +1,6 @@
 import { getStore } from '../util/storeAccessor';
 
-export const subscribeToPresence = (atomId, atomType) => {
+export const subscribeToPresence = (atomType, atomId) => {
   const store = getStore();
   const presenceClient = store.getState().presenceClient;
   if (Object.keys(presenceClient).length !== 0) {
@@ -15,7 +15,7 @@ export const subscribeToPresence = (atomId, atomType) => {
   }
 };
 
-export const enterPresence = (atomId, atomType) => {
+export const enterPresence = (atomType, atomId) => {
   const store = getStore();
   const presenceClient = store.getState().presenceClient;
   const presence = store.getState().presence;
