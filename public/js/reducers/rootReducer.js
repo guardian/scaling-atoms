@@ -8,6 +8,7 @@ import atom from '../reducers/atomReducer';
 import saveState from '../reducers/saveStateReducer';
 import atomList from '../reducers/atomListReducer';
 import atomUsages from '../reducers/atomUsagesReducer';
+import externalAtom from '../reducers/externalAtomReducer';
 
 export const rootReducer = combineReducers({
   config,
@@ -17,5 +18,6 @@ export const rootReducer = combineReducers({
   atom,
   saveState,
   atomList,
-  atomUsages
+  atomUsages,
+  externalAtom
 });

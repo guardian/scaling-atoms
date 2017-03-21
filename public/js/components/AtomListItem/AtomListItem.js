@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import {atomPropType} from '../../constants/atomPropType.js';
-import {getTitleForAtom, getAtomEditorUrl, isAtomWorkshopEditable} from '../../util/atomDataExtractors';
+import {getTitleForAtom, isAtomWorkshopEditable} from '../../util/atomDataExtractors';
 import publishState from '../../util/publishState';
 import {Link} from 'react-router';
 import _capitalize from 'lodash/fp/capitalize';
@@ -43,11 +43,11 @@ export default class AtomListItem extends React.Component {
         }
 
         return (
-          <a target="_blank"
-            href={getAtomEditorUrl(atom)}
-            className="atom-list__link atom-list__editor-link">
+          <Link to={`/atoms/${atom.atomType}/${atom.id}/link`}
+            className="atom-list__link atom-list__editor-link"
+            key={atom.id}>
             {_capitalize(atom.atomType)} - {title}
-          </a>
+          </Link>
         );
     };
 

@@ -32,7 +32,21 @@ export const searchAtoms = (query) => {
   .then((json) => Promise.resolve(json.response.results));
 };
 
-export const fetchAtomUsages = (atomId, atomType) => {
+export const fetchCapiAtom = (atomType, atomId) => {
+  return pandaFetch(
+    `/support/previewCapi/atom/${atomType}/${atomId}`,
+    {
+      method: 'get',
+      credentials: 'same-origin'
+    }
+  )
+  .then((res) => res.json())
+  .then((res) => {
+    return Promise.resolve(res.response[atomType]);
+  });
+};
+
+export const fetchAtomUsages = (atomType, atomId) => {
   return pandaFetch(
     `/support/previewCapi/atom/${atomType}/${atomId}/usage`,
     {

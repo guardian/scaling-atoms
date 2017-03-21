@@ -6,6 +6,7 @@ GET     /create/:placeholder                     controllers.App.index(placehold
 GET     /atoms/:placeholder                      controllers.App.index(placeholder)
 GET     /atoms/:placeholder/:placeholder/edit    controllers.App.index(placeholder)
 GET     /atoms/:placeholder/:placeholder/stats   controllers.App.index(placeholder)
+GET     /external-atoms/:placeholder/:placeholder/link    controllers.App.index(placeholder)
 
 GET  /api/preview/:atomType/:id                  controllers.App.getAtom(atomType: String, id: String, version = "preview")
 GET  /api/live/:atomType/:id                     controllers.App.getAtom(atomType: String, id: String, version = "live")
