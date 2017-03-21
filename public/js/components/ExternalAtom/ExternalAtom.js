@@ -22,8 +22,10 @@ class ExternalAtom extends React.Component {
 
   renderEditorLink = (atom) => {
     return (
-      <p>Due to the complexity of this atom, it cannot be created from within the Atom Workshop directly.</p>
-      <a target="_blank" href={getAtomEditorUrl(atom)} className="link">Open dedicated {_capitalize(atom.atomType)} atom editor</a></p>
+      <div>
+        <p>Due to the complexity of this atom, it cannot be created from within the Atom Workshop directly.</p>
+        <a target="_blank" href={getAtomEditorUrl(atom)} className="link">Open dedicated {_capitalize(atom.atomType)} atom editor</a></p>
+      </div>
     );
   }
 
