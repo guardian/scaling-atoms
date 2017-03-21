@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {atomPropType} from '../../constants/atomPropType.js';
-import {getTitleForAtom, getAtomEditorUrl} from '../../util/atomDataExtractors';
+import {getAtomEditorUrl} from '../../util/atomDataExtractors';
 import _capitalize from 'lodash/fp/capitalize';
 import AtomEditHeader from '../AtomEdit/AtomEditHeader';
 
@@ -21,7 +21,6 @@ class ExternalAtom extends React.Component {
   }
 
   renderEditorLink = (atom) => {
-    const title = getTitleForAtom(atom);
     return (
       <p>This atom is not managed in the atom workshop. Edit in the <a target="_blank" href={getAtomEditorUrl(atom)} className="link">{_capitalize(atom.atomType)} atom editor</a></p>
     );
