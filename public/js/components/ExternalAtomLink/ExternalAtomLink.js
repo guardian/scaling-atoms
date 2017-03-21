@@ -19,21 +19,34 @@ class AtomLink extends React.Component {
       this.props.externalAtomActions.getExternalAtom(this.props.routeParams.atomType, this.props.routeParams.id);
   }
 
+  renderEditorLink = (atom) => {
+    const title = getTitleForAtom(atom);
+    return (
+      <div>
+        <h1 className="h2">The atom &ldquo;{title}&rdquo; is not managed in the atom workshop</h1>
+        <p className="h3">
+          Edit this atom in the <a target="_blank" href={getAtomEditorUrl(atom)} className="link">{_capitalize(atom.atomType)} atom editor</a>
+        </p>
+      </div>
+    );
+  }
+
   render () {
+
     if(!this.props.externalAtom) {
       return (
-        <p>Loading...</p>
+        <div className="page__section page__section--centered">
+          <p>Loading...</p>
+        </div>
       );
     }
 
-    const title = getTitleForAtom(this.props.externalAtom);
     return (
-      <a target="_blank"
-        href={getAtomEditorUrl(this.props.externalAtom)}
-        className="atom-list__link atom-list__editor-link">
-        {_capitalize(this.props.externalAtom.atomType)} - {title}
-      </a>
+      <div className="page__section page__section--centered">
+        {this.renderEditorLink(this.props.externalAtom)}
+      </div>
     );
+
   }
 }
 

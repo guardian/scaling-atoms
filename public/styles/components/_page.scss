@@ -19,5 +19,9 @@
     &:not(:last-child) {
       border-bottom: 1px solid $greyBorderColor;
     }
+
+    &--centered {
+      text-align: center;
+    }
   }
 }
