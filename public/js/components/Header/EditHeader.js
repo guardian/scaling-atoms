@@ -1,18 +1,34 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 
+import {atomPropType} from '../../constants/atomPropType';
 import publishState from '../../util/publishState';
 import PresenceIndicator from '../Utilities/PresenceIndicator';
 import {saveStateVals} from '../../constants/saveStateVals';
 import distanceInWords from 'date-fns/distance_in_words';
 
-export default class EditHeader extends React.Component {
+class EditHeader extends React.Component {
+
+  static propTypes = {
+    atom: atomPropType,
+    presence: PropTypes.object,
+    saveState: PropTypes.object,
+    atomActions: PropTypes.shape({
+      publishAtom: PropTypes.func.isRequired,
+      takeDownAtom: PropTypes.func.isRequired
+    }).isRequired,
+    config: PropTypes.shape({
+      isEmbedded: PropTypes.bool.isRequired,
+      embeddedMode: PropTypes.string
+    })
+  }
 
   publishAtom = () => {
-    this.props.publishAtom(this.props.atom);
+    this.props.atomActions.publishAtom(this.props.atom);
   }
 
   takeDownAtom = () => {
-    this.props.takeDownAtom(this.props.atom);
+    this.props.atomActions.takeDownAtom(this.props.atom);
   }
 
   isEditor = () => {
@@ -57,40 +73,81 @@ export default class EditHeader extends React.Component {
   }
 
   renderHeaderRight = () => {
-
     const atomPublishState = publishState(this.props.atom);
 
     return (
         <div className="toolbar__container">
-          {this.isEditor() && this.props.presence ? <PresenceIndicator presence={this.props.presence} /> : false}
-          {this.isEditor() && this.props.atom ? <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button> : false}
-          {this.isEditor() && this.props.atom ? this.renderTakeDownButton(atomPublishState) : false}
-          {this.props.isFindPage ? <Link to="/create" className="toolbar__item toolbar__button"><button type="button" className="">Create new</button></Link> : false}
+          {this.props.presence ? <PresenceIndicator presence={this.props.presence} /> : false}
+          <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button>
+          {this.renderTakeDownButton(atomPublishState)}
         </div>
     );
   }
 
   renderAtomStates = () => {
-    if (this.isEditor() && this.props.atom) {
-      return (
-          <nav className="main-nav" role="navigation">
-            <ul className="main-nav__list">
-              <li className="toolbar__item main-nav__item">
-                {this.renderPublishedState()}
-              </li>
-              <li className="toolbar__item main-nav__item">
-                {this.renderSaveState()}
-              </li>
-            </ul>
-          </nav>
-      );
+    return (
+        <div className="toolbar__container">
+          <div className="toolbar__item">
+            {this.renderPublishedState()}
+          </div>
+          <div className="toolbar__item">
+            {this.renderSaveState()}
+          </div>
+        </div>
+    );
+  }
+
+  renderEmbeddedheader = () => {
+    if (this.props.config.embeddedMode === "edit") {
+      return false;
     }
-    return false;
+
+    return (
+      <Link to="/find" className="toolbar__button">Back to Atom Search</Link>
+    );
   }
 
   render() {
-    return (
-      <p>Edit Header</p>
-    );
+
+    if(this.props.config.isEmbedded) {
+      return (
+        <div>
+          {this.renderEmbeddedheader()}
+        </div>
+      );
+    }
+
+    if(this.props.atom) {
+      return (
+        <div className="toolbar__container toolbar__container--main">
+          {this.renderAtomStates()}
+          {this.renderHeaderRight()}
+        </div>
+      );
+    }
+
+    return false;
   }
 }
+
+//REDUX CONNECTIONS
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
+import * as takeDownAtomActions from '../../actions/AtomActions/takeDownAtom.js';
+
+function mapStateToProps(state) {
+  return {
+    saveState: state.saveState,
+    config: state.config,
+    presence: state.presence
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    atomActions: bindActionCreators(Object.assign({}, publishAtomActions, takeDownAtomActions), dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditHeader);

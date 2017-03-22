@@ -1,49 +1,27 @@
 import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
+import {routerShape} from 'react-router/lib/PropTypes';
 
-import publishState from '../../util/publishState';
-import PresenceIndicator from '../Utilities/PresenceIndicator';
-import {saveStateVals} from '../../constants/saveStateVals';
-import distanceInWords from 'date-fns/distance_in_words';
-import EmbeddedHeader from './EmbeddedHeader';
-
-const atomPropType = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  atomType: PropTypes.string.isRequired,
-  labels: PropTypes.array.isRequired,
-  defaultHtml: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired
-});
+import {atomPropType} from '../../constants/atomPropType';
+import EditHeader from './EditHeader';
+import BrowseHeader from './BrowseHeader';
 
 class Header extends React.Component {
 
   static propTypes = {
     atom: atomPropType,
-    presence: PropTypes.object,
-    saveState: PropTypes.object,
-    atomActions: PropTypes.shape({
-      publishAtom: PropTypes.func.isRequired,
-      takeDownAtom: PropTypes.func.isRequired
-    }).isRequired,
     config: PropTypes.shape({
       isEmbedded: PropTypes.bool.isRequired
     }),
+    router: routerShape,
     isFindPage: PropTypes.bool.isRequired
-  }
-
-  state: {
-    editMode: false
   }
 
   render () {
 
-    if (this.props.config.isEmbedded) {
-      return <EmbeddedHeader config={this.props.config} isFindPage={this.props.isFindPage}/>;
-    }
-
     return (
         <div className="toolbar">
-          <div className="toolbar__container">
+          {!this.props.config.isEmbedded ?
             <header className="toolbar__container">
               <Link className="toolbar__title" href="/">
                 <div className="toolbar__logo"></div>
@@ -54,7 +32,8 @@ class Header extends React.Component {
                 </div>
               </Link>
             </header>
-          </div>
+          : false}
+          {this.props.isFindPage ? <BrowseHeader /> : <EditHeader atom={this.props.atom} />}
         </div>
     );
   }
@@ -62,23 +41,12 @@ class Header extends React.Component {
 
 //REDUX CONNECTIONS
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
-import * as takeDownAtomActions from '../../actions/AtomActions/takeDownAtom.js';
 
 function mapStateToProps(state) {
   return {
     atom: state.atom,
-    saveState: state.saveState,
-    config: state.config,
-    presence: state.presence
+    config: state.config
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    atomActions: bindActionCreators(Object.assign({}, publishAtomActions, takeDownAtomActions), dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps)(Header);
