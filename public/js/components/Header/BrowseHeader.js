@@ -5,7 +5,9 @@ export default class BrowseHeader extends React.Component {
 
   render() {
     return (
-      <Link to="/create" className="toolbar__button">Create New Atom</Link>
+      <div className="toolbar__container">
+        <Link to="/create" className="toolbar__button">Create New Atom</Link>
+      </div>
     );
   }
 }
