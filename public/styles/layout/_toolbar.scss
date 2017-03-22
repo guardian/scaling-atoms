@@ -138,13 +138,12 @@ $toolbarHeight: 50px;
   }
 
   .toolbar--embedded & {
-    display: inline-block;
     flex-grow: 0;
     align-items: center;
     text-decoration: none;
     background-color: $brandColor;
     color: white;
-
+    height: auto;
     padding: 5px 20px;
     margin: 10px;
 

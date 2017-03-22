@@ -20,7 +20,7 @@ class Header extends React.Component {
   render () {
 
     return (
-        <div className="toolbar">
+        <div className={this.props.config.isEmbedded ? 'toolbar toolbar--embedded' : 'toolbar'}>
           {!this.props.config.isEmbedded ?
             <header className="toolbar__container">
               <Link className="toolbar__title" href="/">
