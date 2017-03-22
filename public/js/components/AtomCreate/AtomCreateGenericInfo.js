@@ -59,7 +59,7 @@ class AtomCreateGenericInfo extends React.Component {
         <h1 className="atom-editor__title">{`Create new ${this.props.routeParams.atomType}`}</h1>
         <div className="atom-editor__section">
           <AtomTypeCard atomType={atomType} />
-          <Link className="link" to="/create">Select different atom</Link>
+          <Link className="atom-editor__switchtype" to="/create">Select different atom</Link>
         </div>
         <form className="form">
           <FormFieldTextInput

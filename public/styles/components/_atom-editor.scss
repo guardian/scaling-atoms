@@ -33,10 +33,41 @@
 
     background-color: $color200Grey;
     margin-bottom: 10px;
-    
+
     .btn {
       display: inline-block;
       padding: 5px 10px;
+    }
+
+  }
+
+  &__switchtype {
+    width: 100%;
+    background-color: $color300Grey;
+    padding: 3px 10px;
+    display: block;
+    text-decoration: inherit;
+    color: $color600Grey;
+
+    text-align: center;
+
+    &:hover {
+      background-color: $color400Grey;
+    }
+  }
+
+  &__external {
+    display: inline-block;
+    background-color: $brandColor;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    text-decoration: none;
+
+    margin: 10px 0;
+
+    &:hover {
+      background-color: $darkBrandColor;
     }
 
   }

@@ -15,10 +15,14 @@ class AtomCreateExternalApp extends React.Component {
         <h1 className="atom-editor__title">{`Create new ${this.props.atomType.name}`}</h1>
         <div className="atom-editor__section">
           <AtomTypeCard atomType={this.props.atomType} />
-          <Link className="link" to="/create">Select different atom</Link>
+          <Link className="atom-editor__switchtype" to="/create">Select different atom</Link>
         </div>
-        <div>This atom cannot be created from within the Atom Workshop. It has its own dedicated editor</div>
-        <h3><a href={getCreateUrlFromAtomType(this.props.atomType)}>Open Dedicated Editor</a></h3>
+        <div>
+          Due to the complexity of this atom, it cannot be created from within the Atom Workshop directly.
+        </div>
+        <div className="center">
+          <a className="atom-editor__external" target="_blank" href={getCreateUrlFromAtomType(this.props.atomType)}>Open Dedicated Editor</a>
+        </div>
       </div>
     );
   }
