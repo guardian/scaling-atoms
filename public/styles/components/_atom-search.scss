@@ -1,0 +1,84 @@
+.atom-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: $color200Grey;
+  border: 1px solid $color300Grey;
+
+  &__input {
+    background: no-repeat left center url(../images/search.svg) transparent;
+    outline: none;
+    border: 0; // reset
+    border-bottom: 2px solid $color300Grey;
+    padding: 5px 5px 5px 25px;
+
+    &:focus {
+      border-color: $brandColor;
+    }
+  }
+
+  &__filters {
+    display: flex;
+  }
+
+  &__dropdown {
+    background: url(../images/arrow.png) transparent no-repeat right 10px center;
+    border-left: 1px solid $color300Grey;
+    font-size: 12px;
+    padding: 12px 25px 12px 10px;
+    border-radius: 0;
+    text-indent: .01px;
+
+    &-container {
+      position: relative;
+    }
+
+    &__label {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    &__value {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: none;
+      border: 0;
+      display: inline-block;
+      vertical-align: bottom;
+      width: 70px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-transform: capitalize;
+    }
+
+    &__checkbox {
+      margin-right: 10px;
+    }
+
+    &__items {
+      position: absolute;
+      top: 40px; // Magic number that just happens to be how tall they are
+      left: 0;
+      background-color: $color200Grey;
+      border: 1px solid $color300Grey;
+      max-height: 300px;
+      overflow: auto;
+
+      &--hidden {
+        display: none;
+      }
+    }
+
+    &__item {
+      background: transparent;
+      padding: 10px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $color300Grey;
+      }
+    }
+  }
+}
