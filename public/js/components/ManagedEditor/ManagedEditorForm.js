@@ -14,7 +14,7 @@ export class ManagedForm extends React.Component {
     onFormErrorStateUpdate: PropTypes.func // Helper method that just returns true/false
   };
 
-  state: {
+  state = {
     id: '',
     formErrors: {}
   }
