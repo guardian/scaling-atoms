@@ -5,7 +5,6 @@ import FormFieldNumericInput from '../../FormFields/FormFieldNumericInput';
 import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
 import FormFieldTextInput from '../../FormFields/FormFieldTextInput';
 import FormFieldImageSelect from '../../FormFields/FormFieldImageSelect';
-import FormFieldCheckboxGroup from '../../FormFields/FormFieldCheckboxGroup';
 import FormFieldMultiSelect from '../../FormFields/FormFieldMultiSelect';
 import {RecipeServings} from './RecipeFields/Servings';
 import {IngredientList} from './RecipeFields/IngredientList';
@@ -32,15 +31,15 @@ export class RecipeEditor extends React.Component {
           <FormFieldMultiSelect selectValues={recipeData.cuisineList}/>
         </ManagedField>
         <ManagedField fieldLocation="data.recipe.tags.category" name="Category">
-          <FormFieldCheckboxGroup checkValues={recipeData.categoryList}/>
+          <FormFieldMultiSelect selectValues={recipeData.categoryList}/>
         </ManagedField>
 
         <ManagedField fieldLocation="data.recipe.tags.celebration" name="Celebration">
-          <FormFieldCheckboxGroup checkValues={recipeData.celebrationList}/>
+          <FormFieldMultiSelect selectValues={recipeData.celebrationList}/>
         </ManagedField>
 
         <ManagedField fieldLocation="data.recipe.tags.dietary" name="Dietary info">
-          <FormFieldCheckboxGroup checkValues={recipeData.dietaryList}/>
+          <FormFieldMultiSelect selectValues={recipeData.dietaryList}/>
         </ManagedField>
 
         <ManagedField fieldLocation="data.recipe.time.preparation" name="Preparation Time (mins)">

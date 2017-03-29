@@ -39,7 +39,7 @@ export default class FormFieldMultiSelect extends React.Component {
       });
       this.props.onUpdateField(newFieldValue);
     };
-
+    
     return (
       <span className="form__field--multiselect__value" key={`${fieldName}-${i}`} onClick={removeFn}>{fieldName} </span>
     );
@@ -69,12 +69,17 @@ export default class FormFieldMultiSelect extends React.Component {
         <div className={this.props.formRowClass || "form__row"}>
             {this.props.fieldLabel && <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label>}
 
-            <div className="form__field form__field--multi-select">
-              {this.props.fieldValue && this.props.fieldValue.map((fieldName, i) => this.renderValue(fieldName, i))}
+            <div className="form__container">
+              <div className="form__field form__field--multiselect">
+                {this.props.fieldValue.length ? this.props.fieldValue.map((fieldName, i) => this.renderValue(fieldName, i)) : 'No items selected'}
+                <button type="button" className="form__field--multiselect__btn" onClick={this.showOptions}>Add</button>
+              </div>
+              {this.state.showOptions ? 
+                <div className="form__field--multiselect__options">
+                  {this.props.selectValues.map((fieldName, i) => this.renderOption(fieldName, i))}
+                </div>
+              : false}
             </div>
-            <button type="button" className="btn" onClick={this.showOptions}>Add</button>
-
-            {this.state.showOptions && this.props.selectValues.map((fieldName, i) => this.renderOption(fieldName, i))}
           <ShowErrors errors={this.props.fieldErrors}/>
         </div>
     );
