@@ -21,6 +21,9 @@ class AtomEdit extends React.Component {
       updateAtom: PropTypes.func.isRequired,
       publishAtom: PropTypes.func.isRequired
     }).isRequired,
+    formErrorActions: PropTypes.shape({
+      updateFormErrors: PropTypes.func
+    }),
     atom: atomPropType,
     config: PropTypes.shape({
       gridUrl: PropTypes.string,
