@@ -38,6 +38,10 @@ class AtomEdit extends React.Component {
     enterPresence(this.props.routeParams.atomType, this.props.routeParams.id);
   }
 
+  updateFormErrors = (errors) => {
+    this.props.formErrorActions.updateFormErrors(errors);
+  }
+
   renderSpecificEditor () {
 
     //TODO: This is brittle, can we improve?
@@ -45,13 +49,13 @@ class AtomEdit extends React.Component {
 
     switch (atomType) {
       case ("cta"):
-        return <CTAEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
+        return <CTAEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
       case ("recipe"):
-        return <RecipeEditor atom={this.props.atom} onUpdate={this.updateAtom} config={this.props.config}/>;
+        return <RecipeEditor atom={this.props.atom} onUpdate={this.updateAtom} config={this.props.config} onFormErrorsUpdate={this.updateFormErrors} />;
       case ("explainer"):
-        return <ExplainerEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
+        return <ExplainerEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
       case ("storyquestions"):
-        return <StoryQuestionsEditor atom={this.props.atom} onUpdate={this.updateAtom}/>;
+        return <StoryQuestionsEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
       default:
         return (
           <div>Atom Workshop cannot edit this type of atom currently</div>
@@ -89,18 +93,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as updateAtomActions from '../../actions/AtomActions/updateAtom.js';
 import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
+import * as updateFormErrors from '../../actions/FormErrorActions/updateFormErrors.js';
 
 function mapStateToProps(state) {
   return {
     config: state.config,
     atom: state.atom,
-    presence: state.presence
+    presence: state.presence,
+    formErrors: state.formErrors
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    atomActions: bindActionCreators(Object.assign({}, updateAtomActions, publishAtomActions), dispatch)
+    atomActions: bindActionCreators(Object.assign({}, updateAtomActions, publishAtomActions), dispatch),
+    formErrorActions: bindActionCreators(Object.assign({}, updateFormErrors), dispatch)
   };
 }
 

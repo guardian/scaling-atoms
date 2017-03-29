@@ -1,29 +1,19 @@
 import React, {PropTypes} from 'react';
-import _uniqueId from 'lodash/fp/uniqueId';
 
 export class ManagedForm extends React.Component {
 
   static propTypes = {
+    formName: PropTypes.string,
     data: PropTypes.object,
     updateData: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.arrayOf(PropTypes.element)
     ]),
+    formErrors: PropTypes.object,
     onFormErrorsUpdate: PropTypes.func,
     onFormErrorStateUpdate: PropTypes.func // Helper method that just returns true/false
   };
-
-  state: {
-    id: '',
-    formErrors: {}
-  }
-
-  componentWillMount() {
-    this.setState({
-      id: _uniqueId('form')
-    });
-  }
 
   hasFormErrors(formErrorsObject) {
     const fieldWithError = Object.keys(formErrorsObject).find((key) => formErrorsObject[key].length > 0);
@@ -32,12 +22,8 @@ export class ManagedForm extends React.Component {
 
   updateFormErrors = (fieldErrors, fieldName) => {
 
-    const formErrors = Object.assign({}, this.state.formErrors, {
-      [fieldName]: fieldErrors
-    });
-
-    this.setState({
-      formErrors: formErrors
+    const formErrors = Object.assign({}, this.props.formErrors, {
+      [this.props.formName]: { [fieldName]: fieldErrors }
     });
 
     this.props.onFormErrorsUpdate && this.props.onFormErrorsUpdate(formErrors);

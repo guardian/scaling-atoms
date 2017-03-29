@@ -11,12 +11,13 @@ export class ExplainerEditor extends React.Component {
       type: PropTypes.string,
       id: PropTypes.string
     }).isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    onFormErrorsUpdate: PropTypes.func
   }
 
   render() {
     return (
-      <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
+      <ManagedForm data={this.props.atom} updateData={this.props.onUpdate} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="explainerEditor">
         <ManagedField fieldLocation="data.explainer.title" name="Explainer Title" isRequired={true}>
           <FormFieldTextInput />
         </ManagedField>

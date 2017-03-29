@@ -62,6 +62,7 @@ class CreateTargetForm extends React.Component {
           data={this.state.currentTarget}
           updateData={this.updateCurrentTarget}
           onFormErrorStateUpdate={this.updateFormErrorState}
+          formName="targetingForm"
           >
           <ManagedField fieldLocation="title" name="Title" isRequired={true}>
             <FormFieldTextInput/>
