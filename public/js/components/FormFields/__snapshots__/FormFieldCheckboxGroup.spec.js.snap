@@ -37,12 +37,12 @@ exports[`test Should render 1`] = `
   <div
     className="form__group">
     <input
-      checked={true}
+      checked={false}
       className="form__checkbox"
       name="three"
       onChange={[Function]}
       type="checkbox"
-      value={true} />
+      value={false} />
     <span
       className="form__label form__label--checkbox">
       three
