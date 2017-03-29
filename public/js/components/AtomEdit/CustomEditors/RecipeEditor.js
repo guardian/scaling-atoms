@@ -6,6 +6,7 @@ import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
 import FormFieldTextInput from '../../FormFields/FormFieldTextInput';
 import FormFieldImageSelect from '../../FormFields/FormFieldImageSelect';
 import FormFieldCheckboxGroup from '../../FormFields/FormFieldCheckboxGroup';
+import FormFieldMultiSelect from '../../FormFields/FormFieldMultiSelect';
 import {RecipeServings} from './RecipeFields/Servings';
 import {IngredientList} from './RecipeFields/IngredientList';
 import * as recipeData from '../../../constants/recipeData';
@@ -28,7 +29,7 @@ export class RecipeEditor extends React.Component {
       <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
 
         <ManagedField fieldLocation="data.recipe.tags.cuisine" name="Cuisine">
-          <FormFieldCheckboxGroup checkValues={recipeData.cuisineList}/>
+          <FormFieldMultiSelect selectValues={recipeData.cuisineList}/>
         </ManagedField>
         <ManagedField fieldLocation="data.recipe.tags.category" name="Category">
           <FormFieldCheckboxGroup checkValues={recipeData.categoryList}/>

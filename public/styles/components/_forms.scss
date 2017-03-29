@@ -65,6 +65,44 @@
   }
 }
 
+.form__field--multiselect {
+
+  &__option {
+    background: $color200Grey;
+    padding: 5px;
+
+    &:not(:last-child) {
+      border: {
+        right: 1px solid $color300Grey;
+        bottom: 1px solid $color300Grey;
+        left: 1px solid $color300Grey;
+      };
+    };
+  }
+
+  &__value {
+    display: inline-block;
+    padding: 2px 4px;
+    background: $color200Grey;
+    border: 1px solid $color300Grey;
+    border-radius: 2px;
+    margin-right: 2px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      background: $color250Grey;
+    }
+
+    &:after {
+      content: '×';
+      display: inline-block;
+      font-weight: normal;
+      margin-left: 4px;
+    }
+  }
+}
+
 .form__group {
   margin-bottom: 5px;
 
