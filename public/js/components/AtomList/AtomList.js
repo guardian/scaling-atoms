@@ -6,6 +6,7 @@ import FormFieldTextInput from '../FormFields/FormFieldTextInput';
 import FormFieldCheckboxGroup from '../FormFields/FormFieldCheckboxGroup';
 import FormFieldSelectBox from '../FormFields/FormFieldSelectBox';
 import AtomListItem from '../AtomListItem/AtomListItem';
+import {browserHistory} from 'react-router';
 
 
 class AtomList extends React.Component {
@@ -18,6 +19,14 @@ class AtomList extends React.Component {
             }),
             isEmbedded: PropTypes.bool.isRequired
         }),
+        location: PropTypes.shape({
+            pathname: PropTypes.string,
+            query: PropTypes.shape({
+                types: PropTypes.string,
+                q: PropTypes.string,
+                'page-size': PropTypes.string
+            })
+        }),
         atomListActions: PropTypes.shape({
             getAtomList: PropTypes.func.isRequired
         }).isRequired,
@@ -27,17 +36,46 @@ class AtomList extends React.Component {
     state = {
         params: {
             types:[],
-            "page-size": "20",
-            q: "",
-            searchFields: "data.title,data.label,title,labels,data.body"
+            'page-size': '20',
+            q: '',
+            searchFields: 'data.title,data.label,title,labels,data.body'
         }
     };
 
     componentWillMount() {
-        this.props.atomListActions.getAtomList(this.state.params);
+        this.getAtomList(this.props.location.query);
+    }
+
+    getAtomList = (query) => {
+        if (Object.keys(query).length === 0) {
+          return this.props.atomListActions.getAtomList(this.state.params);
+        }
+
+        const convertUriListToArray = (uriList) => {
+          if (uriList.length === 0) {
+            return false;
+          }
+
+          return uriList.split(',');
+        };
+
+        const newParams = Object.assign({}, this.state.params, {
+          types: convertUriListToArray(query.types) || [],
+          'page-size': query['page-size'] || '20',
+          q: query.q || ''
+        });
+
+        this.setState({
+          params: newParams
+        }, () => this.props.atomListActions.getAtomList(this.state.params));
+    }
+
+    stateToParams = (newParams) => {
+      return `?q=${newParams.q}&page-size=${newParams["page-size"]}&types=${newParams.types.join(',')}&searchFields=${this.state.params.searchFields}`;
     }
 
     updateAtomList = (newParams) => {
+        browserHistory.push(this.props.location.pathname + this.stateToParams(newParams));
         this.setState({
             params: newParams
         }, () => this.props.atomListActions.getAtomList(this.state.params));
