@@ -63,6 +63,9 @@ export class RecipeEditor extends React.Component {
             <FormFieldTextInput />
           </FormFieldArrayWrapper>
         </ManagedField>
+        <ManagedField fieldLocation="data.recipe.credits" name="Chefs">
+          <FormFieldMultiSelect selectValues={recipeData.chefs}/>
+        </ManagedField>
         <ManagedField fieldLocation="data.recipe.images" name="Images">
           <FormFieldArrayWrapper>
             <FormFieldImageSelect gridUrl={this.props.config.gridUrl}/>
