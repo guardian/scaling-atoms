@@ -1,6 +1,6 @@
 export default function formErrors(state = {}, action) {
 
-  let formName, newFormErrors, currentFormErrors, updatedFormErrors, updatedForm;
+  var formName, newFormErrors, currentFormErrors, updatedFormErrors, updatedForm;
   switch (action.type) {
     case 'FORM_ERRORS_UPDATE_REQUEST':
       formName = Object.keys(action.error)[0];
