@@ -1,5 +1,5 @@
 import { pandaFetch } from './pandaFetch';
-import { uriEncodeParams } from '../util/uriEncodeParams';
+import { uriEncodeParams, sanitiseQuery } from '../util/uriEncodeParams';
 
 
 export const searchTags = (searchText) => {
@@ -12,12 +12,6 @@ export const searchTags = (searchText) => {
   )
   .then((res) => res.json())
   .then((json) => Promise.resolve(json.response.results));
-};
-
-export const sanitiseQuery = (query) => {
-  return Object.keys(query)
-  .filter(k => (query[k] && query[k].length != 0))
-  .reduce( (res, key) => (res[key] = query[key], res), {} );
 };
 
 export const searchAtoms = (query) => {

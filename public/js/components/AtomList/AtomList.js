@@ -7,6 +7,7 @@ import FormFieldCheckboxGroup from '../FormFields/FormFieldCheckboxGroup';
 import FormFieldSelectBox from '../FormFields/FormFieldSelectBox';
 import AtomListItem from '../AtomListItem/AtomListItem';
 import {browserHistory} from 'react-router';
+import { uriEncodeParams, sanitiseQuery } from '../../util/uriEncodeParams';
 
 
 class AtomList extends React.Component {
@@ -71,11 +72,11 @@ class AtomList extends React.Component {
     }
 
     stateToParams = (newParams) => {
-      return `?q=${newParams.q}&page-size=${newParams["page-size"]}&types=${newParams.types.join(',')}&searchFields=${this.state.params.searchFields}`;
+      return uriEncodeParams(sanitiseQuery(newParams));
     }
 
     updateAtomList = (newParams) => {
-        browserHistory.push(this.props.location.pathname + this.stateToParams(newParams));
+        browserHistory.push(`${this.props.location.pathname}?${this.stateToParams(newParams)}`);
         this.setState({
             params: newParams
         }, () => this.props.atomListActions.getAtomList(this.state.params));
