@@ -9,6 +9,7 @@ import saveState from '../reducers/saveStateReducer';
 import atomList from '../reducers/atomListReducer';
 import atomUsages from '../reducers/atomUsagesReducer';
 import externalAtom from '../reducers/externalAtomReducer';
+import queryParams from '../reducers/queryParamsReducer';
 
 export const rootReducer = combineReducers({
   config,
@@ -19,5 +20,6 @@ export const rootReducer = combineReducers({
   saveState,
   atomList,
   atomUsages,
-  externalAtom
+  externalAtom,
+  queryParams
 });

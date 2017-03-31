@@ -4,6 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import configurePresence from './util/configurePresence';
 import configureStore from './util/configureStore';
+import extractQueryParamsFromUrl from './util/extractQueryParamsFromUrl';
 import { setStore } from './util/storeAccessor';
 
 import {BaseApp} from './BaseApp.js';
@@ -25,19 +26,28 @@ function extractConfigFromPage() {
 const store = configureStore();
 const config = extractConfigFromPage();
 const presenceClient = config.presenceEnabled ? configurePresence(config.presenceEndpointURL, config.user) : {};
+const queryParams = extractQueryParamsFromUrl();
 
 setStore(store);
 
 // Send config to store on init
 store.dispatch({
-    type:       'CONFIG_RECEIVED',
-    config:     config,
-    receivedAt: Date.now()
+  type:       'CONFIG_RECEIVED',
+  config:     config,
+  receivedAt: Date.now()
 });
 
+// Start presence on init
 store.dispatch({
   type: 'PRESENCE_CLIENT_STARTED',
   presenceClient: presenceClient,
+  receivedAt: Date.now()
+});
+
+// Store initial query params on init
+store.dispatch({
+  type: 'QUERY_PARAMS_RECEIVED',
+  queryParams: queryParams,
   receivedAt: Date.now()
 });
 
