@@ -1,0 +1,12 @@
+.message-bar {
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid;
+
+  &--error {
+    color: $cWhite;
+    background-color: lighten($cRedE3, 0.2);
+    border-color: $cRedB5;
+  }
+}

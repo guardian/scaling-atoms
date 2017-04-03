@@ -1,7 +1,7 @@
-export default function error(state = false, action) {
+export default function error(state = '', action) {
   switch (action.type) {
     case 'CLEAR_ERROR':
-      return false;
+      return '';
 
     case 'SHOW_ERROR':
       return action.message;

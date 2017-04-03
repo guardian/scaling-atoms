@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Header from './Header/Header';
+import AppMessage from './AppMessage/AppMessage';
 
 import {routerShape} from 'react-router/lib/PropTypes';
 
@@ -10,6 +11,7 @@ class Page extends React.Component {
     config: PropTypes.shape({
       isEmbedded: PropTypes.bool.isRequired
     }),
+    error: PropTypes.string,
     router: routerShape
   }
 
@@ -21,6 +23,7 @@ class Page extends React.Component {
     return (
       <div className={this.props.config.isEmbedded ? "page is-embedded" : "page"}>
         <Header router={this.props.router} isFindPage={this.isFindPage()}/>
+        <AppMessage error={this.props.error} />
         <div className="page__content">
           {this.props.children}
         </div>
@@ -34,7 +37,8 @@ import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
   return {
-    config: state.config
+    config: state.config,
+    error: state.error
   };
 }
 
