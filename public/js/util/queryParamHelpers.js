@@ -1,6 +1,6 @@
 import URLSearchParams from 'url-search-params';
 
-export default function extractQueryParamsFromUrl() {
+export const extractQueryParamsFromUrl = () => {
   const urlParams = new URLSearchParams(document.location.search);
   const queryParams = {};
   for(var pair of urlParams.entries()) {
@@ -18,4 +18,17 @@ export default function extractQueryParamsFromUrl() {
     }
   }
   return queryParams;
-}
+};
+
+export const queryParamsToUrlParams = (queryParams) => {
+  const urlParams = new URLSearchParams();
+  for (var key in queryParams) {
+    // transform arrays to strings that can be read in extractQueryParamsFromUrl
+    if(Array.isArray(queryParams[key])) {
+      queryParams[key].map((val) => urlParams.append(`${key}[]`, val));
+    } else { 
+      urlParams.append(key, queryParams[key]);
+    }
+  }
+  return urlParams.toString();
+};
