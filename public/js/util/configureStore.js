@@ -1,11 +1,13 @@
 import { compose, createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import stateToUriParams from '../middleware/stateToUriParams';
 
 import {rootReducer} from '../reducers/rootReducer.js';
 
 const createStoreWithMiddleware = compose(
     applyMiddleware(
-        thunkMiddleware
+        thunkMiddleware,
+        stateToUriParams
     ),
     window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore);

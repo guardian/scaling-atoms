@@ -1,0 +1,17 @@
+import {browserHistory} from 'react-router';
+
+export default function stateToUriParams({ getState }) {
+  return (next) => 
+    (action) => {
+      const console = window.console;
+      const prevState = getState();
+      const returnValue = next(action);
+      const nextState = getState();
+
+      console.log(browserHistory);
+      console.log(`%c prev state`, `color: #9E9E9E`, prevState);
+      console.log(`%c action`, `color: #03A9F4`, action);
+      console.log(`%c next state`, `color: #4CAF50`, nextState);
+      return returnValue;
+    };
+}
