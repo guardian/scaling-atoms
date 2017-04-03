@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 
 import configurePresence from './util/configurePresence';
 import configureStore from './util/configureStore';
-import extractQueryParamsFromUrl from './util/extractQueryParamsFromUrl';
+import {extractQueryParamsFromUrl} from './util/queryParamHelpers';
 import { setStore } from './util/storeAccessor';
 
 import {BaseApp} from './BaseApp.js';
