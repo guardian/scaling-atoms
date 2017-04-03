@@ -11,7 +11,12 @@ export const extractQueryParamsFromUrl = () => {
       if(queryParams[newKey]) {
         queryParams[newKey].push(pair[1]);
       } else {
-        queryParams[newKey] = new Array(pair[1]);
+        // URLSearchParams returns an empty string
+        if(pair[1] === '') {
+          queryParams[newKey] = new Array();
+        } else {
+          queryParams[newKey] = new Array(pair[1]);
+        }
       }
     } else {
       queryParams[pair[0]] = pair[1];
@@ -25,7 +30,12 @@ export const queryParamsToUrlParams = (queryParams) => {
   for (var key in queryParams) {
     // transform arrays to strings that can be read in extractQueryParamsFromUrl
     if(Array.isArray(queryParams[key])) {
-      queryParams[key].map((val) => urlParams.append(`${key}[]`, val));
+      if(queryParams[key].length) {
+        queryParams[key].map((val) => urlParams.append(`${key}[]`, val));
+      } else {
+        // ensures all params exist in state even if they're empty
+        urlParams.append(`${key}[]`, queryParams[key]);
+      }
     } else { 
       urlParams.append(key, queryParams[key]);
     }
