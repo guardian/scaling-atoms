@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import {allAtomTypes} from '../../constants/atomData';
+import {searchParams} from '../../constants/queryParams';
 import {ManagedField} from '../ManagedEditor';
 import SearchTextInput from '../FormFields/SearchFields/SearchTextInput';
 import SearchCheckboxGroup from '../FormFields/SearchFields/SearchCheckboxGroup';
@@ -29,6 +30,9 @@ class AtomList extends React.Component {
   };
 
   componentWillMount() {
+    if (!Object.keys(this.props.queryParams).length) {
+      this.props.queryParamsActions.updateQueryParams(searchParams);
+    }
     this.props.atomListActions.getAtomList(this.props.queryParams);
   }
 
@@ -54,9 +58,9 @@ class AtomList extends React.Component {
 
           <div className="atom-search__filters">
             <ManagedField data={this.props.queryParams}
-            updateData={this.updateAtomList}
-            fieldLocation="types"
-            name="Atom Types">
+              updateData={this.updateAtomList}
+              fieldLocation="types"
+              name="Atom Types">
               <SearchCheckboxGroup checkValues={allAtomTypes.map((t)=>t.type)}/>
             </ManagedField>
 
