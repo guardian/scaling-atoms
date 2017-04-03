@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 
 import {allAtomTypes} from '../../constants/atomData';
 import {ManagedField} from '../ManagedEditor';
-import FormFieldTextInput from '../FormFields/FormFieldTextInput';
-import FormFieldCheckboxGroup from '../FormFields/FormFieldCheckboxGroup';
-import FormFieldSelectBox from '../FormFields/FormFieldSelectBox';
+import SearchTextInput from '../FormFields/SearchFields/SearchTextInput';
+import SearchCheckboxGroup from '../FormFields/SearchFields/SearchCheckboxGroup';
+import SearchSelectBox from '../FormFields/SearchFields/SearchSelectBox';
 import AtomListItem from '../AtomListItem/AtomListItem';
 
 
@@ -37,36 +37,36 @@ class AtomList extends React.Component {
     this.props.queryParamsActions.updateQueryParams(newParams);
   };
 
-
   render () {
+
     if (!this.props.atomList) {
       return <div>Loading...</div>;
     }
 
     return (
       <div className="page__section">
-        <h1 className="page__subheading">Atom Finder</h1>
-        <div className="atom-list-filters">
-          <div className="atom-list-filters__search-box">
-            <ManagedField data={this.props.queryParams} updateData={this.updateAtomList} fieldLocation="q" name="Search:">
-              <FormFieldTextInput/>
+
+        <div className="atom-search">
+
+          <ManagedField data={this.props.queryParams} updateData={this.updateAtomList} fieldLocation="q" name="Search atoms">
+            <SearchTextInput fieldPlaceholder="Search for atoms" />
+          </ManagedField>
+
+          <div className="atom-search__filters">
+            <ManagedField data={this.props.queryParams}
+            updateData={this.updateAtomList}
+            fieldLocation="types"
+            name="Atom Types">
+              <SearchCheckboxGroup checkValues={allAtomTypes.map((t)=>t.type)}/>
+            </ManagedField>
+
+            <ManagedField data={this.props.queryParams} updateData={this.updateAtomList} fieldLocation="page-size" name="Page size">
+              <SearchSelectBox selectValues={["20","50","100","150","200"]} />
             </ManagedField>
           </div>
-          <div className="atom-list-filters__types-filter">
-            <ManagedField
-              data={this.props.queryParams}
-              updateData={this.updateAtomList}
-              fieldLocation="types"
-              name="Atom Types:">
-              <FormFieldCheckboxGroup checkValues={allAtomTypes.map((t)=>t.type)}/>
-            </ManagedField>
-          </div>
-          <div className="atom-list-filters__page-size">
-            <ManagedField data={this.props.queryParams} updateData={this.updateAtomList} fieldLocation="page-size" name="Page size:">
-              <FormFieldSelectBox selectValues={["20","50","100","150","200"]} />
-            </ManagedField>
-          </div>
+
         </div>
+
         <div className="atom-list">
           {this.props.atomList.map((atom) => <AtomListItem atom={atom} config={this.props.config} key={atom.id}/>)}
         </div>
