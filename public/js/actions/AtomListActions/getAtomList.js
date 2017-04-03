@@ -2,10 +2,10 @@ import {searchAtoms} from '../../services/capi';
 import {logError} from '../../util/logger';
 
 
-function requestAtomList(searchParams) {
+function requestAtomList(queryParams) {
     return {
         type:         'ATOM_LIST_GET_REQUEST',
-        searchParams: searchParams,
+        queryParams:  queryParams,
         receivedAt:   Date.now()
     };
 }
@@ -28,10 +28,10 @@ function errorReceivingAtomList(error) {
     };
 }
 
-export function getAtomList(searchParams) {
+export function getAtomList(queryParams) {
     return dispatch => {
-        dispatch(requestAtomList(searchParams));
-        return searchAtoms(searchParams)
+        dispatch(requestAtomList(queryParams));
+        return searchAtoms(queryParams)
             .then(atomList => dispatch(receiveAtomList(atomList)))
             .catch(error => dispatch(errorReceivingAtomList(error)));
     };
