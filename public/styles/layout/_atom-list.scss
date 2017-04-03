@@ -59,27 +59,3 @@
   }
 
 }
-
-.atom-list-filters {
-
-  display: flex;
-  flex-wrap: wrap;
-
-  &__search-box {
-    flex-grow: 1;
-    padding: 10px;
-    min-width: 350px;
-  }
-
-  &__types-filter {
-    padding: 10px;
-    max-width: 260px;
-    flex-grow: 1
-  }
-
-  &__page-size {
-    flex-grow: 0;
-    width: 100px;
-    padding: 10px;
-  }
-}
