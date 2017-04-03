@@ -16,7 +16,8 @@ export class StoryQuestionsQuestionSet extends React.Component {
       questions: PropTypes.array
     }),
     fieldPlaceholder: PropTypes.string,
-    onUpdateField: PropTypes.func
+    onUpdateField: PropTypes.func,
+    onFormErrorsUpdate: PropTypes.func
   };
 
   updateQuestionSet = (questionSet) => {
@@ -30,7 +31,7 @@ export class StoryQuestionsQuestionSet extends React.Component {
   render () {
     return (
       <div className="form__field">
-        <ManagedForm data={this.props.fieldValue} updateData={this.updateQuestionSet}>
+        <ManagedForm data={this.props.fieldValue} updateData={this.updateQuestionSet} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="storyquestionsEditor">
           <ManagedField fieldLocation="questionSetTitle" name="Question Set Title">
             <FormFieldTextInput />
           </ManagedField>

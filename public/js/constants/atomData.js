@@ -4,6 +4,7 @@
 //description - A brief description of what they are and when you use them
 //editorUri - a lodash template that will be passed gutoolsDomain, atomId, atomType
 //createUri - a lodash template that will be passed gutoolsDomain.
+//statsUrl - a lodash template that will be passed atomId, atomType
 
 
 import {PropTypes} from 'react';
@@ -36,6 +37,7 @@ export const storyQuestions = {
   type: "storyquestions",
   fullName: "Story Questions",
   description: "Pose further questions to the audience and gather interest",
+  statsUrl: _template("https://dashboard.ophan.co.uk/interaction/storyQuestions?days=7&platform=all&atomId=${atomId}")
 };
 
 export const quiz = {

@@ -11,13 +11,14 @@ export class StoryQuestionsEditor extends React.Component {
 
   static propTypes = {
     atom: atomPropType.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    onFormErrorsUpdate: PropTypes.func
   }
 
   render () {
     return (
       <div className="form">
-        <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
+        <ManagedForm data={this.props.atom} updateData={this.props.onUpdate} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="storyquestionsEditor">
           <ManagedField fieldLocation="data.storyquestions.title" name="Public Title" isRequired={true}>
             <FormFieldTextInput/>
           </ManagedField>
@@ -26,7 +27,7 @@ export class StoryQuestionsEditor extends React.Component {
           </ManagedField>
           <ManagedField fieldLocation="data.storyquestions.editorialQuestions" name="Editorial Questions">
             <FormFieldArrayWrapper>
-              <StoryQuestionsQuestionSet />
+              <StoryQuestionsQuestionSet onFormErrorsUpdate={this.props.onFormErrorsUpdate} />
             </FormFieldArrayWrapper>
           </ManagedField>
         </ManagedForm>

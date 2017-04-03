@@ -14,13 +14,14 @@ export class IngredientList extends React.Component {
       ingredients: PropTypes.array
     }),
     fieldPlaceholder: PropTypes.string,
-    onUpdateField: PropTypes.func
+    onUpdateField: PropTypes.func,
+    onFormErrorsUpdate: PropTypes.func
   };
 
   render () {
     return (
       <div>
-        <ManagedForm data={this.props.fieldValue} updateData={this.props.onUpdateField}>
+        <ManagedForm data={this.props.fieldValue} updateData={this.props.onUpdateField} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="recipeEditor">
           <ManagedField fieldLocation="title" name="Ingredients List Title (e.g. for the filling)">
             <FormFieldTextInput />
           </ManagedField>

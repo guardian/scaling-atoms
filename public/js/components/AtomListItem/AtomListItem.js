@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import {atomPropType} from '../../constants/atomPropType.js';
 import {getTitleForAtom, isAtomWorkshopEditable} from '../../util/atomDataExtractors';
+import {getAtomByType} from '../../constants/atomData';
 import publishState from '../../util/publishState';
 import {Link} from 'react-router';
 import _capitalize from 'lodash/fp/capitalize';
@@ -29,6 +30,33 @@ export default class AtomListItem extends React.Component {
         const date = new Date(changeRecord.date);
         return distanceInWordsToNow(date);
     };
+
+    renderStatsLink() {
+
+        const atomType = getAtomByType(this.props.atom.atomType);
+
+        if (!atomType.statsUrl) {
+            return (
+                <Link
+                    to={`/atoms/${this.props.atom.atomType}/${this.props.atom.id}/stats`}
+                    className="atom-list__link"
+                    key={this.props.atom.id}>
+                    <img className="atom-list__icon" src="/assets/images/stats-icon.svg"/>
+                </Link>
+            );
+        }
+
+        const statsLink = atomType.statsUrl({
+            atomType: this.props.atom.atomType,
+            atomId: this.props.atom.id
+        });
+
+        return (
+            <a href={statsLink} className="atom-list__link" key={this.props.atom.id}>
+                <img className="atom-list__icon" src="/assets/images/stats-icon.svg"/>
+            </a>
+        );
+    }
 
     renderEditorLink = (atom) => {
         const title = getTitleForAtom(atom);
@@ -62,9 +90,7 @@ export default class AtomListItem extends React.Component {
               <div>
                 <span className="bold">{publishState(this.props.atom).text} </span>
                 Last modified {this.getDateString(this.props.atom.contentChangeDetails.lastModified)} ago
-                <Link to={`/atoms/${this.props.atom.atomType}/${this.props.atom.id}/stats`} className="atom-list__link " key={this.props.atom.id}>
-                    <img className="atom-list__icon" src="/assets/images/stats-icon.svg"/>
-                </Link>
+                {this.renderStatsLink()}
               </div>
             </div>
           </div>

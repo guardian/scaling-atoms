@@ -18,6 +18,7 @@ export class RecipeEditor extends React.Component {
       id: PropTypes.string
     }).isRequired,
     onUpdate: PropTypes.func.isRequired,
+    onFormErrorsUpdate: PropTypes.func,
     config: PropTypes.shape({
       gridUrl: PropTypes.string.isRequired
     }).isRequired
@@ -25,7 +26,8 @@ export class RecipeEditor extends React.Component {
 
   render () {
     return (
-      <ManagedForm data={this.props.atom} updateData={this.props.onUpdate}>
+
+      <ManagedForm data={this.props.atom} updateData={this.props.onUpdate} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="recipeEditor">>
 
         <ManagedField fieldLocation="data.recipe.tags.cuisine" name="Cuisine">
           <FormFieldMultiSelect selectValues={recipeData.cuisineList}/>
@@ -55,7 +57,7 @@ export class RecipeEditor extends React.Component {
         </ManagedField>
         <ManagedField fieldLocation="data.recipe.ingredientsLists" name="Ingredient Lists">
           <FormFieldArrayWrapper>
-            <IngredientList />
+            <IngredientList onFormErrorsUpdate={this.props.onFormErrorsUpdate} />
           </FormFieldArrayWrapper>
         </ManagedField>
         <ManagedField fieldLocation="data.recipe.steps" name="Steps">

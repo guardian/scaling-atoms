@@ -20,7 +20,8 @@ export class Ingredient extends React.Component {
       unit: PropTypes.string
     }),
     fieldPlaceholder: PropTypes.string,
-    onUpdateField: PropTypes.func
+    onUpdateField: PropTypes.func,
+    onFormErrorsUpdate: PropTypes.func
   };
 
   updateQuantity = (newQuantity, newQuantityRange) => {
@@ -38,7 +39,7 @@ export class Ingredient extends React.Component {
 
   render () {
     return (
-      <ManagedForm data={this.props.fieldValue} updateData={this.props.onUpdateField}>
+      <ManagedForm data={this.props.fieldValue} updateData={this.props.onUpdateField} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="recipeEditor">
         <ManagedField fieldLocation="item" name="Ingredient Name">
           <FormFieldTextInput />
         </ManagedField>

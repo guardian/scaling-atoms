@@ -12,7 +12,8 @@ export class StoryQuestionsQuestion extends React.Component {
       questionText: PropTypes.string
     }),
     fieldPlaceholder: PropTypes.string,
-    onUpdateField: PropTypes.func
+    onUpdateField: PropTypes.func,
+    onFormErrorsUpdate: PropTypes.func
   };
 
   updateQuestion = (questionObject) => {
@@ -26,7 +27,7 @@ export class StoryQuestionsQuestion extends React.Component {
   render () {
     return (
       <div className="form__field">
-        <ManagedForm data={this.props.fieldValue} updateData={this.updateQuestion}>
+        <ManagedForm data={this.props.fieldValue} updateData={this.updateQuestion} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="storyquestionsEditor">
           <ManagedField fieldLocation="questionText" name="Question">
             <FormFieldTextInput />
           </ManagedField>
