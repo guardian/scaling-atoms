@@ -40,7 +40,7 @@ export class Ingredient extends React.Component {
   render () {
     return (
       <ManagedForm data={this.props.fieldValue} updateData={this.props.onUpdateField} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="recipeEditor">
-        <ManagedField fieldLocation="item" name="Ingredient Name">
+        <ManagedField fieldLocation="item" name="Ingredient Name" isRequired={true}>
           <FormFieldTextInput />
         </ManagedField>
         <ManagedField fieldLocation="comment" name="Comment">

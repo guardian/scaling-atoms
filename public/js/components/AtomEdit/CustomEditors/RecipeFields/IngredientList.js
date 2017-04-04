@@ -25,7 +25,7 @@ export class IngredientList extends React.Component {
           <ManagedField fieldLocation="title" name="Ingredients List Title (e.g. for the filling)">
             <FormFieldTextInput />
           </ManagedField>
-          <ManagedField fieldLocation="ingredients" name="Ingredients">
+          <ManagedField fieldLocation="ingredients" name="Ingredients" isRequired={true}>
             <FormFieldArrayWrapper fieldClass="form__section" nested={true}>
               <Ingredient />
             </FormFieldArrayWrapper>
