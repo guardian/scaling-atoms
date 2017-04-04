@@ -27,9 +27,9 @@ export default class SearchSelectBox extends React.Component {
 
   render() {
     return (
-        <div className="atom-search__dropdown">
+        <div className="atom-search__dropdown atom-search__dropdown--select">
           <label htmlFor={this.props.fieldName} className="atom-search__dropdown__label">{this.props.fieldLabel}</label>
-          <select className="atom-search__dropdown__value" value={this.props.fieldValue} onChange={this.onUpdate}>
+          <select id={this.props.fieldName} className="atom-search__dropdown__value atom-search__dropdown__value--select" value={this.props.fieldValue} onChange={this.onUpdate}>
             {this.renderOptions()}
           </select>
         </div>

@@ -1,4 +1,5 @@
 import { getStore } from '../util/storeAccessor';
+import {logError} from '../util/logger';
 
 export const subscribeToPresence = (atomType, atomId) => {
   const store = getStore();
@@ -18,12 +19,8 @@ export const subscribeToPresence = (atomType, atomId) => {
 export const enterPresence = (atomType, atomId) => {
   const store = getStore();
   const presenceClient = store.getState().presenceClient;
-  const presence = store.getState().presence;
-  if(presence !== null) {
-    presenceClient.enter(`${atomType}-${atomId}`, 'document');
-  } else {
-    throw new Error('No Presence connection found');
-  }
+  presenceClient.enter(`${atomType}-${atomId}`, 'document')
+    .catch(err => logError(err));
 };
 
 const updatePresence = (presence) => {

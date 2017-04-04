@@ -32,8 +32,10 @@ class AtomList extends React.Component {
   componentWillMount() {
     if (!Object.keys(this.props.queryParams).length) {
       this.props.queryParamsActions.updateQueryParams(searchParams);
+      this.props.atomListActions.getAtomList(searchParams);
+    } else {
+      this.props.atomListActions.getAtomList(this.props.queryParams);
     }
-    this.props.atomListActions.getAtomList(this.props.queryParams);
   }
 
   updateAtomList = (newParams) => {

@@ -6,6 +6,10 @@
   background: $color200Grey;
   border: 1px solid $color300Grey;
 
+  &__row {
+    margin: 10px;
+  }
+
   &__input {
     background: no-repeat left center url(../images/search.svg) transparent;
     outline: none;
@@ -46,7 +50,7 @@
       background: none;
       border: 0;
       display: inline-block;
-      vertical-align: bottom;
+      vertical-align: middle;
       width: 70px;
       overflow: hidden;
       white-space: nowrap;
@@ -78,6 +82,17 @@
 
       &:not(:last-child) {
         border-bottom: 1px solid $color300Grey;
+      }
+    }
+
+    &--select {
+      background: none;
+      padding: 0 0 0 12px;
+
+      .atom-search__dropdown__value--select {
+        background: url(../images/arrow.png) transparent no-repeat right 10px center;
+        height: 100%;
+        padding: 12px 25px 12px 0;
       }
     }
   }
