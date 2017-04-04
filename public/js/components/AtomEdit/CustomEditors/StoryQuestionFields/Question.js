@@ -28,7 +28,7 @@ export class StoryQuestionsQuestion extends React.Component {
     return (
       <div className="form__field">
         <ManagedForm data={this.props.fieldValue} updateData={this.updateQuestion} onFormErrorsUpdate={this.props.onFormErrorsUpdate} formName="storyquestionsEditor">
-          <ManagedField fieldLocation="questionText" name="Question">
+          <ManagedField fieldLocation="questionText" name="Question" isRequired={true}>
             <FormFieldTextInput />
           </ManagedField>
         </ManagedForm>
