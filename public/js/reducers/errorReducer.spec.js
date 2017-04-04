@@ -5,7 +5,7 @@ describe('error reducer', () => {
   it('should return the initial state', () => {
     expect(
       error(undefined, {})
-    ).toEqual(false, {});
+    ).toEqual('', {});
   });
 
   it('should handle CLEAR_ERROR', () => {
@@ -13,7 +13,7 @@ describe('error reducer', () => {
       error({}, {
         type: 'CLEAR_ERROR'
       })
-    ).toEqual(false);
+    ).toEqual('');
   });
 
   it('should handle SHOW_ERROR', () => {
