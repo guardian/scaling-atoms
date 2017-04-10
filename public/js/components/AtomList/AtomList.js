@@ -28,6 +28,9 @@ class AtomList extends React.Component {
     atomListActions: PropTypes.shape({
       getAtomList: PropTypes.func.isRequired
     }).isRequired,
+    queryParamsActions: PropTypes.shape({
+      updateQueryParams: PropTypes.func.isRequired
+    }),
     atomList: PropTypes.array
   };
 
