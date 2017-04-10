@@ -1,7 +1,7 @@
 import {replace} from 'react-router-redux';
 import _isEqual from 'lodash/isEqual';
 
-import {objectToParamString, paramStringToObject} from './UrlParameters';
+import {objectToParamString, paramStringToObject} from './urlParameters';
 
 export const updateUrlFromStateChangeMiddleware = ({dispatch, getState}) => (next) => (action) => {
   const prevState = getState();
