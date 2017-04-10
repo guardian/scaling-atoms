@@ -25,7 +25,6 @@ export const updateUrlFromStateChangeMiddleware = ({dispatch, getState}) => (nex
 };
 
 export const updateStateFromUrlChangeMiddleware = ({dispatch, getState}) => (next) => (action) => {
-
   next(action);
   const newState = getState();
 

@@ -7,7 +7,7 @@ import {syncHistoryWithStore} from 'react-router-redux';
 import configurePresence from './util/configurePresence';
 import {configureStore} from './util/store';
 import {setStore} from './util/storeAccessor';
-import {paramStringToObject} from './util/UrlParameters';
+import {paramStringToObject} from './util/urlParameters';
 
 import {BaseApp} from './BaseApp.js';
 
