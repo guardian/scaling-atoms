@@ -11,6 +11,7 @@ import atomList from '../reducers/atomListReducer';
 import atomUsages from '../reducers/atomUsagesReducer';
 import externalAtom from '../reducers/externalAtomReducer';
 import queryParams from '../reducers/queryParamsReducer';
+import {routerReducer} from 'react-router-redux';
 
 export const rootReducer = combineReducers({
   config,
@@ -23,5 +24,6 @@ export const rootReducer = combineReducers({
   atomList,
   atomUsages,
   externalAtom,
-  queryParams
+  queryParams,
+  routing: routerReducer
 });

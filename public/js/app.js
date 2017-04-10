@@ -1,32 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {render} from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import {browserHistory} from 'react-router';
+import {syncHistoryWithStore} from 'react-router-redux';
 
 import configurePresence from './util/configurePresence';
-import configureStore from './util/configureStore';
-import {extractQueryParamsFromUrl} from './util/queryParamHelpers';
-import { setStore } from './util/storeAccessor';
+import {configureStore} from './util/store';
+import {setStore} from './util/storeAccessor';
+import {paramStringToObject} from './util/UrlParameters';
 
 import {BaseApp} from './BaseApp.js';
 
 import '../styles/main.scss';
 
 function extractConfigFromPage() {
-
-    const configEl = document.getElementById('config');
-
-    if (!configEl) {
-        return {};
-    }
-
-    return JSON.parse(configEl.innerHTML);
+  const configEl = document.getElementById('config');
+  if (!configEl) {
+    return {};
+  }
+  return JSON.parse(configEl.innerHTML);
 }
 
-
 const store = configureStore();
+const history = syncHistoryWithStore(browserHistory, store);
 const config = extractConfigFromPage();
 const presenceClient = config.presenceEnabled ? configurePresence(config.presenceEndpointURL, config.user) : {};
-const queryParams = extractQueryParamsFromUrl();
 
 setStore(store);
 
@@ -44,30 +42,26 @@ store.dispatch({
   receivedAt: Date.now()
 });
 
-// Store initial query params on init
+// Get initial URL params
 store.dispatch({
-  type: 'QUERY_PARAMS_RECEIVED',
-  queryParams: queryParams,
+  type: "URLPARAMS_UPDATE",
+  queryParams: paramStringToObject(location.search),
   receivedAt: Date.now()
 });
 
-const render = (Component) => {
-  ReactDOM.render(
+const renderComponent = Component => {
+  render(
     <AppContainer>
-      {Component}
-    </AppContainer>,
-    document.getElementById('react-mount')
-  );
+        <Component store={store} history={history}/>
+    </AppContainer>
+  , document.getElementById('react-mount'));
 };
 
+renderComponent(BaseApp);
 
-render(<BaseApp store={store} />);
-
-
-//Hot Reloading code
 /* global module:false */
 if (module.hot) {
-  module.hot.accept('./BaseApp.js', () => {
-    render(<BaseApp store={store} />);
+  module.hot.accept('./BaseApp', () => {
+    renderComponent(BaseApp);
   });
 }
