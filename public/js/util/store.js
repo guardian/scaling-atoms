@@ -15,9 +15,9 @@ export function configureStore() {
     rootReducer,
     compose(
       applyMiddleware(thunkMiddleware),
+      applyMiddleware(routerMiddleware(browserHistory)),
       applyMiddleware(updateUrlFromStateChangeMiddleware),
       applyMiddleware(updateStateFromUrlChangeMiddleware),
-      applyMiddleware(routerMiddleware(browserHistory)),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );

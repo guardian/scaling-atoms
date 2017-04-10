@@ -15,6 +15,7 @@ export const updateUrlFromStateChangeMiddleware = ({dispatch, getState}) => (nex
       const newLocation = Object.assign({}, location, {
         search: paramString || ''
       });
+
       const updateAction = replace(newLocation);
       dispatch(updateAction);
     }
@@ -32,7 +33,7 @@ export const updateStateFromUrlChangeMiddleware = ({dispatch, getState}) => (nex
     const urlSearchParams = paramStringToObject(newState.routing.locationBeforeTransitions.search);
     if (!_isEqual(urlSearchParams, newState.queryParams)) {
       dispatch({
-        type: "URLPARAMS_UPDATE",
+        type: "QUERYPARAMS_UPDATE",
         queryParams: urlSearchParams,
         receivedAt: Date.now()
       });

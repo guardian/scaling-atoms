@@ -33,31 +33,25 @@ class AtomList extends React.Component {
 
   triggerSearch(overrideSearchQuery) {
     const searchQuery = overrideSearchQuery || this.props.queryParams;
-    
     this.props.atomListActions.getAtomList(searchQuery);
   }
 
   componentDidMount() {
-    this.triggerSearch(searchParams);
+    this.props.queryParamsActions.updateQueryParams(Object.assign({}, searchParams, this.props.queryParams));
+    this.triggerSearch();
   }
 
   componentWillReceiveProps(props) {
-    if (!_isEqual(props.queryParams, this.props.queryParams)){
+    if (!_isEqual(props.queryParams, this.props.queryParams)) {
       this.triggerSearch(props.queryParams);
     }
   }
 
   updateAtomList = (newParams) => {
-    this.props.atomListActions.getAtomList(newParams);
+    this.props.queryParamsActions.updateQueryParams(newParams);
   };
 
-  getParams = () => {
-    return Object.assign({}, this.props.queryParams, searchParams);
-  }
-
   render () {
-
-    const params = this.getParams();
 
     if (!this.props.atomList) {
       return <div>Loading...</div>;
@@ -68,19 +62,19 @@ class AtomList extends React.Component {
 
         <div className="atom-search">
 
-          <ManagedField data={params} updateData={this.updateAtomList} fieldLocation="q" name="Search atoms">
+          <ManagedField data={this.props.queryParams} updateData={this.updateAtomList} fieldLocation="q" name="Search atoms">
             <SearchTextInput fieldPlaceholder="Search for atoms" />
           </ManagedField>
 
           <div className="atom-search__filters">
-            <ManagedField data={params}
+            <ManagedField data={this.props.queryParams}
               updateData={this.updateAtomList}
               fieldLocation="types"
               name="Atom Types">
               <SearchCheckboxGroup checkValues={allAtomTypes.map((t)=>t.type)}/>
             </ManagedField>
 
-            <ManagedField data={params} updateData={this.updateAtomList} fieldLocation="page-size" name="Page size">
+            <ManagedField data={this.props.queryParams} updateData={this.updateAtomList} fieldLocation="page-size" name="Page size">
               <SearchSelectBox selectValues={["20","50","100","150","200"]} />
             </ManagedField>
           </div>
@@ -100,6 +94,7 @@ class AtomList extends React.Component {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as getAtomListActions from '../../actions/AtomListActions/getAtomList';
+import * as updateQueryParamsActions from '../../actions/QueryParamsActions/updateQueryParams';
 
 function mapStateToProps(state) {
   return {
@@ -111,7 +106,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    atomListActions: bindActionCreators(Object.assign({}, getAtomListActions), dispatch)
+    atomListActions: bindActionCreators(Object.assign({}, getAtomListActions), dispatch),
+    queryParamsActions: bindActionCreators(Object.assign({}, updateQueryParamsActions), dispatch)
   };
 }
 

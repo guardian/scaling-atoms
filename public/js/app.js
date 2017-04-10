@@ -44,7 +44,7 @@ store.dispatch({
 
 // Get initial URL params
 store.dispatch({
-  type: "URLPARAMS_UPDATE",
+  type: "QUERYPARAMS_UPDATE",
   queryParams: paramStringToObject(location.search),
   receivedAt: Date.now()
 });
