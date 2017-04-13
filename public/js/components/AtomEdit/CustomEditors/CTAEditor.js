@@ -37,7 +37,7 @@ export class CTAEditor extends React.Component {
         <ManagedField fieldLocation="data.cta.label" name="Label">
           <FormFieldTextInput />
         </ManagedField>
-        <ManagedField fieldLocation="data.cta.trackingcode" name="Tracking Code">
+        <ManagedField fieldLocation="data.cta.trackingCode" name="Tracking Code">
           <FormFieldTextInput />
         </ManagedField>
       </ManagedForm>
