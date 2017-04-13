@@ -66,7 +66,9 @@ class EditHeader extends React.Component {
   renderTakeDownButton = (atomPublishState) => {
     if(atomPublishState.id !== 'draft') {
       return (
-        <button type="button" disabled={atomPublishState.id === 'taken-down'} onClick={this.takeDownAtom} className="toolbar__item toolbar__button">Take down</button>
+          <div className="bold-button-padright">
+        <button type="button" disabled={atomPublishState.id === 'taken-down'} onClick={this.takeDownAtom} className="btn btn--red">Take down</button>
+          </div>
       );
     }
     return false;
@@ -78,7 +80,10 @@ class EditHeader extends React.Component {
     return (
         <div className="toolbar__container">
           {this.props.presence ? <PresenceIndicator presence={this.props.presence} /> : false}
-          <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="toolbar__item toolbar__button">Publish</button>
+          <div className="bold-button">
+            <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="btn btn--green">Publish</button>
+          </div>
+
           {this.renderTakeDownButton(atomPublishState)}
         </div>
     );

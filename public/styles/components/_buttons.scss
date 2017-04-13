@@ -23,6 +23,23 @@ button {
     background: $brandColor;
   }
 
+
+  &--green {
+    background: $cGreen33;
+
+    &:hover {
+      background: $btnDeepCtaHoverBgColor;
+    }
+  }
+
+  &--red {
+    background: $cRedB5;
+
+    &:hover {
+      background: $cRedE3;
+    }
+  }
+
   &:disabled {
     background-color: $color400Grey;
     color: $color500Grey;
