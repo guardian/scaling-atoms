@@ -23,6 +23,15 @@ button {
     background: $brandColor;
   }
 
+  &--margin {
+    margin: 5px;
+    &:not(:last-child) {
+      margin-right: 0px;
+    }
+  }
+
+
+
 
   &--green {
     background: $cGreen33;
