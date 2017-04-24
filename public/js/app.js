@@ -23,6 +23,7 @@ function extractConfigFromPage() {
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
+
 const config = extractConfigFromPage();
 const presenceClient = config.presenceEnabled ? configurePresence(config.presenceEndpointURL, config.user) : {};
 

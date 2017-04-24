@@ -11,11 +11,12 @@ import {
 
 
 export function configureStore() {
+  const router = routerMiddleware(browserHistory);
   const store = createStore(
     rootReducer,
     compose(
       applyMiddleware(thunkMiddleware),
-      applyMiddleware(routerMiddleware(browserHistory)),
+      applyMiddleware(router),
       applyMiddleware(updateUrlFromStateChangeMiddleware),
       applyMiddleware(updateStateFromUrlChangeMiddleware),
       window.devToolsExtension ? window.devToolsExtension() : f => f

@@ -23,7 +23,7 @@ function errorReceivingAtomList(error) {
     logError(error);
     return {
         type:       'SHOW_ERROR',
-        message:    'Could not get atom LIST',
+        message:    'Could not get Atom list',
         error:      error,
         receivedAt: Date.now()
     };
