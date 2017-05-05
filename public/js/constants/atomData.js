@@ -23,7 +23,7 @@ export const explainer = {
   type: "explainer",
   fullName: "Explainer Text",
   description: "Provide extra context to any article with an Explainer Text Box",
-  editorUri: _template("https://explainers.${gutoolsDomain}/explainer/${atomId}"),
+  editorUri: _template("https://explainers.${gutoolsDomain}/explain/${atomId}"),
   createUri: _template("https://explainers.${gutoolsDomain}")
 };
 
