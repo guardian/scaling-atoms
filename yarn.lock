@@ -856,6 +856,10 @@ browser-resolve@^1.11.2:
   dependencies:
     resolve "1.1.7"
 
+browser-split@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/browser-split/-/browser-split-0.0.1.tgz#7b097574f8e3ead606fb4664e64adfdda2981a93"
+
 browserify-aes@^1.0.0, browserify-aes@^1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/browserify-aes/-/browserify-aes-1.0.6.tgz#5e7725dbdef1fd5930d4ebab48567ce451c48a0a"
@@ -980,6 +984,10 @@ camelcase@^2.0.0:
 camelcase@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-3.0.0.tgz#32fc4b9fcdaf845fcdf7e73bb97cac2261f0ab0a"
+
+camelize@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
 
 caniuse-api@^1.5.2:
   version "1.5.3"
@@ -1465,6 +1473,13 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+data-set@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/data-set/-/data-set-3.1.0.tgz#ba45d1d26703e84e322cc95fc564fb163a03f169"
+  dependencies:
+    individual "^2.0.0"
+    weakmap-shim "~1.0.0"
+
 date-fns@^1.28.0:
   version "1.28.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.28.0.tgz#3b12f54b66467807bb95e5930caf7bfb4170bc1a"
@@ -1700,6 +1715,14 @@ error-stack-parser@^1.3.6:
   resolved "https://registry.yarnpkg.com/error-stack-parser/-/error-stack-parser-1.3.6.tgz#e0e73b93e417138d1cd7c0b746b1a4a14854c292"
   dependencies:
     stackframe "^0.3.1"
+
+error@^4.1.1:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/error/-/error-4.4.0.tgz#bf69ff251fb4a279c19adccdaa6b61e90d9bf12a"
+  dependencies:
+    camelize "^1.0.0"
+    string-template "~0.2.0"
+    xtend "~4.0.0"
 
 es-abstract@^1.5.0, es-abstract@^1.6.1, es-abstract@^1.7.0:
   version "1.7.0"
@@ -2280,6 +2303,13 @@ global@^4.3.0:
     min-document "^2.19.0"
     process "~0.5.1"
 
+global@4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/global/-/global-4.2.1.tgz#c16801e9a47f0b0b847a156d419dc143b5a4e8b3"
+  dependencies:
+    min-document "^2.6.1"
+    process "~0.5.1"
+
 globals@^9.0.0, globals@^9.14.0:
   version "9.16.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-9.16.0.tgz#63e903658171ec2d9f51b1d31de5e2b8dc01fb80"
@@ -2557,6 +2587,10 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
+individual@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/individual/-/individual-2.0.0.tgz#833b097dad23294e76117a98fb38e0d9ad61bb97"
+
 inflight@^1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"
@@ -2714,6 +2748,10 @@ is-number@^2.0.2, is-number@^2.1.0:
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-2.1.0.tgz#01fcbbb393463a548f2f466cce16dece49db908f"
   dependencies:
     kind-of "^3.0.2"
+
+is-object@^0.1.2, is-object@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/is-object/-/is-object-0.1.2.tgz#00efbc08816c33cfc4ac8251d132e10dc65098d7"
 
 is-path-cwd@^1.0.0:
   version "1.0.0"
@@ -3376,6 +3414,10 @@ lodash.uniq@^4.3.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
+lodash@^2.4.1:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
+
 lodash@^4.0.0, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
@@ -3517,7 +3559,7 @@ mime@^1.3.4, mime@1.3.4, mime@1.3.x:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.3.4.tgz#115f9e3b6b3daf2959983cb38f149a2d40eb5d53"
 
-min-document@^2.19.0:
+min-document@^2.19.0, min-document@^2.6.1:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/min-document/-/min-document-2.19.0.tgz#7bd282e3f5842ed295bb748cdd9f1ffa2c824685"
   dependencies:
@@ -4810,6 +4852,16 @@ scribe-plugin-link-prompt-command@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/scribe-plugin-link-prompt-command/-/scribe-plugin-link-prompt-command-1.0.0.tgz#c2c4afe0e55350dbceb746592f7e9cb7654a6058"
 
+scribe-plugin-noting:
+  version "0.3.28"
+  resolved "https://registry.yarnpkg.com/scribe-plugin-noting/-/scribe-plugin-noting-0.3.28.tgz#c805418feafe938f4664e94f77ede17c083740f5"
+  dependencies:
+    lodash "^2.4.1"
+    vdom-virtualize "git://github.com/marcelklehr/vdom-virtualize.git#38c9027e35d194502f74455be721ae49fb31621c"
+    virtual-dom "0.0.20"
+    virtual-hyperscript "4.4.0"
+    vtree "0.0.20"
+
 scribe-plugin-sanitizer@^0.1.10:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/scribe-plugin-sanitizer/-/scribe-plugin-sanitizer-0.1.10.tgz#8c912b4729e204cf7a8e86c338fafb1bd0b971e4"
@@ -5065,6 +5117,10 @@ strict-uri-encode@^1.0.0:
 string_decoder@^0.10.25, string_decoder@~0.10.x:
   version "0.10.31"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
+
+string-template@~0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/string-template/-/string-template-0.2.1.tgz#42932e598a352d01fc22ec3367d9d84eec6c9add"
 
 string-width@^1.0.1, string-width@^1.0.2:
   version "1.0.2"
@@ -5397,6 +5453,21 @@ vary@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.0.tgz#e1e5affbbd16ae768dd2674394b9ad3022653140"
 
+"vdom-virtualize@git://github.com/marcelklehr/vdom-virtualize.git#38c9027e35d194502f74455be721ae49fb31621c":
+  version "0.0.3"
+  resolved "git://github.com/marcelklehr/vdom-virtualize.git#38c9027e35d194502f74455be721ae49fb31621c"
+  dependencies:
+    vtree "0.0.14"
+
+vdom@0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/vdom/-/vdom-0.0.20.tgz#92eee2d93ba0ccc62192113f77b7ac84c1ad11fa"
+  dependencies:
+    global "4.2.1"
+    is-object "0.1.2"
+    vtree "0.0.20"
+    x-is-array "0.1.0"
+
 vendors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.1.tgz#37ad73c8ee417fb3d580e785312307d274847f22"
@@ -5407,11 +5478,51 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
+virtual-dom@0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/virtual-dom/-/virtual-dom-0.0.20.tgz#f4cb1e639ab22289590076aecd98c34d9bde9cc3"
+  dependencies:
+    browser-split "0.0.1"
+    is-object "0.1.2"
+    vdom "0.0.20"
+    vtree "0.0.20"
+    x-is-array "0.1.0"
+    x-is-string "0.1.0"
+
+virtual-hyperscript@4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/virtual-hyperscript/-/virtual-hyperscript-4.4.0.tgz#c8d8f843413597c16c690ae7214bc26453c4162f"
+  dependencies:
+    data-set "^3.0.0"
+    error "^4.1.1"
+    vtree "0.0.16"
+
 vm-browserify@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+vtree@0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/vtree/-/vtree-0.0.14.tgz#0ee6ebee9515b204e614b8c2c361c95bc8b111ee"
+  dependencies:
+    is-object "^0.1.2"
+    x-is-array "^0.1.0"
+
+vtree@0.0.16:
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/vtree/-/vtree-0.0.16.tgz#c55228c35707c9d0b5c7791d44fe1a227a2eaf3a"
+  dependencies:
+    is-object "^0.1.2"
+    x-is-array "^0.1.0"
+
+vtree@0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/vtree/-/vtree-0.0.20.tgz#c22cbb03ee73738f72ee86b39fada66f0c398b31"
+  dependencies:
+    is-object "^0.1.2"
+    x-is-array "^0.1.0"
 
 walker@~1.0.5:
   version "1.0.7"
@@ -5442,6 +5553,10 @@ wbuf@^1.1.0, wbuf@^1.4.0:
   resolved "https://registry.yarnpkg.com/wbuf/-/wbuf-1.7.2.tgz#d697b99f1f59512df2751be42769c1580b5801fe"
   dependencies:
     minimalistic-assert "^1.0.0"
+
+weakmap-shim@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/weakmap-shim/-/weakmap-shim-1.0.0.tgz#36db04b4c163612e6c4dd94971444a227caef34c"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
@@ -5601,11 +5716,19 @@ write@^0.2.1:
   dependencies:
     mkdirp "^0.5.1"
 
+x-is-array@^0.1.0, x-is-array@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/x-is-array/-/x-is-array-0.1.0.tgz#de520171d47b3f416f5587d629b89d26b12dc29d"
+
+x-is-string@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/x-is-string/-/x-is-string-0.1.0.tgz#474b50865af3a49a9c4657f05acd145458f77d82"
+
 xml-name-validator@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-2.0.1.tgz#4d8b8f1eccd3419aa362061becef515e1e559635"
 
-xtend@^4.0.0, "xtend@>=4.0.0 <4.1.0-0":
+xtend@^4.0.0, "xtend@>=4.0.0 <4.1.0-0", xtend@~4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 

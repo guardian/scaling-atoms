@@ -4,11 +4,12 @@ import scribeKeyboardShortcutsPlugin from 'scribe-plugin-keyboard-shortcuts';
 import scribePluginToolbar from 'scribe-plugin-toolbar';
 import scribePluginLinkPromptCommand from 'scribe-plugin-link-prompt-command';
 import scribePluginSanitizer from 'scribe-plugin-sanitizer';
+import scribePluginNoting from 'scribe-plugin-noting';
 import {errorPropType} from '../../constants/errorPropType';
 import ShowErrors from '../Utilities/ShowErrors';
 
 export default class FormFieldsScribeEditor extends React.Component {
-
+  
   static propTypes = {
     fieldLabel: PropTypes.string,
     fieldName: PropTypes.string,
@@ -19,57 +20,57 @@ export default class FormFieldsScribeEditor extends React.Component {
     showWordCount: PropTypes.bool,
     suggestedLength: PropTypes.number
   }
-
+  
   state = {
     wordCount: 0
   }
-
+  
   wordCount = (text) => text.trim().replace(/<(?:.|\n)*?>/gm, '').split(/\s+/).length;
-
+  
   renderWordCount = () => {
     const wordCount = this.wordCount(this.props.fieldValue);
     const tooLong = this.props.suggestedLength && wordCount > this.props.suggestedLength;
     return (
-        <div>
-          <span className="form__message__text">{wordCount} words</span>
-          {tooLong ? <span className="form__message__text--error"> (too long)</span>: false}
-        </div>
+    <div>
+    <span className="form__message__text">{wordCount} words</span>
+    {tooLong ? <span className="form__message__text--error"> (too long)</span>: false}
+    </div>
     );
   }
-
-
+  
+  
   render () {
     return (
-        <div className={(this.props.formRowClass || "form__row") + " scribe"}>
-          {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
-          <ScribeEditor fieldName={this.props.fieldName} value={this.props.fieldValue} onUpdate={this.props.onUpdateField}/>
-          {this.props.showWordCount ? this.renderWordCount() : false}
-          <ShowErrors errors={this.props.fieldErrors}/>
-        </div>
+    <div className={(this.props.formRowClass || "form__row") + " scribe"}>
+    {this.props.fieldLabel ? <label htmlFor={this.props.fieldName} className="form__label">{this.props.fieldLabel}</label> : false}
+    <ScribeEditor fieldName={this.props.fieldName} value={this.props.fieldValue} onUpdate={this.props.onUpdateField}/>
+    {this.props.showWordCount ? this.renderWordCount() : false}
+    <ShowErrors errors={this.props.fieldErrors}/>
+    </div>
     );
   }
 }
 
 export class ScribeEditor extends React.Component {
-
+  
   static propTypes = {
     fieldName: PropTypes.string,
     value: PropTypes.string,
     onUpdate: PropTypes.func
   }
-
+  
   componentDidMount() {
     this.scribe = new Scribe(this.refs.editor);
-
+    
     this.configureScribe();
-
+    
     this.scribe.on('content-changed', this.onContentChange);
   }
-
+  
   configureScribe() {
     // Create an instance of the Scribe toolbar
     this.scribe.use(scribePluginToolbar(this.refs.toolbar));
-
+    
     // Configure Scribe plugins
     this.scribe.use(scribePluginLinkPromptCommand());
     this.scribe.use(scribeKeyboardShortcutsPlugin({
@@ -78,7 +79,16 @@ export class ScribeEditor extends React.Component {
       linkPrompt: function (event) { return event.metaKey && !event.shiftKey && event.keyCode === 75; }, // k
       unlink: function (event) { return event.metaKey && event.shiftKey && event.keyCode === 75; } // shft + k
     }));
-
+    
+    var noteElConfig = {
+      'class': true,
+      'title': true,
+      'data-note-edited-by': true,
+      'data-note-edited-date': true,
+      'data-note-id': true,
+      'data-click-action': true
+    };
+    
     this.scribe.use(scribePluginSanitizer({
       tags: {
         p: {},
@@ -89,34 +99,55 @@ export class ScribeEditor extends React.Component {
         },
         ul: {},
         ol: {},
-        li: {}
+        li: {},
+        "gu-note": noteElConfig,
+        "gu-flag": noteElConfig,
+        "gu-correct": noteElConfig
       }
     }));
+    
+    var notingConfig = {
+      user: 'userName',
+      scribeInstanceSelector: '.scribe-body-editor__textarea',
+      selectors: [
+      { commandName: 'note',    tagName: 'gu-note',    clickAction: 'collapse',   keyCodes: [119, 121] }
+      ]
+    };
+    notingConfig.selectors = [
+      { commandName: 'note',    tagName: 'gu-note',    clickAction: 'collapse',   keyCodes: [119, 121] },
+      { commandName: 'flag',    tagName: 'gu-flag',    clickAction: 'toggle-tag', toggleTagTo: 'gu-correct', keyCodes: [117] },
+      { commandName: 'correct', tagName: 'gu-correct', clickAction: 'toggle-tag', toggleTagTo: 'gu-flag', keyCodes: [118] }
+    ];
 
+    this.scribe.use(scribePluginNoting(notingConfig));
+    
   }
-
+  
   shouldComponentUpdate(nextProps) {
     return nextProps.value !== this.refs.editor.innerHTML;
   }
-
+  
   onContentChange = () => {
     const newContent = this.refs.editor.innerHTML;
     if (newContent !== this.props.value) {
       this.props.onUpdate(newContent);
     }
   }
-
+  
   render() {
     return (
-        <div>
-        <div ref="toolbar" className="scribe__toolbar">
-          <button type="button" data-command-name="bold" className="scribe__toolbar__item">Bold</button>
-          <button type="button" data-command-name="italic" className="scribe__toolbar__item">Italic</button>
-          <button type="button" data-command-name="linkPrompt" className="scribe__toolbar__item">Link</button>
-          <button type="button" data-command-name="unlink" className="scribe__toolbar__item">Unlink</button>
-        </div>
-        <div id={this.props.fieldName} dangerouslySetInnerHTML={{__html: this.props.value}} ref="editor" className="scribe__editor"></div>
-        </div>
-  );
+    <div>
+    <div ref="toolbar" className="scribe__toolbar">
+    <button type="button" data-command-name="bold" className="scribe__toolbar__item">Bold</button>
+    <button type="button" data-command-name="italic" className="scribe__toolbar__item">Italic</button>
+    <button type="button" data-command-name="linkPrompt" className="scribe__toolbar__item">Link</button>
+    <button type="button" data-command-name="unlink" className="scribe__toolbar__item">Unlink</button>
+    <button type="button" data-command-name="note" className="scribe__toolbar__item">Note</button>
+    <button type="button" data-command-name="flag" className="scribe__toolbar__item">Flag</button>
+    <button type="button" data-command-name="correct" className="scribe__toolbar__item">Correct</button>
+    </div>
+    <div id={this.props.fieldName} dangerouslySetInnerHTML={{__html: this.props.value}} ref="editor" className="scribe__editor"></div>
+    </div>
+    );
   }
 }
