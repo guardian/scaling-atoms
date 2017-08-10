@@ -24,7 +24,7 @@ function errorReceivingSuggestedContent(error) {
   logError(error);
   return {
     type:       'SHOW_ERROR',
-    message:    'Could not get atom usages',
+    message:    'Could not get suggested content for atom',
     error:      error,
     receivedAt: Date.now()
   };

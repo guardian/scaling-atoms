@@ -82,3 +82,20 @@ export const getContentByTags = (tags, atomType) => {
     return Promise.resolve(json.response.results);
   });
 };
+
+const TWENTY_FOUR_HOURS_IN_MS = 86400 * 1000;
+
+export const getLatestContent = () => {
+  const date = new Date(Date.now() - TWENTY_FOUR_HOURS_IN_MS);
+  return pandaFetch(
+    `/support/previewCapi/search?show-tags=keyword&tag=tone/news&show-atoms=all&show-fields=internalComposerCode,headline&from-date=${date.toISOString()}`,
+    {
+      method: 'get',
+      credentials: 'same-origin'
+    }
+  )
+  .then((res) => res.json())
+  .then((json) => {
+    return Promise.resolve(json.response.results);
+  });
+};

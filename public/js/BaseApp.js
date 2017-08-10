@@ -10,6 +10,7 @@ import AtomStats from './components/AtomStats/AtomStats';
 import AtomList from './components/AtomList/AtomList';
 import ExternalAtom from './components/ExternalAtom/ExternalAtom';
 import AtomRoot from './components/AtomRoot/AtomRoot';
+import ContentSuggestions from './components/ContentSuggestions/ContentSuggestions';
 
 
 export const BaseApp = (props) => (
@@ -24,6 +25,7 @@ export const BaseApp = (props) => (
           <Route path="/atoms/:atomType/:id/stats" component={AtomStats} />
         </Route>
         <Route path="/external-atoms/:atomType/:id/link" component={ExternalAtom} />
+        <Route path="/suggestions" component={ContentSuggestions} />
         <IndexRedirect to="/find" />
       </Route>
     </Router>

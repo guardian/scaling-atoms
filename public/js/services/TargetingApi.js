@@ -62,3 +62,21 @@ export const deleteTarget = (targetId) => {
     }
   );
 };
+
+export const fetchTargetsForTags = (tags) => {
+
+  const store = getStore();
+  const state = store.getState();
+  const targetingUrl = state.config.targetingUrl;
+
+  const tagsParams = tags.map(tag => {return `tags=${tag}`}).join('&');
+
+  return pandaFetch(
+    `${targetingUrl}api/suggestions/search?${tagsParams}`,
+    {
+      method: 'get',
+      credentials: 'include',
+      mode: 'cors'
+    }
+  ).then(res => res.json());
+};

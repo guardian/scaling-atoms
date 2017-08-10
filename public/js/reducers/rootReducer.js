@@ -10,6 +10,7 @@ import saveState from '../reducers/saveStateReducer';
 import atomList from '../reducers/atomListReducer';
 import atomUsages from '../reducers/atomUsagesReducer';
 import suggestedContent from '../reducers/suggestedContentReducer';
+import suggestionsForLatestContent from '../reducers/suggestionsForLatestContent';
 import externalAtom from '../reducers/externalAtomReducer';
 import queryParams from '../reducers/queryParamsReducer';
 import workflow from '../reducers/workflowReducer';
@@ -26,6 +27,7 @@ export const rootReducer = combineReducers({
   atomList,
   atomUsages,
   suggestedContent,
+  suggestionsForLatestContent,
   externalAtom,
   queryParams,
   workflow,
