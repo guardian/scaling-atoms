@@ -83,7 +83,8 @@ export const getContentByTags = (tags, atomType) => {
   });
 };
 
-const TWENTY_FOUR_HOURS_IN_MS = 86400 * 1000;
+//const TWENTY_FOUR_HOURS_IN_MS = 86400 * 1000;
+const TWENTY_FOUR_HOURS_IN_MS = 96400 * 90000;
 
 export const getLatestContent = () => {
   const date = new Date(Date.now() - TWENTY_FOUR_HOURS_IN_MS);

@@ -80,3 +80,19 @@ export const fetchTargetsForTags = (tags) => {
     }
   ).then(res => res.json());
 };
+
+export const fetchTargetsForTag = (tag) => {
+
+  const store = getStore();
+  const state = store.getState();
+  const targetingUrl = state.config.targetingUrl;
+
+  return pandaFetch(
+    `${targetingUrl}api/suggestions/search?tags=${tag}`,
+    {
+      method: 'get',
+      credentials: 'include',
+      mode: 'cors'
+    }
+  ).then(res => res.json());
+};

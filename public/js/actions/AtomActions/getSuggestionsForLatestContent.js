@@ -1,8 +1,9 @@
 import {getLatestContent} from '../../services/capi';
-import {fetchTargetsForTags} from '../../services/TargetingApi';
+import {fetchTargetsForTag} from '../../services/TargetingApi';
 import AtomsApi from '../../services/AtomsApi';
+import {atomPropType} from '../../constants/atomPropType.js';
 import {logError} from '../../util/logger';
-
+import {PropTypes} from 'react';
 
 function requestSuggestionsForLatestContent() {
   return {
@@ -29,107 +30,115 @@ function errorReceivingSuggestionsForLatestContent(error) {
   };
 }
 
-const supportedAtomTypes = ["profile", "qanda", "timeline", "guide"];
-
-function flatten(arrayOfArrays) {
-  return arrayOfArrays.reduce(
-    (acc, e) => acc.concat(e),
-    []
-  );
-}
-
-function getCurrentAtomPaths(content) {
-  if (content.atoms) {
-    const all = supportedAtomTypes.map(atomType => {
-      const pluralAtom = `${atomType}s`;
-
-      if (content.atoms[pluralAtom]) {
-        return content.atoms[pluralAtom].map(atom => `/atom/${atomType}${atom.id}`);
-      } else return [];
-    });
-
-    return flatten(all);
-
-  } else return [];
-}
-
-function buildResult(content, targets) {
-  const currentAtoms = getCurrentAtomPaths(content);
-  const targetAtoms = targets.filter(target =>
-    //make sure it's an atom and is not already on this content
-    (target.url.includes('/atom') && currentAtoms.indexOf(target.url) === -1)
-  );
-
-  //TODO - this will fail for all if any atoms fail - ignore failures?
-  //Now query the atoms api to get full atom data for these targets
-  return Promise.all(
-    targetAtoms.map(atom => {
-      // the 'url' has the form: /atoms/<type>/<id>
-      const tokens = atom.url.split('/');
-      return AtomsApi.getAtom(tokens[tokens.length-2], tokens[tokens.length-1]).then(res => res.json());
-    })
-  ).then(atoms => {
-    return {
+//Returns a map of tagId to content
+function buildTagToContent(contentArray) {
+  const tagToContent = {};
+  contentArray.forEach(content => {
+    const item = {
       id: content.id,
       headline: content.fields.headline,
       internalComposerCode: content.fields.internalComposerCode,
-      atoms: atoms
+      atoms: content.atoms
     };
+
+    content.tags.forEach(tag => {
+      if (tag.type === "keyword") {
+        tagToContent[tag.id] = tagToContent[tag.id] ? tagToContent[tag.id].concat([item]) : [item];
+      }
+    })
   });
+
+  return tagToContent;
 }
 
+//Returns a map of tagId to suggestions from the targeting api, filtering out non-atoms
+function getTagToTargetAtoms(tags) {
+  const tagToTargetAtoms = {};
+
+  const fetch = (tag) => {
+    return fetchTargetsForTag(tag)
+      .then(targets => {
+        const filtered = targets.filter(target => target.url.includes("/atom/"));
+        if (filtered.length > 0) {
+          tagToTargetAtoms[tag] = (tagToTargetAtoms[tag]) ? tagToTargetAtoms[tag].tag(filtered) : filtered;
+        }
+        return Promise.resolve();
+      })
+  };
+
+  //Sequentially fetch targets for each tag
+  return tags.reduce((p, tag) => p.then(() => fetch(tag)), Promise.resolve())
+    .then(() => {
+      return Promise.resolve(tagToTargetAtoms);
+    });
+}
+
+//Returns a map of atom url to content, based on tagging
+function getAtomUrlToContent(tagToContent, tagToTargetAtoms) {
+  const atomUrlToContent = {};
+
+  Object.keys(tagToTargetAtoms).map(tag => {
+    tagToTargetAtoms[tag].map(target => {
+      tagToContent[tag].map(content => {
+        atomUrlToContent[target.url] =
+          (atomUrlToContent[target.url]) ? atomUrlToContent[target.url].concat([content]) : [content];
+      })
+    })
+  });
+
+  return atomUrlToContent;
+}
+
+function getAtomFromTargetUrl(url) {
+  // the path has the form: /atoms/<type>/<id>
+  const tokens = url.split('/');
+  const atomType = tokens[tokens.length-2];
+  const atomId = tokens[tokens.length-1];
+
+  return AtomsApi.getAtom(atomType, atomId)
+    .then(res => res.json());
+}
+
+function resolveAtoms(atomUrlToContent) {
+  return Promise.all(
+    Object.keys(atomUrlToContent).map(atomUrl => {
+      return getAtomFromTargetUrl(atomUrl).then(atom => {
+        return {
+          atom: atom,
+          content: atomUrlToContent[atomUrl]
+        }
+      })
+    })
+  )
+}
+
+export const suggestedContentPropType = PropTypes.shape({
+  atom: atomPropType.isRequired,
+  content: {
+    id: PropTypes.string.isRequired,
+    headline: PropTypes.string.isRequired,
+    internalComposerCode: PropTypes.string.isRequired,
+    atoms: PropTypes.object.isRequired
+  }
+});
+
 /**
- * Gets all news content from past 24 hours.
- * For each content, gets any atoms from targeting api which match any
- * of the content's keyword tags (excluding any atoms already on it).
- *
- * Better:
- * get all keyword tags for all content
- * foreach tag add to:
- *   tagToTarget[tag] = [targets...]
- *
- * [
- *   {
- *     "atom": {...},
- *     "content": [
- *       {
- *         "id": "",
- *         "headline": "",
- *         "internalComposerCode": ""
- *       }
- *     ]
- *   }
- * ]
+ * Returns an array of suggestedContentPropType, which maps
+ * an atom to its suggested content from the last 24 hours.
  */
 export function getSuggestionsForLatestContent() {
   return dispatch => {
     dispatch(requestSuggestionsForLatestContent());
 
     return getLatestContent()
-      .then((contentArray) => {
-        return Promise.all(
-          contentArray.map(content => {
-            const tags = content.tags.map(tag => tag.id);
+      .then(contentArray => {
+        const tagToContent = buildTagToContent(contentArray);
 
-            return fetchTargetsForTags(tags).then(targets => {
-              return {
-                content: content,
-                targets: targets.slice(0,5)
-              };
-            });
-          })
-        );
+        return getTagToTargetAtoms(Object.keys(tagToContent))
+          .then(tagToTargetAtoms => getAtomUrlToContent(tagToContent, tagToTargetAtoms))
       })
-      .then(contentWithTargetsArray => {
-        return Promise.all(
-          contentWithTargetsArray.map(contentWithTargets =>
-            buildResult(contentWithTargets.content, contentWithTargets.targets)
-          )
-        );
-      })
-      .then(results => {
-        dispatch(receiveSuggestionsForLatestContent(results));
-      })
+      .then(atomUrlToContent => resolveAtoms(atomUrlToContent))
+      .then(results => dispatch(receiveSuggestionsForLatestContent(results)))
       .catch(error => {
         dispatch(errorReceivingSuggestionsForLatestContent(error));
       });

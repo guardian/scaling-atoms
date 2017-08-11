@@ -37,7 +37,7 @@ class CopyUrlButton extends React.Component {
   render() {
     return (
       <button className="btn suggestions-copy-url" onClick={this.copyUrl}>
-        {this.state.copied ? "Copied!" : "Copy URL"}
+        {this.state.copied ? "Copied!" : "Copy atom URL"}
       </button>
     );
   }
