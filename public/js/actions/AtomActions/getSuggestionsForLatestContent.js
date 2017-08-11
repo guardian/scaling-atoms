@@ -45,12 +45,12 @@ function getCurrentAtomPaths(content) {
 
       if (content.atoms[pluralAtom]) {
         return content.atoms[pluralAtom].map(atom => `/atom/${atomType}${atom.id}`);
-      } else return []
+      } else return [];
     });
 
-    return flatten(all)
+    return flatten(all);
 
-  } else return []
+  } else return [];
 }
 
 function buildResult(content, targets) {
@@ -65,7 +65,7 @@ function buildResult(content, targets) {
     targetAtoms.map(atom => {
       // the 'url' has the form: /atoms/<type>/<id>
       const tokens = atom.url.split('/');
-      return AtomsApi.getAtom(tokens[2], tokens[3]).then(res => res.json())
+      return AtomsApi.getAtom(tokens[2], tokens[3]).then(res => res.json());
     })
   ).then(atoms => {
     return {
@@ -73,7 +73,7 @@ function buildResult(content, targets) {
       headline: content.fields.headline,
       internalComposerCode: content.fields.internalComposerCode,
       atoms: atoms
-    }
+    };
   });
 }
 
@@ -96,20 +96,23 @@ export function getSuggestionsForLatestContent() {
               return {
                 content: content,
                 targets: targets
-              }
-            })
+              };
+            });
           })
-        )
+        );
       })
       .then(contentWithTargetsArray => {
         return Promise.all(
           contentWithTargetsArray.map(contentWithTargets =>
             buildResult(contentWithTargets.content, contentWithTargets.targets)
           )
-        )
+        );
       })
       .then(results => {
-        dispatch(receiveSuggestionsForLatestContent(results))
+        dispatch(receiveSuggestionsForLatestContent(results));
       })
+      .catch(error => {
+        dispatch(errorReceivingSuggestionsForLatestContent(error));
+      });
   };
 }

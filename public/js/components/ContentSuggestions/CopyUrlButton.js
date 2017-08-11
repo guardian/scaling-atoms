@@ -7,7 +7,7 @@ class CopyUrlButton extends React.Component {
   static propTypes = {
     atom: atomPropType,
     config: PropTypes.shape({
-      liveCapiUrl: PropTypes.string
+      capiLiveUrl: PropTypes.string
     }).isRequired
   }
 
@@ -39,7 +39,7 @@ class CopyUrlButton extends React.Component {
       <button className="btn suggestions-copy-url" onClick={this.copyUrl}>
         {this.state.copied ? "Copied!" : "Copy URL"}
       </button>
-    )
+    );
   }
 }
 

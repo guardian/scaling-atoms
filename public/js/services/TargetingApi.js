@@ -69,7 +69,7 @@ export const fetchTargetsForTags = (tags) => {
   const state = store.getState();
   const targetingUrl = state.config.targetingUrl;
 
-  const tagsParams = tags.map(tag => {return `tags=${tag}`}).join('&');
+  const tagsParams = tags.map(tag => `tags=${tag}`).join('&');
 
   return pandaFetch(
     `${targetingUrl}api/suggestions/search?${tagsParams}`,
