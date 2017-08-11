@@ -57,15 +57,16 @@ function buildResult(content, targets) {
   const currentAtoms = getCurrentAtomPaths(content);
   const targetAtoms = targets.filter(target =>
     //make sure it's an atom and is not already on this content
-    (target.url.startsWith('/atom') && currentAtoms.indexOf(target.url) === -1)
+    (target.url.includes('/atom') && currentAtoms.indexOf(target.url) === -1)
   );
 
+  //TODO - this will fail for all if any atoms fail - ignore failures?
   //Now query the atoms api to get full atom data for these targets
   return Promise.all(
     targetAtoms.map(atom => {
       // the 'url' has the form: /atoms/<type>/<id>
       const tokens = atom.url.split('/');
-      return AtomsApi.getAtom(tokens[2], tokens[3]).then(res => res.json());
+      return AtomsApi.getAtom(tokens[tokens.length-2], tokens[tokens.length-1]).then(res => res.json());
     })
   ).then(atoms => {
     return {
@@ -81,6 +82,24 @@ function buildResult(content, targets) {
  * Gets all news content from past 24 hours.
  * For each content, gets any atoms from targeting api which match any
  * of the content's keyword tags (excluding any atoms already on it).
+ *
+ * Better:
+ * get all keyword tags for all content
+ * foreach tag add to:
+ *   tagToTarget[tag] = [targets...]
+ *
+ * [
+ *   {
+ *     "atom": {...},
+ *     "content": [
+ *       {
+ *         "id": "",
+ *         "headline": "",
+ *         "internalComposerCode": ""
+ *       }
+ *     ]
+ *   }
+ * ]
  */
 export function getSuggestionsForLatestContent() {
   return dispatch => {
@@ -95,7 +114,7 @@ export function getSuggestionsForLatestContent() {
             return fetchTargetsForTags(tags).then(targets => {
               return {
                 content: content,
-                targets: targets
+                targets: targets.slice(0,5)
               };
             });
           })
