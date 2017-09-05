@@ -1,7 +1,6 @@
 import React, {PropTypes} from 'react';
 import CopyUrlButton from './CopyUrlButton';
 import {FrontendIcon, ComposerIcon, ViewerIcon} from '../../util/icons.js';
-import {suggestedContentPropType} from '../../actions/AtomActions/getSuggestionsForLatestContent.js';
 
 const SupportedAtomTypes = ["PROFILE", "QANDA", "TIMELINE", "GUIDE"];
 
@@ -35,7 +34,7 @@ class ContentSuggestions extends React.Component {
 
   alreadyHasAtom = (content, atomId) => {
     const idx = SupportedAtomTypes.findIndex(atomType => {
-      return (content.atoms[atomType] && content.atoms[atomType].findIndex(atom => atom.id === atomId) > -1)
+      return (content.atoms[atomType] && content.atoms[atomType].findIndex(atom => atom.id === atomId) > -1);
     });
 
     return idx > -1;
@@ -101,8 +100,6 @@ class ContentSuggestions extends React.Component {
   }
 
   render() {
-    console.log("RENDER")
-    console.log(this.props.suggestionsForLatestContent)
     return (
       <div className="atom-editor suggestions-container">
         {this.renderSuggestionsForLatestContent()}

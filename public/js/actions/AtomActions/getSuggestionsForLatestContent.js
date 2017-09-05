@@ -45,7 +45,7 @@ function buildTagToContent(contentArray) {
       if (tag.type === "keyword") {
         tagToContent[tag.id] = tagToContent[tag.id] ? tagToContent[tag.id].concat([item]) : [item];
       }
-    })
+    });
   });
 
   return tagToContent;
@@ -63,7 +63,7 @@ function getTagToTargetAtoms(tags) {
           tagToTargetAtoms[tag] = (tagToTargetAtoms[tag]) ? tagToTargetAtoms[tag].tag(filtered) : filtered;
         }
         return Promise.resolve();
-      })
+      });
   };
 
   //Sequentially fetch targets for each tag
@@ -82,8 +82,8 @@ function getAtomUrlToContent(tagToContent, tagToTargetAtoms) {
       tagToContent[tag].map(content => {
         atomUrlToContent[target.url] =
           (atomUrlToContent[target.url]) ? atomUrlToContent[target.url].concat([content]) : [content];
-      })
-    })
+      });
+    });
   });
 
   return atomUrlToContent;
@@ -106,10 +106,10 @@ function resolveAtoms(atomUrlToContent) {
         return {
           atom: atom,
           content: atomUrlToContent[atomUrl]
-        }
-      })
+        };
+      });
     })
-  )
+  );
 }
 
 export const suggestedContentPropType = PropTypes.shape({
@@ -135,7 +135,7 @@ export function getSuggestionsForLatestContent() {
         const tagToContent = buildTagToContent(contentArray);
 
         return getTagToTargetAtoms(Object.keys(tagToContent))
-          .then(tagToTargetAtoms => getAtomUrlToContent(tagToContent, tagToTargetAtoms))
+          .then(tagToTargetAtoms => getAtomUrlToContent(tagToContent, tagToTargetAtoms));
       })
       .then(atomUrlToContent => resolveAtoms(atomUrlToContent))
       .then(results => dispatch(receiveSuggestionsForLatestContent(results)))
