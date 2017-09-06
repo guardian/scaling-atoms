@@ -34,7 +34,8 @@ class ContentSuggestions extends React.Component {
 
   alreadyHasAtom = (content, atomId) => {
     const idx = SupportedAtomTypes.findIndex(atomType => {
-      return (content.atoms[atomType] && content.atoms[atomType].findIndex(atom => atom.id === atomId) > -1);
+      const key = `${atomType.toLowerCase()}s`;
+      return (content.atoms[key] && content.atoms[key].findIndex(atom => atom.id === atomId) > -1);
     });
 
     return idx > -1;

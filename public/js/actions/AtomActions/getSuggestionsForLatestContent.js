@@ -38,7 +38,7 @@ function buildTagToContent(contentArray) {
       id: content.id,
       headline: content.fields.headline,
       internalComposerCode: content.fields.internalComposerCode,
-      atoms: content.atoms
+      atoms: content.atoms ? content.atoms : []
     };
 
     content.tags.forEach(tag => {

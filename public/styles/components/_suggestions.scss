@@ -17,6 +17,7 @@
 .suggestions-list__item {
   padding: 10px 0;
   display: flex;
+  max-height: 200px;
 
   &__name {
     font-weight: bold;
