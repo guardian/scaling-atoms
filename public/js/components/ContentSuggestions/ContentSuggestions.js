@@ -101,7 +101,7 @@ class ContentSuggestions extends React.Component {
     } else {
       return (
         <div>Loading content suggestions for the last 24 hours...</div>
-      )
+      );
     }
   }
 
