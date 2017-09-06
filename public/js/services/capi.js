@@ -89,7 +89,7 @@ const TWENTY_FOUR_HOURS_IN_MS = 96400 * 90000;
 export const getLatestContent = () => {
   const date = new Date(Date.now() - TWENTY_FOUR_HOURS_IN_MS);
   return pandaFetch(
-    `/support/previewCapi/search?show-tags=keyword&tag=tone/news&show-atoms=all&show-fields=internalComposerCode,headline&from-date=${date.toISOString()}`,
+    `/support/previewCapi/search?show-tags=keyword&tag=tone/news&show-atoms=all&show-fields=internalComposerCode,headline&from-date=${date.toISOString()}&page-size=100`,
     {
       method: 'get',
       credentials: 'same-origin'

@@ -11,7 +11,6 @@
 
 .suggestions-container {
   display: flex;
-  max-height: 200px;
 }
 
 .suggestions-list__item {
@@ -46,6 +45,11 @@
 .suggestions-content-container {
   float: right;
   overflow-y: auto;
+}
+
+.suggestions-content-container-heading {
+  padding-left: 5px;
+  padding-bottom: 5px;
 }
 
 .suggestions-atom, .suggestions-content-container {

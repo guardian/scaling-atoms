@@ -26,7 +26,7 @@ class ContentSuggestions extends React.Component {
     return (
       <div className="suggestions-atom">
         <span className="suggestions-atom-title">{ atom.title }</span>
-        <span className="suggestions-atom-type">({ atom.atomType.charAt(0) + atom.atomType.slice(1).toLowerCase() })</span>
+        <span className="suggestions-atom-type">({ atom.atomType.charAt(0) + atom.atomType.slice(1).toLowerCase() } atom)</span>
         <CopyUrlButton config={this.props.config} atom={atom}/>
       </div>
     );
@@ -72,6 +72,7 @@ class ContentSuggestions extends React.Component {
   renderContentArray = (contentArray, atomId) => {
     return (
       <div className="suggestions-content-container">
+        <div className="suggestions-content-container-heading">Suggestions from the last 24 hours:</div>
         <ul className="suggestions-list">
           {contentArray.map(content => this.renderContent(content, atomId))}
         </ul>
@@ -97,6 +98,10 @@ class ContentSuggestions extends React.Component {
           { this.props.suggestionsForLatestContent.map((item, i) => this.renderContentAndSuggestions(item, i)) }
         </ul>
       );
+    } else {
+      return (
+        <div>Loading content suggestions for the last 24 hours...</div>
+      )
     }
   }
 
@@ -112,7 +117,6 @@ class ContentSuggestions extends React.Component {
 //REDUX CONNECTIONS
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-//import { getSuggestionsForLatestContent } from '../../actions/AtomActions/getSuggestionsForLatestContent.js';
 import * as getSuggestionsForLatestContent from '../../actions/AtomActions/getSuggestionsForLatestContent.js';
 
 function mapStateToProps(state) {
