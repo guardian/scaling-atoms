@@ -24,9 +24,10 @@ class ContentSuggestions extends React.Component {
   }
 
   renderAtom = atom => {
+    const workshopUrl = `/atoms/${ atom.atomType }/${ atom.id }/edit`;
     return (
       <div className="suggestions-atom">
-        <span className="suggestions-atom-title">{ atom.title }</span>
+        <a className="suggestions-atom-title atom-list__link" href={ workshopUrl } >{ atom.title }</a>
         <span className="suggestions-atom-type">({ atom.atomType.charAt(0) + atom.atomType.slice(1).toLowerCase() } atom)</span>
         <CopyUrlButton config={this.props.config} atom={atom}/>
       </div>
@@ -51,7 +52,7 @@ class ContentSuggestions extends React.Component {
       return (
         <li className="suggestions-content">
           <div className="suggestions-headline">
-            <h4 className="suggestions-list__item__name">{content.headline}</h4>
+            <span className="suggestions-list__item__name">{content.headline}</span>
           </div>
           <div className="suggestions-list__links">
             <p className="suggestions-list__item__date">
