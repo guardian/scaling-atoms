@@ -1,13 +1,14 @@
 import React, {PropTypes} from 'react';
 import CopyUrlButton from './CopyUrlButton';
 import {FrontendIcon, ComposerIcon, ViewerIcon} from '../../util/icons.js';
+import {SuggestedContentPropType} from '../../actions/AtomActions/getSuggestionsForLatestContent.js';
 
 const SupportedAtomTypes = ["PROFILE", "QANDA", "TIMELINE", "GUIDE"];
 
 class ContentSuggestions extends React.Component {
 
   static propTypes = {
-    suggestionsForLatestContent: PropTypes.array,
+    suggestionsForLatestContent: PropTypes.arrayOf(SuggestedContentPropType),
     atomActions: PropTypes.shape({
       getSuggestionsForLatestContent: PropTypes.func.isRequired
     }).isRequired,

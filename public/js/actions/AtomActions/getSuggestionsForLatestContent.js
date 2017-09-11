@@ -112,7 +112,7 @@ function resolveAtoms(atomUrlToContent) {
   );
 }
 
-export const suggestedContentPropType = PropTypes.shape({
+export const SuggestedContentPropType = PropTypes.shape({
   atom: atomPropType.isRequired,
   content: {
     id: PropTypes.string.isRequired,
@@ -123,7 +123,7 @@ export const suggestedContentPropType = PropTypes.shape({
 });
 
 /**
- * Returns an array of suggestedContentPropType, which maps
+ * Returns an array of SuggestedContentPropType, which maps
  * an atom to its suggested content from the last 24 hours.
  */
 export function getSuggestionsForLatestContent() {
