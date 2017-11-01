@@ -6,6 +6,7 @@ import publishState from '../../util/publishState';
 import PresenceIndicator from '../Utilities/PresenceIndicator';
 import {saveStateVals} from '../../constants/saveStateVals';
 import distanceInWords from 'date-fns/distance_in_words';
+import DeleteAtom from './DeleteAtom';
 
 class EditHeader extends React.Component {
 
@@ -15,7 +16,8 @@ class EditHeader extends React.Component {
     saveState: PropTypes.object,
     atomActions: PropTypes.shape({
       publishAtom: PropTypes.func.isRequired,
-      takeDownAtom: PropTypes.func.isRequired
+      takeDownAtom: PropTypes.func.isRequired,
+      deleteAtom: PropTypes.func.isRequired
     }).isRequired,
     config: PropTypes.shape({
       isEmbedded: PropTypes.bool.isRequired,
@@ -81,6 +83,8 @@ class EditHeader extends React.Component {
             <button disabled={atomPublishState.id === 'published'} type="button" onClick={this.publishAtom} className="btn btn--green btn--margin">Publish</button>
 
           {this.renderTakeDownButton(atomPublishState)}
+
+          <DeleteAtom atom={this.props.atom} deleteAtom={this.props.atomActions.deleteAtom} />
         </div>
     );
   }
@@ -136,6 +140,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
 import * as takeDownAtomActions from '../../actions/AtomActions/takeDownAtom.js';
+import * as deleteAtomActions from '../../actions/AtomActions/DeleteAtom.js';
 
 function mapStateToProps(state) {
   return {
@@ -147,7 +152,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    atomActions: bindActionCreators(Object.assign({}, publishAtomActions, takeDownAtomActions), dispatch)
+    atomActions: bindActionCreators(Object.assign({}, publishAtomActions, takeDownAtomActions, deleteAtomActions), dispatch)
   };
 }
 
