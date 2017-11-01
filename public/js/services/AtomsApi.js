@@ -55,6 +55,20 @@ export default {
     );
   },
 
+  deleteAtom: (atom) => {
+    return pandaFetch(
+      `/api/preview/${atom.atomType}/${atom.id}`,
+      {
+        method: 'delete',
+        credentials: 'same-origin',
+        body: JSON.stringify(atom),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+  },
+
   publishAtom: (atom) => {
     return pandaFetch(
       `/api/live/${atom.atomType}/${atom.id}`,
