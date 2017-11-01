@@ -1,6 +1,6 @@
 import com.gu.atom.play.ReindexController
 import config.LogConfig
-import config.Config.config
+import config.Config.{config, permissions}
 import db.AtomDataStores._
 import db.AtomWorkshopDB
 import db.ReindexDataStores._
@@ -17,7 +17,7 @@ class AppComponents(context: Context)
 
   lazy val router = new Routes(httpErrorHandler, appController, healthcheckController, loginController, assets, supportController, reindex, atomActionsController)
   lazy val assets = new controllers.Assets(httpErrorHandler)
-  lazy val appController = new controllers.App(wsClient, atomWorkshopDB)
+  lazy val appController = new controllers.App(wsClient, atomWorkshopDB, permissions)
   lazy val loginController = new controllers.Login(wsClient)
   lazy val healthcheckController = new controllers.Healthcheck()
   lazy val supportController = new controllers.Support(wsClient)

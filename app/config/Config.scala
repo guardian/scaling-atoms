@@ -6,7 +6,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient
 import com.amazonaws.services.kinesis.AmazonKinesisClient
 import com.gu.cm.{Mode, Configuration => ConfigurationMagic}
 import com.gu.exact_target_lists.ExactTargetConfig
-import services.AwsInstanceTags
+import services.{AtomWorkshopPermissionsProvider, AwsInstanceTags}
 
 object Config extends AwsInstanceTags {
 
@@ -81,6 +81,8 @@ object Config extends AwsInstanceTags {
     awsCredentialsProvider,
     null
   )
+
+  val permissions = new AtomWorkshopPermissionsProvider(stage, awsCredentialsProvider)
 
   val exactTargetConfig: Option[ExactTargetConfig] =
     for {

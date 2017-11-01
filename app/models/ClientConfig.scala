@@ -2,6 +2,7 @@ package models
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
+import services.Permissions
 
 case class User(firstName: String, lastName: String, email: String)
 object User {
@@ -20,7 +21,8 @@ case class ClientConfig(
                          embeddedMode: Option[String],
                          atomEditorGutoolsDomain: String,
                          presenceEnabled: Boolean,
-                         presenceDomain: String
+                         presenceDomain: String,
+                         permissions: Permissions
                        )
 
 object ClientConfig {
