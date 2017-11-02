@@ -17,7 +17,8 @@ export default class FormFieldDateInput extends React.Component {
     fieldErrors: PropTypes.arrayOf(errorPropType),
     formRowClass: PropTypes.string,
     onUpdateField: PropTypes.func,
-    isOutsideRange: PropTypes.func
+    isOutsideRange: PropTypes.func,
+    placeholder: PropTypes.string
   };
 
   state = {
@@ -26,6 +27,17 @@ export default class FormFieldDateInput extends React.Component {
 
   onDateChange = (momentDate) => {
     this.props.onUpdateField(momentDate.valueOf());
+  }
+
+  getPlaceholder = () => {
+    if (this.props.fieldValue) {
+      return format(this.props.fieldValue, 'DD/MM/YYYY');
+    }
+    if (this.props.placeholder) {
+      return this.props.placeholder;
+    }
+    return 'Pick Expiry Date';
+
   }
 
   render() {
@@ -39,7 +51,7 @@ export default class FormFieldDateInput extends React.Component {
             onDateChange={this.onDateChange}
             onFocusChange={({ focused }) => { this.setState({ focused }); }}
             numberOfMonths={1}
-            placeholder={this.props.fieldValue ? format(this.props.fieldValue, "DD/MM/YYYY") : "Pick Expiry Date" }
+            placeholder={this.getPlaceholder()}
             isOutsideRange={this.props.isOutsideRange}
           />
           <ShowErrors errors={this.props.fieldErrors}/>

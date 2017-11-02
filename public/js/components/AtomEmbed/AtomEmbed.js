@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {atomPropType} from '../../constants/atomPropType.js';
 import copy from 'copy-to-clipboard';
 import {Link} from 'react-router';
+import Workflow from '../Workflow/Workflow';
 
 import CurrentTargets from './CurrentTargets';
 
@@ -12,7 +13,18 @@ class AtomEmbed extends React.Component {
     config: PropTypes.shape({
       capiLiveUrl: PropTypes.string.isRequired,
       isEmbedded: PropTypes.bool.isRequired
-    })
+    }),
+    workflowActions: PropTypes.shape({
+      getWorkflowStatus: PropTypes.func.isRequired,
+      trackInWorkflow: PropTypes.func.isRequired
+    }),
+    workflow: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
+      title: PropTypes.string,
+      prodOffice: PropTypes.string,
+      section: PropTypes.string,
+      status: PropTypes.string,
+      scheduledLaunch: PropTypes.string
+    })])
   }
 
   state = {
@@ -60,6 +72,10 @@ class AtomEmbed extends React.Component {
                 {this.state.copied ? "Copied!" : "Copy URL"}
               </button>
             </div>
+          </div>
+          <div className="form__row">
+            <h3 className="form__subheading">Workflow</h3>
+            <Workflow atom={this.props.atom} config={this.props.config} workflow={this.props.workflow} workflowActions={this.props.workflowActions}/>
           </div>
           <div className="form__row">
             <h3 className="form__subheading">Suggest This Atom</h3>
