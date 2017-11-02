@@ -4,12 +4,11 @@ import com.amazonaws.auth.AWSCredentialsProvider
 import com.gu.editorial.permissions.client._
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
-
 import scala.concurrent.Future
 
 case class Permissions(deleteAtom: Boolean)
 object Permissions {
-  val app = "atom-workshop"
+  val app = "atom-maker"
   val deleteAtom = Permission("delete_atom", app, defaultVal = PermissionDenied)
 
   implicit val permissionsEncoder: Encoder[Permissions] = deriveEncoder

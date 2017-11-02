@@ -140,7 +140,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as publishAtomActions from '../../actions/AtomActions/publishAtom.js';
 import * as takeDownAtomActions from '../../actions/AtomActions/takeDownAtom.js';
-import * as deleteAtomActions from '../../actions/AtomActions/DeleteAtom.js';
+import * as deleteAtomActions from '../../actions/AtomActions/deleteAtom.js';
 
 function mapStateToProps(state) {
   return {

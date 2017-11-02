@@ -2,7 +2,9 @@ package controllers
 
 import cats.syntax.either._
 import com.gu.contentatom.thrift.EventType
+import com.gu.editorial.permissions.client.{Permission, PermissionGranted, PermissionsUser}
 import com.gu.fezziwig.CirceScroogeMacros._
+import com.gu.pandomainauth.action.UserRequest
 import config.Config
 import db.AtomDataStores._
 import db.AtomWorkshopDBAPI
@@ -12,7 +14,8 @@ import io.circe.syntax._
 import models._
 import play.api.Logger
 import play.api.libs.ws.WSClient
-import play.api.mvc.Controller
+import play.api.mvc.{ActionBuilder, Controller, Request, Result}
+
 import services.AtomPublishers._
 import services.AtomWorkshopPermissionsProvider
 import util.AtomElementBuilders
@@ -20,8 +23,10 @@ import util.AtomLogic._
 import util.AtomUpdateOperations._
 import util.Parser._
 
+import scala.concurrent.Future
+
 class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI,
-          permissions: AtomWorkshopPermissionsProvider) extends Controller with PanDomainAuthActions {
+          val permissions: AtomWorkshopPermissionsProvider) extends Controller with PanDomainAuthActions {
 
   def index(placeholder: String) = AuthAction.async { req =>
     Logger.info(s"I am the ${Config.appName}")
@@ -148,6 +153,22 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI,
         _ <- sendKinesisEvent(updatedAtom, liveAtomPublisher, EventType.Takedown)
         _ <- sendKinesisEvent(updatedAtom, previewAtomPublisher, EventType.Update)
       } yield updatedAtom
+    }
+  }
+
+  class PermissionedAction(permission: Permission) extends ActionBuilder[UserRequest] {
+    override def invokeBlock[A](request: Request[A], block: UserRequest[A] => Future[Result]): Future[Result] = {
+      AuthAction.invokeBlock(request, { req: UserRequest[A] =>
+
+        permissions.get(permission)(PermissionsUser(req.user.email)).flatMap {
+          case PermissionGranted =>
+            block(req)
+
+          case _ =>
+            Future.successful(Unauthorized(s"User ${req.user.email} is not authorised for permission ${permission.name}"))
+
+        }
+      })
     }
   }
 
