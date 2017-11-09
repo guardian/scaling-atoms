@@ -27,7 +27,7 @@ class ContentSuggestions extends React.Component {
     const workshopUrl = `/atoms/${ atom.atomType }/${ atom.id }/edit`;
     return (
       <div className="suggestions-atom">
-        <a className="suggestions-atom-title atom-list__link" href={ workshopUrl } >{ atom.title }</a>
+        <a className="suggestions-atom-title atom-list__link" href={ workshopUrl } target="_blank">{ atom.title }</a>
         <span className="suggestions-atom-type">({ atom.atomType.charAt(0) + atom.atomType.slice(1).toLowerCase() } atom)</span>
         <CopyUrlButton config={this.props.config} atom={atom}/>
       </div>
@@ -74,7 +74,7 @@ class ContentSuggestions extends React.Component {
   renderContentArray = (contentArray, atomId) => {
     return (
       <div className="suggestions-content-container">
-        <div className="suggestions-content-container-heading">Suggestions from the last 24 hours:</div>
+        <div className="suggestions-content-container-heading">Suggested content:</div>
         <ul className="suggestions-list">
           {contentArray.map(content => this.renderContent(content, atomId))}
         </ul>
@@ -102,7 +102,7 @@ class ContentSuggestions extends React.Component {
       );
     } else {
       return (
-        <div>Loading content suggestions for the last 24 hours...</div>
+        <div>Loading atom suggestions for most viewed content...</div>
       );
     }
   }

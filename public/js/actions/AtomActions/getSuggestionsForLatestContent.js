@@ -1,4 +1,5 @@
-import {getLatestContent} from '../../services/capi';
+import {getTagsForContent} from '../../services/capi';
+import {mostViewed} from '../../services/ophan';
 import {fetchTargetsForTag} from '../../services/TargetingApi';
 import AtomsApi from '../../services/AtomsApi';
 import {atomPropType} from '../../constants/atomPropType.js';
@@ -112,6 +113,7 @@ function resolveAtoms(atomUrlToContent) {
   );
 }
 
+//TODO - content should be an array?!
 export const SuggestedContentPropType = PropTypes.shape({
   atom: atomPropType.isRequired,
   content: {
@@ -122,21 +124,45 @@ export const SuggestedContentPropType = PropTypes.shape({
   }
 });
 
+export const SuggestedContentPropType2 = PropTypes.shape({
+  content: {
+    id: PropTypes.string.isRequired,
+    headline: PropTypes.string.isRequired,
+    internalComposerCode: PropTypes.string.isRequired,
+    atoms: PropTypes.object.isRequired
+  },
+  atoms: React.PropTypes.arrayOf(atomPropType).isRequired
+});
+
+const skipChars = "https://www.theguardian.com/".length;
+
 /**
  * Returns an array of SuggestedContentPropType, which maps
- * an atom to its suggested content from the last 24 hours.
+ * an atom to its suggested content.
+ * The content is taken from ophan's most-viewed list.
  */
 export function getSuggestionsForLatestContent() {
   return dispatch => {
     dispatch(requestSuggestionsForLatestContent());
 
-    return getLatestContent()
+    return mostViewed()
+      .then(mostViewedContent => {
+        return Promise.all(mostViewedContent.map(content => getTagsForContent(content.url.slice(skipChars))))
+      })
+      //Filter out any content that already contains a snippet atom
       .then(contentArray => {
+        return contentArray.filter(content => !content.atoms || content.atoms.length === 0)
+      })
+      .then(contentArray => {
+        //tag => [content]
         const tagToContent = buildTagToContent(contentArray);
 
+        //tag => [target]
         return getTagToTargetAtoms(Object.keys(tagToContent))
+          //atomUrl => [content]
           .then(tagToTargetAtoms => getAtomUrlToContent(tagToContent, tagToTargetAtoms));
       })
+      //{ atom: {}, content: [content] }
       .then(atomUrlToContent => resolveAtoms(atomUrlToContent))
       .then(results => dispatch(receiveSuggestionsForLatestContent(results)))
       .catch(error => {
