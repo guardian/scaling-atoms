@@ -51,7 +51,7 @@ function getTagToTargetUrls(tags) {
         const filtered = targets.filter(target => target.url.includes("/atom/"));
         const urls = filtered.map(target => target.url);
         if (filtered.length > 0) {
-          tagToTargetAtoms[tag] = (tagToTargetAtoms[tag]) ? tagToTargetAtoms[tag].tag(urls) : urls;
+          tagToTargetAtoms[tag] = urls;
         }
         return Promise.resolve();
       });
@@ -59,19 +59,16 @@ function getTagToTargetUrls(tags) {
 
   //Sequentially fetch targets for each tag
   return tags.reduce((p, tag) => p.then(() => fetch(tag)), Promise.resolve())
-    .then(() => {
-      return Promise.resolve(tagToTargetAtoms);
-    });
+    .then(() => Promise.resolve(tagToTargetAtoms));
 }
 
 //Deduplicate the targeting urls and retrieve the atoms
 function getAtomUrlToAtom(tagToUrls) {
-  const atomUrlToAtom = {};
-
-  const atomUrls = distinct(flatten(Object.keys(tagToUrls).map(tag => tagToUrls[tag])));
+  const atomUrls = distinct(flatten(Object.values(tagToUrls)));
 
   return Promise.all(atomUrls.map(getAtomFromTargetUrl))
     .then(atoms => {
+      const atomUrlToAtom = {};
       atoms.forEach(atom => atomUrlToAtom[atom.url] = atom);
       return atomUrlToAtom;
     });
