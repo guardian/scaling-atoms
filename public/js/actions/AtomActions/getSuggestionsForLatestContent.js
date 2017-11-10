@@ -38,7 +38,7 @@ const flatten = array => [].concat.apply([], array);
 function getTags(contentArray) {
   return distinct(flatten(
     contentArray.map(content => content.tags.filter(tag => tag.type === "keyword").map(tag => tag.id))
-  ))
+  ));
 }
 
 //Returns a map of tagId to suggestions from the targeting api, filtering out non-atoms
@@ -73,7 +73,7 @@ function getAtomUrlToAtom(tagToUrls) {
   return Promise.all(atomUrls.map(getAtomFromTargetUrl))
     .then(atoms => {
       atoms.forEach(atom => atomUrlToAtom[atom.url] = atom);
-      return atomUrlToAtom
+      return atomUrlToAtom;
     });
 }
 
@@ -103,7 +103,7 @@ function resolveAtomsForContent(contentList, tagToUrls, urlToAtom) {
       headline: content.fields.headline,
       internalComposerCode: content.fields.internalComposerCode,
       atoms: atoms
-    }
+    };
   });
 }
 
@@ -138,7 +138,7 @@ export function getSuggestionsForLatestContent() {
         const urlToAtomPromise = tagToUrlsPromise.then(getAtomUrlToAtom);
 
         return Promise.all([tagToUrlsPromise, urlToAtomPromise])
-          .then(([tagToUrls, urlToAtom]) => resolveAtomsForContent(contentArray, tagToUrls, urlToAtom))
+          .then(([tagToUrls, urlToAtom]) => resolveAtomsForContent(contentArray, tagToUrls, urlToAtom));
       })
       .then(results => dispatch(receiveSuggestionsForLatestContent(results)))
       .catch(error => {

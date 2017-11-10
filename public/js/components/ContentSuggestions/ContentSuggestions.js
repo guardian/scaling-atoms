@@ -79,7 +79,7 @@ class ContentSuggestions extends React.Component {
         { this.renderContent(item) }
         { this.renderAtomsArray(item.atoms) }
       </li>
-    )
+    );
   }
 
   renderSuggestionsForLatestContent() {
