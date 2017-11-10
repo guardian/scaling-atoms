@@ -14,7 +14,7 @@ class Support(val wsClient: WSClient) extends Controller with PanDomainAuthActio
     val capiUrl = Config.capiPreviewUrl
 
     val url = s"$capiUrl/$path?${request.rawQueryString}"
-println(url)
+
     val req = wsClient
       .url(url)
       .withAuth(capiPreviewUser, capiPreviewPassword, WSAuthScheme.BASIC)

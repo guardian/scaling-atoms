@@ -83,23 +83,6 @@ export const getContentByTags = (tags, atomType) => {
   });
 };
 
-const TWENTY_FOUR_HOURS_IN_MS = (24*60*60) * 1000;
-
-export const getLatestContent = () => {
-  const date = new Date(Date.now() - TWENTY_FOUR_HOURS_IN_MS);
-  return pandaFetch(
-    `/support/previewCapi/search?show-tags=keyword&tag=tone/news&show-atoms=all&show-fields=internalComposerCode,headline&from-date=${date.toISOString()}&page-size=100`,
-    {
-      method: 'get',
-      credentials: 'same-origin'
-    }
-  )
-  .then((res) => res.json())
-  .then((json) => {
-    return Promise.resolve(json.response.results);
-  });
-};
-
 export const getTagsForContent = (path) => {
   return pandaFetch(
     `/support/previewCapi/${path}?show-tags=keyword&tag=tone/news&show-atoms=timelines,guides,qandas,profiles&show-fields=internalComposerCode,headline`,

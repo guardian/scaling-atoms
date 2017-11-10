@@ -31,6 +31,9 @@ function errorReceivingSuggestionsForLatestContent(error) {
   };
 }
 
+const distinct = array => array.filter((value, index, self) => self.indexOf(value) === index);
+const flatten = array => [].concat.apply([], array);
+
 //Returns a map of tagId to content
 function buildTagToContent(contentArray) {
   const tagToContent = {};
@@ -53,15 +56,16 @@ function buildTagToContent(contentArray) {
 }
 
 //Returns a map of tagId to suggestions from the targeting api, filtering out non-atoms
-function getTagToTargetAtoms(tags) {
+function getTagToTargetUrls(tags) {
   const tagToTargetAtoms = {};
 
   const fetch = (tag) => {
     return fetchTargetsForTag(tag)
       .then(targets => {
         const filtered = targets.filter(target => target.url.includes("/atom/"));
+        const urls = filtered.map(target => target.url);
         if (filtered.length > 0) {
-          tagToTargetAtoms[tag] = (tagToTargetAtoms[tag]) ? tagToTargetAtoms[tag].tag(filtered) : filtered;
+          tagToTargetAtoms[tag] = (tagToTargetAtoms[tag]) ? tagToTargetAtoms[tag].tag(urls) : urls;
         }
         return Promise.resolve();
       });
@@ -74,20 +78,17 @@ function getTagToTargetAtoms(tags) {
     });
 }
 
-//Returns a map of atom url to content, based on tagging
-function getAtomUrlToContent(tagToContent, tagToTargetAtoms) {
-  const atomUrlToContent = {};
+//Deduplicate the targeting urls and retrieve the atoms
+function getAtomUrlToAtom(tagToUrls) {
+  const atomUrlToAtom = {};
 
-  Object.keys(tagToTargetAtoms).map(tag => {
-    tagToTargetAtoms[tag].map(target => {
-      tagToContent[tag].map(content => {
-        atomUrlToContent[target.url] =
-          (atomUrlToContent[target.url]) ? atomUrlToContent[target.url].concat([content]) : [content];
-      });
+  const atomUrls = distinct(flatten(Object.keys(tagToUrls).map(tag => tagToUrls[tag])));
+
+  return Promise.all(atomUrls.map(getAtomFromTargetUrl))
+    .then(atoms => {
+      atoms.forEach(atom => atomUrlToAtom[atom.url] = atom);
+      return atomUrlToAtom
     });
-  });
-
-  return atomUrlToContent;
 }
 
 function getAtomFromTargetUrl(url) {
@@ -97,48 +98,41 @@ function getAtomFromTargetUrl(url) {
   const atomId = tokens[tokens.length-1];
 
   return AtomsApi.getAtom(atomType, atomId)
-    .then(res => res.json());
+    .then(res => res.json()).then(atom => {
+      atom.url = url;
+      return atom;
+    });
 }
 
-function resolveAtoms(atomUrlToContent) {
-  return Promise.all(
-    Object.keys(atomUrlToContent).map(atomUrl => {
-      return getAtomFromTargetUrl(atomUrl).then(atom => {
-        return {
-          atom: atom,
-          content: atomUrlToContent[atomUrl]
-        };
-      });
-    })
-  );
+function resolveAtomsForContent(contentList, tagToUrls, urlToAtom) {
+  return contentList.map(content => {
+    const urls = content.tags
+      .filter(tag => tag.type === "keyword")
+      .map(tag => tagToUrls[tag.id])
+      .filter(url => url !== undefined);
+
+    const atoms = distinct(flatten(urls)).map(url => urlToAtom[url]);
+    return {
+      contentId: content.id,
+      headline: content.fields.headline,
+      internalComposerCode: content.fields.internalComposerCode,
+      atoms: atoms
+    }
+  });
 }
 
-//TODO - content should be an array?!
-export const SuggestedContentPropType = PropTypes.shape({
-  atom: atomPropType.isRequired,
-  content: {
-    id: PropTypes.string.isRequired,
-    headline: PropTypes.string.isRequired,
-    internalComposerCode: PropTypes.string.isRequired,
-    atoms: PropTypes.object.isRequired
-  }
-});
-
-export const SuggestedContentPropType2 = PropTypes.shape({
-  content: {
-    id: PropTypes.string.isRequired,
-    headline: PropTypes.string.isRequired,
-    internalComposerCode: PropTypes.string.isRequired,
-    atoms: PropTypes.object.isRequired
-  },
-  atoms: React.PropTypes.arrayOf(atomPropType).isRequired
+export const SuggestedAtomsPropType = PropTypes.shape({
+  contentId: PropTypes.string.isRequired,
+  headline: PropTypes.string.isRequired,
+  internalComposerCode: PropTypes.string.isRequired,
+  atoms: PropTypes.arrayOf(atomPropType).isRequired
 });
 
 const skipChars = "https://www.theguardian.com/".length;
 
 /**
- * Returns an array of SuggestedContentPropType, which maps
- * an atom to its suggested content.
+ * Returns an array of SuggestedAtomsPropType, which maps content
+ * to suggested snippet atoms.
  * The content is taken from ophan's most-viewed list.
  */
 export function getSuggestionsForLatestContent() {
@@ -146,24 +140,20 @@ export function getSuggestionsForLatestContent() {
     dispatch(requestSuggestionsForLatestContent());
 
     return mostViewed()
-      .then(mostViewedContent => {
-        return Promise.all(mostViewedContent.map(content => getTagsForContent(content.url.slice(skipChars))))
-      })
-      //Filter out any content that already contains a snippet atom
+      .then(mostViewedContent =>
+        Promise.all(mostViewedContent.map(content => getTagsForContent(content.url.slice(skipChars))))
+      )
+      //Filter out any articles that already contain a snippet atom
+      .then(contentArray => contentArray.filter(content => !content.atoms || content.atoms.length === 0))
       .then(contentArray => {
-        return contentArray.filter(content => !content.atoms || content.atoms.length === 0)
-      })
-      .then(contentArray => {
-        //tag => [content]
         const tagToContent = buildTagToContent(contentArray);
 
-        //tag => [target]
-        return getTagToTargetAtoms(Object.keys(tagToContent))
-          //atomUrl => [content]
-          .then(tagToTargetAtoms => getAtomUrlToContent(tagToContent, tagToTargetAtoms));
+        const tagToUrlsPromise = getTagToTargetUrls(Object.keys(tagToContent));
+        const urlToAtomPromise = tagToUrlsPromise.then(getAtomUrlToAtom);
+
+        return Promise.all([tagToUrlsPromise, urlToAtomPromise])
+          .then(([tagToUrls, urlToAtom]) => resolveAtomsForContent(contentArray, tagToUrls, urlToAtom))
       })
-      //{ atom: {}, content: [content] }
-      .then(atomUrlToContent => resolveAtoms(atomUrlToContent))
       .then(results => dispatch(receiveSuggestionsForLatestContent(results)))
       .catch(error => {
         dispatch(errorReceivingSuggestionsForLatestContent(error));

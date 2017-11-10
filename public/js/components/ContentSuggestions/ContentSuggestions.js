@@ -1,14 +1,12 @@
 import React, {PropTypes} from 'react';
 import CopyUrlButton from './CopyUrlButton';
 import {FrontendIcon, ComposerIcon, ViewerIcon} from '../../util/icons.js';
-import {SuggestedContentPropType} from '../../actions/AtomActions/getSuggestionsForLatestContent.js';
-
-const SupportedAtomTypes = ["PROFILE", "QANDA", "TIMELINE", "GUIDE"];
+import {SuggestedAtomsPropType} from '../../actions/AtomActions/getSuggestionsForLatestContent.js';
 
 class ContentSuggestions extends React.Component {
 
   static propTypes = {
-    suggestionsForLatestContent: PropTypes.arrayOf(SuggestedContentPropType),
+    suggestionsForLatestContent: PropTypes.arrayOf(SuggestedAtomsPropType),
     atomActions: PropTypes.shape({
       getSuggestionsForLatestContent: PropTypes.func.isRequired
     }).isRequired,
@@ -26,78 +24,72 @@ class ContentSuggestions extends React.Component {
   renderAtom = atom => {
     const workshopUrl = `/atoms/${ atom.atomType }/${ atom.id }/edit`;
     return (
-      <div className="suggestions-atom">
-        <a className="suggestions-atom-title atom-list__link" href={ workshopUrl } target="_blank">{ atom.title }</a>
-        <span className="suggestions-atom-type">({ atom.atomType.charAt(0) + atom.atomType.slice(1).toLowerCase() } atom)</span>
-        <CopyUrlButton config={this.props.config} atom={atom}/>
+      <li className="suggestions-content" key={`suggested-atom-${atom.id}`}>
+        <div className="suggestions-atom">
+          <div className="suggestions-atom-details">
+            <a className="suggestions-atom-title atom-list__link" href={ workshopUrl } target="_blank">{ atom.title }</a>
+            <span className="suggestions-atom-type">({ atom.atomType.charAt(0) + atom.atomType.slice(1).toLowerCase() } atom)</span>
+          </div>
+          <CopyUrlButton config={this.props.config} atom={atom}/>
+        </div>
+      </li>
+    );
+  }
+
+  renderContent = content => {
+    const composerLink = `${this.props.config.composerUrl}/content/${content.internalComposerCode}`;
+    const viewerLink = `${this.props.config.viewerUrl}/preview/${content.contentId}`;
+    const websiteLink = `https://www.theguardian.com/${content.contentId}`;
+
+    return (
+      <div className="suggestions-content-container">
+        <div className="suggestions-headline">
+          <span className="suggestions-list__item__name">{content.headline}</span>
+        </div>
+        <div className="suggestions-list__links">
+          <p className="suggestions-list__item__date">
+            <a className="suggestions-list__link" href={websiteLink} title="Open on theguardian.com" target="_blank">
+              <FrontendIcon />
+            </a>
+            <a className="suggestions-list__link" href={composerLink} title="Open in Composer" target="_blank">
+              <ComposerIcon />
+            </a>
+            <a className="suggestions-list__link" href={viewerLink} title="Open in Viewer" target="_blank">
+              <ViewerIcon />
+            </a></p>
+        </div>
       </div>
     );
   }
 
-  alreadyHasAtom = (content, atomId) => {
-    const idx = SupportedAtomTypes.findIndex(atomType => {
-      const key = `${atomType.toLowerCase()}s`;
-      return (content.atoms[key] && content.atoms[key].findIndex(atom => atom.id === atomId) > -1);
-    });
-
-    return idx > -1;
-  }
-
-  renderContent = (content, atomId) => {
-    if (!this.alreadyHasAtom(content, atomId)) {
-      const composerLink = `${this.props.config.composerUrl}/content/${content.internalComposerCode}`;
-      const viewerLink = `${this.props.config.viewerUrl}/preview/${content.id}`;
-      const websiteLink = `https://www.theguardian.com/${content.id}`;
-
-      return (
-        <li className="suggestions-content">
-          <div className="suggestions-headline">
-            <span className="suggestions-list__item__name">{content.headline}</span>
-          </div>
-          <div className="suggestions-list__links">
-            <p className="suggestions-list__item__date">
-              <a className="suggestions-list__link" href={websiteLink} title="Open on theguardian.com" target="_blank">
-                <FrontendIcon />
-              </a>
-              <a className="suggestions-list__link" href={composerLink} title="Open in Composer" target="_blank">
-                <ComposerIcon />
-              </a>
-              <a className="suggestions-list__link" href={viewerLink} title="Open in Viewer" target="_blank">
-                <ViewerIcon />
-              </a></p>
-          </div>
-        </li>
-      );
-    }
-  }
-
-  renderContentArray = (contentArray, atomId) => {
+  renderAtomsArray = (atomsArray) => {
     return (
-      <div className="suggestions-content-container">
-        <div className="suggestions-content-container-heading">Suggested content:</div>
+      <div className="suggestions-atom-container">
+        <div className="suggestions-atom-container-heading">Suggested atoms:</div>
         <ul className="suggestions-list">
-          {contentArray.map(content => this.renderContent(content, atomId))}
+          {atomsArray.map(atom => this.renderAtom(atom))}
         </ul>
       </div>
     );
   }
 
   renderContentAndSuggestions = (item, i) => {
-    if (SupportedAtomTypes.indexOf(item.atom.atomType) > -1) {
-      return (
-        <li className="suggestions-list__item" key={`usage-${i}`}>
-          { this.renderAtom(item.atom) }
-          { this.renderContentArray(item.content, item.atom.id) }
-        </li>
-      );
-    }
+    return (
+      <li className="suggestions-list__item" key={`usage-${i}`}>
+        { this.renderContent(item) }
+        { this.renderAtomsArray(item.atoms) }
+      </li>
+    )
   }
 
   renderSuggestionsForLatestContent() {
     if (this.props.suggestionsForLatestContent) {
       return (
         <ul className="suggestions-list">
-          { this.props.suggestionsForLatestContent.map((item, i) => this.renderContentAndSuggestions(item, i)) }
+          { this.props.suggestionsForLatestContent
+            .filter(item => item.atoms.length > 0)
+            .map((item, i) => this.renderContentAndSuggestions(item, i))
+          }
         </ul>
       );
     } else {
