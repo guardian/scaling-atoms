@@ -44,8 +44,10 @@
 
 .suggestions-content-container {
   flex-basis: 40%;
+  flex-shrink: 0;
   border-right: 1px solid #DCDCDC;
   margin-right: 10px;
+  padding-right: 5px;
 }
 
 .suggestions-atom-container {
