@@ -34,25 +34,11 @@ function errorReceivingSuggestionsForLatestContent(error) {
 const distinct = array => array.filter((value, index, self) => self.indexOf(value) === index);
 const flatten = array => [].concat.apply([], array);
 
-//Returns a map of tagId to content
-function buildTagToContent(contentArray) {
-  const tagToContent = {};
-  contentArray.forEach(content => {
-    const item = {
-      id: content.id,
-      headline: content.fields.headline,
-      internalComposerCode: content.fields.internalComposerCode,
-      atoms: content.atoms ? content.atoms : []
-    };
-
-    content.tags.forEach(tag => {
-      if (tag.type === "keyword") {
-        tagToContent[tag.id] = tagToContent[tag.id] ? tagToContent[tag.id].concat([item]) : [item];
-      }
-    });
-  });
-
-  return tagToContent;
+//Returns set of all tags in the given content
+function getTags(contentArray) {
+  return distinct(flatten(
+    contentArray.map(content => content.tags.filter(tag => tag.type === "keyword").map(tag => tag.id))
+  ))
 }
 
 //Returns a map of tagId to suggestions from the targeting api, filtering out non-atoms
@@ -146,9 +132,9 @@ export function getSuggestionsForLatestContent() {
       //Filter out any articles that already contain a snippet atom
       .then(contentArray => contentArray.filter(content => !content.atoms || content.atoms.length === 0))
       .then(contentArray => {
-        const tagToContent = buildTagToContent(contentArray);
+        const tags = getTags(contentArray);
 
-        const tagToUrlsPromise = getTagToTargetUrls(Object.keys(tagToContent));
+        const tagToUrlsPromise = getTagToTargetUrls(tags);
         const urlToAtomPromise = tagToUrlsPromise.then(getAtomUrlToAtom);
 
         return Promise.all([tagToUrlsPromise, urlToAtomPromise])
