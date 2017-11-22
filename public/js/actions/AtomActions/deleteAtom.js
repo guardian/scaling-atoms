@@ -1,3 +1,4 @@
+import {browserHistory} from 'react-router';
 import AtomsApi from '../../services/AtomsApi';
 import {logError} from '../../util/logger';
 
@@ -35,6 +36,7 @@ export function deleteAtom(atom) {
         .then(res => res.json())
         .then(atom => {
           dispatch(receiveAtomDelete(atom));
+          browserHistory.push('/atom');
         })
         .catch(error => dispatch(errorDeletingAtom(error)));
   };
