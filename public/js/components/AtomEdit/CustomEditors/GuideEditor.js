@@ -4,6 +4,7 @@ import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
 import {GuideItem} from './GuideFields/GuideItem';
 import {ManagedField, ManagedForm} from '../../ManagedEditor';
 import {atomPropType} from '../../../constants/atomPropType';
+import {checkItemsUnderWordCount} from '../../../util/validators';
 
 export class GuideEditor extends React.Component {
 
@@ -23,7 +24,7 @@ export class GuideEditor extends React.Component {
           <ManagedField fieldLocation="data.guide.guideImage" name="Guide Image">
             <FormFieldImageSelect gridUrl={this.props.config.gridUrl}/>
           </ManagedField>
-          <ManagedField fieldLocation="data.guide.items" name="Items">
+          <ManagedField fieldLocation="data.guide.items" name="Items" customValidation={[checkItemsUnderWordCount]}>
             <FormFieldArrayWrapper>
               <GuideItem onFormErrorsUpdate={this.props.onFormErrorsUpdate} />
             </FormFieldArrayWrapper>

@@ -4,7 +4,7 @@ import {TimelineItem} from './TimelineFields/TimelineItem';
 import {ManagedField, ManagedForm} from '../../ManagedEditor';
 import {atomPropType} from '../../../constants/atomPropType';
 import FormFieldsScribeEditor from '../../FormFields/FormFieldScribeEditor';
-
+import {checkItemsUnderWordCount} from '../../../util/validators';
 
 export class TimelineEditor extends React.Component {
 
@@ -22,7 +22,7 @@ export class TimelineEditor extends React.Component {
           <ManagedField fieldLocation="data.timeline.description" name="Description - optional" isRequired={false}>
             <FormFieldsScribeEditor showWordCount={true} suggestedLength={50} showToolbar={false} tooLongMsg={"Remember that snippets should be concise"}/>
           </ManagedField>
-          <ManagedField fieldLocation="data.timeline.events" name="Events">
+          <ManagedField fieldLocation="data.timeline.events" name="Events" customValidation={[checkItemsUnderWordCount]}>
             <FormFieldArrayWrapper>
               <TimelineItem onFormErrorsUpdate={this.props.onFormErrorsUpdate}/>
             </FormFieldArrayWrapper>

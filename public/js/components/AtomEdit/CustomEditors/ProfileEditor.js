@@ -4,7 +4,7 @@ import FormFieldArrayWrapper from '../../FormFields/FormFieldArrayWrapper';
 import {ProfileItem} from './ProfileFields/ProfileItem';
 import {ManagedField, ManagedForm} from '../../ManagedEditor';
 import {atomPropType} from '../../../constants/atomPropType';
-
+import {checkItemsUnderWordCount} from '../../../util/validators';
 
 export class ProfileEditor extends React.Component {
 
@@ -24,7 +24,7 @@ export class ProfileEditor extends React.Component {
           <ManagedField fieldLocation="data.profile.headshot" name="Head shot">
             <FormFieldImageSelect gridUrl={this.props.config.gridUrl}/>
           </ManagedField>
-          <ManagedField fieldLocation="data.profile.items" name="Items">
+          <ManagedField fieldLocation="data.profile.items" name="Items" customValidation={[checkItemsUnderWordCount]}>
             <FormFieldArrayWrapper>
               <ProfileItem onFormErrorsUpdate={this.props.onFormErrorsUpdate} />
             </FormFieldArrayWrapper>
