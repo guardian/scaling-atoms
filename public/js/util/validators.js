@@ -18,18 +18,19 @@ export const isHttpsUrl = (value) => {
 
 export const checkItemsUnderWordCount = (values) => {
     if (values.length > 0) {
-        var wordCountList = values.map(function(itemData) {
-            return stripHtml(itemData.body).length;
+        var wordCount = values.map(function(itemData) {
+            var strippedText = stripHtml(itemData.body);
+            return strippedText.split(" ").length;
         });
 
-        var totalCount = wordCountList.reduce(function (total, num) {
+        var totalCount = wordCount.reduce(function (total, num) {
             return total + num;
         });
 
         if (totalCount <= 400) {
             return Promise.resolve(true);
         } else {
-            const error = new FieldError('too-long', 'You\'ve reached the word limit on this atom type');
+            const error = new FieldError('too-long', 'You\'ve reached the word limit on this atom type. Please edit your items to less than a total of 400 words.');
             return Promise.resolve(error);
         }
 

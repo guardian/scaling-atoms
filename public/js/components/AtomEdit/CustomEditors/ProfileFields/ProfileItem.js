@@ -2,10 +2,13 @@ import React, { PropTypes } from 'react';
 import {ManagedForm, ManagedField} from '../../../ManagedEditor';
 import FormFieldTextInput from '../../../FormFields/FormFieldTextInput';
 import FormFieldsScribeEditor from '../../../FormFields/FormFieldScribeEditor';
+import ShowErrors from '../../../Utilities/ShowErrors';
+import { errorPropType } from '../../../../constants/errorPropType';
 
 export class ProfileItem extends React.Component {
   static propTypes = {
     fieldLabel: PropTypes.string,
+    fieldErrors: PropTypes.arrayOf(errorPropType),
     fieldName: PropTypes.string,
     fieldValue: PropTypes.shape({
       title: PropTypes.string,
@@ -35,6 +38,7 @@ export class ProfileItem extends React.Component {
             <FormFieldsScribeEditor showWordCount={true} suggestedLength={150} showToolbar={false} tooLongMsg={"Remember that snippets should be concise"} />
           </ManagedField>
         </ManagedForm>
+        <ShowErrors errors={this.props.fieldErrors}/>
       </div>
     );
   }

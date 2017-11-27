@@ -86,7 +86,7 @@ export default class FormFieldArrayWrapper extends React.Component {
   }
 
   render () {
-    const values = (this.props.fieldValue || []).concat(this.state.newItems);
+   const values = (this.props.fieldValue || []).concat(this.state.newItems);
 
     return (
       <div className={this.props.nested ? 'form__row form__row--nested' : 'form__row'}>
