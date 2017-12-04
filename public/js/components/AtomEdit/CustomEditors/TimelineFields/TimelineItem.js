@@ -122,7 +122,7 @@ dateFormats = [
             <FormFieldTextInput/>
           </ManagedField>
           <ManagedField fieldLocation="body" name="Body">
-            <FormFieldsScribeEditor showWordCount={true} suggestedLength={150} showToolbar={false} tooLongMsg={"Remember that snippets should be concise"}/>
+            <FormFieldsScribeEditor showWordCount={true} showToolbar={false} tooLongMsg={"Remember that snippets should be concise"}/>
           </ManagedField>
         </ManagedForm>
           <ShowErrors errors={this.props.fieldErrors}/>

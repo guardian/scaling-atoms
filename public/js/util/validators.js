@@ -16,6 +16,7 @@ export const isHttpsUrl = (value) => {
   }
 };
 
+const WordLimit = 400;
 export const checkItemsUnderWordCount = (values) => {
     if (values.length > 0) {
         var wordCount = values.map(function(itemData) {
@@ -27,10 +28,10 @@ export const checkItemsUnderWordCount = (values) => {
             return total + num;
         });
 
-        if (totalCount <= 400) {
+        if (totalCount <= WordLimit) {
             return Promise.resolve(true);
         } else {
-            const error = new FieldError('too-long', 'You\'ve reached the word limit on this atom type. Please edit your items to less than a total of 400 words.');
+            const error = new FieldError('too-long', `You\'ve reached the word limit on this atom type. Please edit your items to less than a total of ${WordLimit} words.`);
             return Promise.resolve(error);
         }
 
