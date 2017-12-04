@@ -70,11 +70,7 @@ export class TimelineItem extends React.Component {
 
     //Remove the toDate if no longer set
     const updated = Object.assign({}, this.props.fieldValue, {
-      title: this.props.fieldValue.title,
-      date: this.props.fieldValue.date,
-      toDate: dateRangeRequired ? this.props.fieldValue.toDate : null,
-      body: this.props.fieldValue.body,
-      dateFormat: this.props.fieldValue.dateFormat
+      toDate: dateRangeRequired ? this.props.fieldValue.toDate : null
     });
     this.props.onUpdateField(updated);
   };
