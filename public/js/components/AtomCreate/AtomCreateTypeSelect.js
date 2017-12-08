@@ -8,9 +8,10 @@ import {AtomTypeCard} from '../AtomTypeCard/AtomTypeCard';
 export class AtomCreateTypeSelect extends React.Component {
 
   renderAtomType(atomType) {
+    const path = atomType.type === "commonsdivision" ? "/commonsdivisions" : `/create/${atomType.type}`;
     return (
       <Link
-        to={`/create/${atomType.type}`}
+        to={path}
         className={"create__link"}
         key={atomType.type}
         >

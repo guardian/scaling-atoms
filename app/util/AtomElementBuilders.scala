@@ -8,6 +8,7 @@ import com.gu.contentatom.thrift.atom.profile.ProfileAtom
 import com.gu.contentatom.thrift.atom.guide.GuideAtom
 import com.gu.contentatom.thrift.atom.timeline.TimelineAtom
 import com.gu.contentatom.thrift.atom.explainer.{DisplayType, ExplainerAtom}
+import com.gu.contentatom.thrift.atom.commonsdivision.{CommonsDivision, Votes}
 import com.gu.contentatom.thrift.{User, _}
 import com.gu.pandomainauth.model.{User => PandaUser}
 import models.CreateAtomFields
@@ -38,6 +39,8 @@ object AtomElementBuilders {
 
   def buildDefaultAtom(atomType: AtomType, user: PandaUser, createAtomFields: Option[CreateAtomFields]): Atom = {
     val title = createAtomFields.flatMap(_.title).getOrElse("-")
+    val id = createAtomFields.flatMap(_.id).getOrElse(java.util.UUID.randomUUID.toString)
+
     val defaultAtoms: Map[AtomType, AtomData] = Map(
       AtomType.Cta -> AtomData.Cta(CTAAtom("-")),
       AtomType.Recipe -> AtomData.Recipe(RecipeAtom(title, RecipeTags(), RecipeTime())),
@@ -46,13 +49,14 @@ object AtomElementBuilders {
       AtomType.Qanda -> AtomData.Qanda(QAndAAtom(Some("Q&A"), None, QAndAItem(None, "Body"), None)),
       AtomType.Guide -> AtomData.Guide(GuideAtom(None, None, Nil)),
       AtomType.Profile -> AtomData.Profile(ProfileAtom(None, None, Nil, None)),
-      AtomType.Timeline -> AtomData.Timeline(TimelineAtom())
+      AtomType.Timeline -> AtomData.Timeline(TimelineAtom()),
+      AtomType.Commonsdivision -> AtomData.CommonsDivision(CommonsDivision("-", None, DateTime.now.getMillis, Votes()))
     )
 
     Atom(
       title = createAtomFields.flatMap(_.title),
       commissioningDesks = createAtomFields.map(_.commissioningDesks).getOrElse(Nil),
-      id = java.util.UUID.randomUUID.toString,
+      id = id,
       atomType = atomType,
       defaultHtml = createAtomFields.flatMap(_.defaultHtml).getOrElse(buildDefaultHtml(atomType = atomType, atomData = defaultAtoms(atomType))),
       data = defaultAtoms(atomType),

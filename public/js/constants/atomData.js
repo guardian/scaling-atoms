@@ -78,8 +78,15 @@ export const explainer = {
   description: "Edit legacy Explainer snippets - (creating new ones is not supported)",
 };
 
-export const allAtomTypes = [cta, recipe, storyQuestions, quiz, media, qa, guide, profile, timeline, explainer];
-export const workshopEditableAtomTypes = [cta, storyQuestions, recipe, qa, guide, profile, timeline, explainer];
+export const commonsDivision = {
+  type: "commonsdivision",
+  fullName: "Commons Division",
+  description: "House of Commons division results"
+};
+
+export const allAtomTypes = [cta, recipe, storyQuestions, quiz, media, qa, guide, profile, timeline, explainer, commonsDivision];
+export const workshopEditableAtomTypes = [cta, storyQuestions, recipe, qa, guide, profile, timeline, explainer, commonsDivision];
+
 export const snippetAtomTypes = [qa, guide, profile, timeline];
 export const legacyAtomTypes = [explainer];
 

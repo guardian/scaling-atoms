@@ -1,0 +1,73 @@
+.divisions-heading {
+  text-align: center;
+}
+
+.divisions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  .atom-embed {
+    min-height: inherit;
+  }
+}
+
+.divisions-container {
+  display: flex;
+}
+
+.divisions-list__item {
+  padding: 10px 0;
+  display: flex;
+  max-height: 200px;
+
+  &__title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 2px
+  }
+
+  &:not(:last-child) {
+    border-bottom: 4px solid $color300Grey;
+  }
+}
+
+.divisions-headline, .divisions-list__links {
+  display: inline-block;
+  padding-top: 10px;
+}
+
+.divisions-list__details {
+  margin-right: 10px;
+}
+
+.divisions-list__link {
+  padding-left: 10px;
+}
+
+.divisions-description {
+  flex-basis: 80%;
+  flex-shrink: 0;
+  border-right: 1px solid #DCDCDC;
+  margin-right: 10px;
+  padding-right: 5px;
+}
+
+.divisions-action {
+  float: right;
+  overflow-y: auto;
+}
+
+.divisions-table {
+  width: 100%;
+  margin-top: 20px
+}
+
+
+.divisions-table th {
+  font-size: 17px;
+}
+.divisions-table td {
+  text-align: center;
+}

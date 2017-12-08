@@ -87,10 +87,9 @@ class App(val wsClient: WSClient, val atomWorkshopDB: AtomWorkshopDBAPI,
     }
   }
 
-
   def createAtom(atomType: String) = CORSable(Config.workflowUrl) {
     AuthAction { req =>
-      APIResponse{
+      APIResponse {
         for {
           atomType <- validateAtomType(atomType)
           createAtomFields <- extractCreateAtomFields(req.body.asJson.map(_.toString))

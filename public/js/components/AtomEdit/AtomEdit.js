@@ -7,6 +7,7 @@ import {GuideEditor} from './CustomEditors/GuideEditor';
 import {ProfileEditor} from './CustomEditors/ProfileEditor';
 import {TimelineEditor} from './CustomEditors/TimelineEditor';
 import {ExplainerEditor} from './CustomEditors/ExplainerEditor';
+import {CommonsDivisionEditor} from './CustomEditors/CommonsDivisionEditor';
 import EmbeddedAtomPick from './EmbeddedAtomPick';
 import {subscribeToPresence, enterPresence} from '../../services/presence';
 import AtomEditHeader from './AtomEditHeader';
@@ -75,6 +76,8 @@ class AtomEdit extends React.Component {
         return <TimelineEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
       case("explainer"):
         return <ExplainerEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
+      case ("commonsdivision"):
+        return <CommonsDivisionEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
       default:
         return (
           <div>Atom Workshop cannot edit this type of atom currently</div>

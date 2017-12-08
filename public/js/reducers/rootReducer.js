@@ -14,6 +14,7 @@ import suggestionsForLatestContent from '../reducers/suggestionsForLatestContent
 import externalAtom from '../reducers/externalAtomReducer';
 import queryParams from '../reducers/queryParamsReducer';
 import workflow from '../reducers/workflowReducer';
+import commonsDivisions from '../reducers/commonsDivisionsReducer';
 import {routerReducer} from 'react-router-redux';
 
 export const rootReducer = combineReducers({
@@ -31,5 +32,6 @@ export const rootReducer = combineReducers({
   externalAtom,
   queryParams,
   workflow,
+  commonsDivisions,
   routing: routerReducer
 });
