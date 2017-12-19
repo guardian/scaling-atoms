@@ -71,6 +71,7 @@ object Config extends AwsInstanceTags {
   val presenceDomain = getPropertyIfEnabled(presenceEnabled, "presence.domain")
 
   val capiPreviewUrl = config.getString("capi.previewUrl")
+  val capiPandaPreviewUrl = config.getString("capi.pandaPreviewUrl")
   val capiLiveUrl = config.getString("capi.liveUrl")
   val capiUsername = config.getString("capi.previewUsername")
   val capiPassword = config.getString("capi.previewPassword")
