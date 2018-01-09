@@ -19,7 +19,8 @@ libraryDependencies ++= Seq(
   "com.gu"                   %% "pan-domain-auth-play_2-5"     % "0.4.1",
   "io.circe"                 %% "circe-parser"                 % "0.7.0",
   "net.logstash.logback"     %  "logstash-logback-encoder"     % "4.2",
-  "com.gu"                   %% "exact-target-lists"           % "0.1"
+  "com.gu"                   %% "exact-target-lists"           % "0.1",
+  "com.gu"                   %% "content-api-client-aws"       % "0.1"
 )
 
 resolvers ++= Seq(

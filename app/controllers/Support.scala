@@ -1,23 +1,28 @@
 package controllers
 
+import com.gu.contentapi.client.IAMSigner
 import config.Config
-import play.api.libs.ws.{WSAuthScheme, WSClient}
+import play.api.libs.ws.WSClient
 import play.api.mvc.Controller
 import play.api.libs.concurrent.Execution.Implicits._
 
 class Support(val wsClient: WSClient) extends Controller with PanDomainAuthActions {
 
-  def previewCapiProxy(path: String) = APIAuthAction.async { request =>
+  private val signer = new IAMSigner(
+    credentials = Config.capiPreviewCredentials.getCredentials,
+    awsRegion = Config.region.getName
+  )
 
-    val capiPreviewUser = Config.capiUsername
-    val capiPreviewPassword = Config.capiPassword
-    val capiUrl = Config.capiPreviewUrl
+  private def getHeaders(url: String): Seq[(String,String)] = signer.addIAMHeaders(headers = Map.empty, url = url).toSeq
+
+  def previewCapiProxy(path: String) = APIAuthAction.async { request =>
+    val capiUrl = Config.capiPreviewIAMUrl
 
     val url = s"$capiUrl/$path?${request.rawQueryString}"
 
     val req = wsClient
       .url(url)
-      .withAuth(capiPreviewUser, capiPreviewPassword, WSAuthScheme.BASIC)
+      .withHeaders(getHeaders(url): _*)
       .get()
 
     req.map(response => response.status match {

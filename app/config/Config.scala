@@ -1,7 +1,7 @@
 package config
 
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{AWSCredentialsProviderChain, InstanceProfileCredentialsProvider}
+import com.amazonaws.auth.{AWSCredentialsProvider, AWSCredentialsProviderChain, InstanceProfileCredentialsProvider, STSAssumeRoleSessionCredentialsProvider}
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient
 import com.amazonaws.services.kinesis.AmazonKinesisClient
 import com.gu.cm.{Mode, Configuration => ConfigurationMagic}
@@ -69,11 +69,17 @@ object Config extends AwsInstanceTags {
 
   val presenceEnabled = getOptionalProperty("presence.enabled", config.getBoolean).getOrElse(true)
   val presenceDomain = getPropertyIfEnabled(presenceEnabled, "presence.domain")
-
-  val capiPreviewUrl = config.getString("capi.previewUrl")
+  
+  val capiPreviewIAMUrl = config.getString("capi.previewIAMUrl")
   val capiLiveUrl = config.getString("capi.liveUrl")
-  val capiUsername = config.getString("capi.previewUsername")
-  val capiPassword = config.getString("capi.previewPassword")
+
+  val capiPreviewRole = config.getString("capi.previewRole")
+  val capiPreviewCredentials: AWSCredentialsProvider = {
+    new AWSCredentialsProviderChain(
+      new ProfileCredentialsProvider("capi"),
+      new STSAssumeRoleSessionCredentialsProvider.Builder(capiPreviewRole, "capi").build()
+    )
+  }
 
   val atomEditorGutoolsDomain = config.getString("atom.editors.gutoolsDomain")
 
