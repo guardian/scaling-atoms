@@ -9,15 +9,19 @@ class Support(val wsClient: WSClient) extends Controller with PanDomainAuthActio
 
   def previewCapiProxy(path: String) = APIAuthAction.async { request =>
 
+    val authCookieName = "gutoolsAuth-assym"
+    val cookie = request.cookies.get(authCookieName).fold("")(_.value)
+
     val capiPreviewUser = Config.capiUsername
     val capiPreviewPassword = Config.capiPassword
     val capiUrl = Config.capiPreviewUrl
+    val pandaPreviewUrl = Config.capiPandaPreviewUrl
 
-    val url = s"$capiUrl/$path?${request.rawQueryString}"
+    val url = s"$pandaPreviewUrl/$path?${request.rawQueryString}"
 
     val req = wsClient
       .url(url)
-      .withAuth(capiPreviewUser, capiPreviewPassword, WSAuthScheme.BASIC)
+      .withHeaders("Cookie" -> s"$authCookieName=$cookie")
       .get()
 
     req.map(response => response.status match {
