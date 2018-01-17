@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
   "io.circe"                 %% "circe-parser"                 % "0.7.0",
   "net.logstash.logback"     %  "logstash-logback-encoder"     % "4.2",
   "com.gu"                   %% "exact-target-lists"           % "0.1",
-  "com.gu"                   %% "content-api-client-aws"       % "0.1"
+  "com.gu"                   %% "content-api-client-aws"       % "0.2"
 )
 
 resolvers ++= Seq(

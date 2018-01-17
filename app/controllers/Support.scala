@@ -5,11 +5,12 @@ import config.Config
 import play.api.libs.ws.WSClient
 import play.api.mvc.Controller
 import play.api.libs.concurrent.Execution.Implicits._
+import play.api.Logger
 
 class Support(val wsClient: WSClient) extends Controller with PanDomainAuthActions {
 
   private val signer = new IAMSigner(
-    credentials = Config.capiPreviewCredentials.getCredentials,
+    credentialsProvider = Config.capiPreviewCredentials,
     awsRegion = Config.region.getName
   )
 
@@ -27,7 +28,9 @@ class Support(val wsClient: WSClient) extends Controller with PanDomainAuthActio
 
     req.map(response => response.status match {
       case 200 => Ok(response.json)
-      case _ => BadGateway(s"CAPI returned error code ${response.status}")
+      case _ =>
+        Logger.warn(s"CAPI error response: ${response.status} / ${response.body}")
+        BadGateway(s"CAPI returned error code ${response.status}")
     })
   }
 }
