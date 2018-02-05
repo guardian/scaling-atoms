@@ -1,5 +1,7 @@
 package controllers
 
+import java.net.URI
+
 import com.gu.contentapi.client.IAMSigner
 import config.Config
 import play.api.libs.ws.WSClient
@@ -14,7 +16,7 @@ class Support(val wsClient: WSClient) extends Controller with PanDomainAuthActio
     awsRegion = Config.region.getName
   )
 
-  private def getHeaders(url: String): Seq[(String,String)] = signer.addIAMHeaders(headers = Map.empty, url = url).toSeq
+  private def getHeaders(url: String): Seq[(String,String)] = signer.addIAMHeaders(headers = Map.empty, uri = URI.create(url)).toSeq
 
   def previewCapiProxy(path: String) = APIAuthAction.async { request =>
     val capiUrl = Config.capiPreviewIAMUrl

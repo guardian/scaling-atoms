@@ -1,5 +1,7 @@
 package controllers
 // ------------------------------------------------------------
+import java.net.URI
+
 import cats.syntax.either._
 import config.Config
 import db.AtomDataStores._
@@ -8,16 +10,14 @@ import play.api.libs.concurrent.Execution.Implicits._
 import models.CreateAtomFields
 import play.api.Logger
 import play.api.libs.ws.WSClient
-import play.api.libs.json.{ util => _, _}
+import play.api.libs.json.{util => _, _}
 import play.api.mvc.{ActionBuilder, Controller, Request, Result}
-
 import services.AtomPublishers._
 import util.AtomUpdateOperations._
 import util.AtomElementBuilders
-
 import com.gu.contentapi.client.IAMSigner
 import com.gu.contentapi.client.model.v1.AtomsResponse
-import com.gu.contentatom.thrift.{AtomType, AtomData}
+import com.gu.contentatom.thrift.{AtomData, AtomType}
 import com.gu.contentatom.thrift.atom.explainer._
 import com.gu.pandomainauth.model.{User => PandaUser}
 
@@ -46,7 +46,7 @@ class Migration(
   )
 
   private def getHeaders(url: String): Seq[(String,String)] = 
-    signer.addIAMHeaders(headers = Map.empty, url = url).toSeq
+    signer.addIAMHeaders(headers = Map.empty, uri = URI.create(url)).toSeq
 
   private def queryCapi(pageno: Int): Future[JsValue] = {
     Logger.info(s"Querying page ${pageno}")
