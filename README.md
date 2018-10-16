@@ -1,6 +1,6 @@
 # Atom Workshop
 
-A single tool for all atom types.
+A single tool for most atom types.
 
 ## Running locally
 
