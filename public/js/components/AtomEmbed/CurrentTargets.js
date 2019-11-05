@@ -128,7 +128,7 @@ class CurrentTargets extends React.Component {
           />
         ) : (
           <button className="btn" onClick={this.toggleEditMode}>
-            Create Target
+            Add tag
           </button>
         )}
       </div>

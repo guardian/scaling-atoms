@@ -95,7 +95,7 @@ class CreateTargetForm extends React.Component {
           disabled={this.state.formHasError || this.state.creating}
           onClick={this.createTarget}
           >
-          {this.state.creating ? "Creating..." : "Create Suggestion"}
+          {this.state.creating ? "Creating..." : "Finish"}
         </button>
       </div>
     );
