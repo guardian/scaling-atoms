@@ -10,7 +10,8 @@ export class ChartEditor extends React.Component {
     config: PropTypes.shape({
       visualsUrl: PropTypes.string.isRequired,
       stage: PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    onUpdate: PropTypes.func.isRequired
   }
 
   state = {
@@ -29,6 +30,7 @@ export class ChartEditor extends React.Component {
   closeModal = () => {
     this.setState({ modalOpen: false });
     window.removeEventListener('message', this.onMessage, false);
+    this.props.onUpdate();
   };
 
   openModal = () => {
