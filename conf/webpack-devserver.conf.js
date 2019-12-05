@@ -15,15 +15,15 @@ module.exports = {
     output: {
       filename: 'app.js',
       path: resolve(__dirname, '..', 'public', 'build'),
-      publicPath: 'https://atomworkshop-assets.local.dev-gutools.co.uk/assets/build/'
+      publicPath: 'https://atomworkshop.local.dev-gutools.co.uk/assets/build/'
     },
 
     devServer: {
       hot: true,
       contentBase: resolve(__dirname, '..', 'public', 'build'),
-      publicPath: 'https://atomworkshop-assets.local.dev-gutools.co.uk/assets/build/',
+      publicPath: 'https://atomworkshop.local.dev-gutools.co.uk/assets/build/',
       port: 9051,
-      public: "atomworkshop-assets.local.dev-gutools.co.uk"
+      public: "atomworkshop.local.dev-gutools.co.uk"
     },
 
     module: {
