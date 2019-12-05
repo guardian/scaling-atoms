@@ -16,7 +16,7 @@ class EditHeader extends React.Component {
     atom: atomPropType,
     presence: PropTypes.bool,
     saveState: PropTypes.object,
-    formErrors: PropTypes.object,
+    formErrors: PropTypes.array,
     atomActions: PropTypes.shape({
       publishAtom: PropTypes.func.isRequired,
       takeDownAtom: PropTypes.func.isRequired,

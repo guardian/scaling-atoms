@@ -14,6 +14,7 @@ import {subscribeToPresence, enterPresence} from '../../services/presence';
 import AtomEditHeader from './AtomEditHeader';
 import {atomPropType} from '../../constants/atomPropType';
 import {logError} from '../../util/logger';
+import AtomsApi from '../../services/AtomsApi';
 
 class AtomEdit extends React.Component {
 
@@ -53,6 +54,13 @@ class AtomEdit extends React.Component {
     }
   }
 
+  updateChartAtom = () => {
+    return AtomsApi.getAtom(this.props.routeParams.atomType, this.props.routeParams.id)
+    .then(res => res.json()).then(atom => {
+      this.props.atomActions.updateAtom(atom);
+    });
+  }
+
   updateFormErrors = (errors) => {
     this.props.formErrorActions.updateFormErrors(errors);
   }
@@ -80,7 +88,7 @@ class AtomEdit extends React.Component {
       case ("commonsdivision"):
         return <CommonsDivisionEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
        case ("chart"):
-        return <ChartEditor atom={this.props.atom} config={this.props.config} />;
+        return <ChartEditor atom={this.props.atom} config={this.props.config} onUpdate={this.updateChartAtom} />;
       case ("audio") :
         return <AudioEditor atom={this.props.atom} onUpdate={this.updateAtom} onFormErrorsUpdate={this.updateFormErrors} />;
       default:
