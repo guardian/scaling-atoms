@@ -20,7 +20,9 @@ fileExists() {
 export JS_ASSET_HOST="https://atomworkshop.local.dev-gutools.co.uk/assets/"
 
 if [ "$IS_DEBUG" = true ] ; then
-    yarn hmr & sbt -jvm-debug 5055 "run 9050"
+    # yarn hmr & sbt -jvm-debug 5055 "run 9050"
+    yarn build-dev & sbt "run 9050"
 else
-    yarn hmr & sbt "run 9050"
+    # yarn hmr & sbt "run 9050"
+    yarn build-dev & sbt "run 9050"
 fi
