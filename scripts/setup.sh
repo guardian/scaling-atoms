@@ -9,15 +9,9 @@ fileExists() {
   test -e "$1"
 }
 
-if ! fileExists "$NVM_DIR/nvm.sh"; then
-  node_version=`cat .nvmrc`
-  echo -e "${red}nvm not found ${plain} NVM is required to run this project"
-  echo -e "Install it from https://github.com/creationix/nvm#installation"
-  exit 1
-else
-  source "$NVM_DIR/nvm.sh"
-  nvm install
-fi
+echo "Running setup script"
+node_version=`cat .nvmrc`
+echo "This project requires Node version" $node_version " Run 'nvm use' to get the correct version"
 
 brew bundle --file=${ROOT_DIR}/Brewfile
 

@@ -3,7 +3,3 @@ mappings:
   - prefix: atomworkshop
     port: 9050
     path: /
-  - prefix: atomworkshop-assets
-    port: 9051
-    path: /
-    websocket: /sockjs-node
