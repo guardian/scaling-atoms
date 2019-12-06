@@ -6,5 +6,5 @@ fileExists() {
   test -e "$1"
 }
 
-yarn build-dev &
+yarn start &
 sbt "run 9050"

@@ -22,12 +22,7 @@ You will then need to:
 
 ## Compiling Client Side Dependencies
 
-This work is already done in the script files, but you can compile client side dependencies with `yarn build`. To compile client side assets on change (hot-reloading) run `yarn build-dev`. 
+This work is already done in the script files, but you can compile client side dependencies with `yarn build`. 
 
-## Hot Reloading
+To compile client side assets on change run `yarn start` - this is in `./scripts/client-dev.sh`. 
 
-This app also supports Hot Module Reloading for both the React Components and Reducers (not the client side routes currently)
-
-`./scripts/client-dev.sh`
-
-Note: You may see an error regarding Routes on each change, this will be the case until React router v4 is released.

@@ -1,7 +1,10 @@
 import React from 'react';
 import Modal from './Modal';
 import renderer from 'react-test-renderer';
-import {shallow} from 'enzyme';
+import {configure, shallow} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+
+configure({ adapter: new Adapter() });
 
 test('Should render null when closed', () => {
   const component = renderer.create(

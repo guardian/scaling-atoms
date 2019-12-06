@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Scribe from 'scribe';
+import Scribe from 'scribe-editor';
 import scribeKeyboardShortcutsPlugin from 'scribe-plugin-keyboard-shortcuts';
 import scribePluginToolbar from 'scribe-plugin-toolbar';
 import scribePluginLinkPromptCommand from 'scribe-plugin-link-prompt-command';
