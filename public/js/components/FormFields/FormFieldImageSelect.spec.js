@@ -1,7 +1,10 @@
 import React from 'react';
 import FormFieldImageSelect from './FormFieldImageSelect';
 import renderer from 'react-test-renderer';
-import {mount} from 'enzyme';
+import {configure, mount} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+
+configure({ adapter: new Adapter() });
 
 const gridUrl = "https://media.test.dev-gutools.co.uk";
 

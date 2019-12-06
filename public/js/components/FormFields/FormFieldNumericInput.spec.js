@@ -1,7 +1,10 @@
 import React from 'react';
 import FormFieldNumericInput from './FormFieldNumericInput';
 import renderer from 'react-test-renderer';
-import {shallow} from 'enzyme';
+import {configure, shallow} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+
+configure({ adapter: new Adapter() });
 
 let fieldLabel = 'test',
     fieldName = 'test',
