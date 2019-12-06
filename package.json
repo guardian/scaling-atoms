@@ -4,9 +4,8 @@
   "description": "A tool for creating multiple atom types.",
   "main": "public/index.html",
   "scripts": {
-    "build-dev": "webpack ./public/js/app.js ./public/build/app.js --config ./conf/webpack.conf.js --watch",
+    "start": "webpack ./public/js/app.js ./public/build/app.js --config ./conf/webpack.conf.js --watch",
     "build": "webpack -p ./public/js/app.js ./public/build/app.js --config ./conf/webpack.conf.js",
-    "hmr": "webpack-dev-server --config ./conf/webpack-devserver.conf.js",
     "test": "jest",
     "lint": "eslint public/**"
   },
@@ -47,8 +46,7 @@
     "sass-loader": "^4.1.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "webpack": "^2.6.1"
   },
   "dependencies": {
     "babel-plugin-transform-class-properties": "^6.22.0",
