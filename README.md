@@ -31,3 +31,7 @@ This app also supports Hot Module Reloading for both the React Components and Re
 `./scripts/client-dev.sh`
 
 Note: You may see an error regarding Routes on each change, this will be the case until React router v4 is released.
+
+## The Publishing Process for Atoms
+The the publishing process for atoms used in Atom Workshop is documented in the [PublishingProcess.md](PublishingProcess.md) file.
+This is also recommended best practices for other Tools that create Atoms.
