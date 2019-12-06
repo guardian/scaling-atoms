@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-import {getNonEditableAtomTypes, snippetAtomTypes, editableNonSnippetAtomTypes} from '../../constants/atomData';
+import {getNonEditableAtomTypes, snippetAtomTypes, editableNonSnippetAtomTypes, experimentalAtomTypes} from '../../constants/atomData';
 import {AtomTypeCard} from '../AtomTypeCard/AtomTypeCard';
 
 
@@ -42,6 +42,13 @@ export class AtomCreateTypeSelect extends React.Component {
         </div>
         <div className="create__cards">
           {getNonEditableAtomTypes().map(this.renderAtomType)}
+        </div>
+        <h1 className="page__subheading">Experimental atoms</h1>
+        <div className="create__note">
+          These atoms are not supported so will not display correctly. Use only for testing purposes. 
+        </div>
+        <div className="create__cards">
+          {experimentalAtomTypes.map(this.renderAtomType)}
         </div>
       </div>
     );

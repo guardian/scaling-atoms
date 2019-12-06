@@ -83,7 +83,7 @@ export const commonsDivision = {
 export const chart = {
   type: 'chart',
   fullName: 'Chart',
-  description: 'A variety of different charts',
+  description: 'A simple chart of type: bar',
 };
 
 export const audio = {
@@ -93,7 +93,6 @@ export const audio = {
 };
 
 export const allAtomTypes = [
-  cta,
   recipe,
   qa,
   guide,
@@ -101,13 +100,13 @@ export const allAtomTypes = [
   timeline,
   media,
   chart,
+  cta,
   audio,
   quiz,
   explainer,
   commonsDivision,
 ];
 export const workshopEditableAtomTypes = [
-  cta,
   recipe,
   qa,
   guide,
@@ -116,11 +115,13 @@ export const workshopEditableAtomTypes = [
   explainer,
   commonsDivision,
   chart,
+  cta,
   audio,
 ];
 
 export const snippetAtomTypes = [qa, guide, profile, timeline];
 export const legacyAtomTypes = [explainer];
+export const experimentalAtomTypes = [commonsDivision, recipe];
 
 export function getNonEditableAtomTypes() {
   return allAtomTypes.filter(atomType => {
@@ -135,7 +136,8 @@ export const editableNonSnippetAtomTypes = workshopEditableAtomTypes.filter(
   atomType => {
     return (
       !snippetAtomTypes.includes(atomType) &&
-      !legacyAtomTypes.includes(atomType)
+      !legacyAtomTypes.includes(atomType) &&
+      !experimentalAtomTypes.includes(atomType)
     );
   }
 );
