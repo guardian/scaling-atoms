@@ -54,7 +54,7 @@ object AtomElementBuilders {
       AtomType.Commonsdivision -> AtomData.CommonsDivision(CommonsDivision("-", None, DateTime.now.getMillis, Votes())),
       AtomType.Chart -> AtomData.Chart(ChartAtom(
         chartType = ChartType.Bar,
-        furniture = Furniture(headline = "headline", source = "source"),
+        furniture = Furniture(headline = "headline", source = "source", standfirst = Some("standfirst")),
         tabularData = TabularData(RowType.String),
         displaySettings = DisplaySettings(true, true)
       )),
