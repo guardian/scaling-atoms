@@ -68,7 +68,7 @@ export class ChartEditor extends React.Component {
       __html: this.props.atom.defaultHtml
     };
 
-    const iFrameSrc = (this.props.config.stage === "PROD") ? `${this.props.config.visualsUrl}/basichartool`: `${this.props.config.visualsUrl}`;
+    const iFrameSrc = `${this.props.config.visualsUrl}/`;
 
     return (
       <div>
