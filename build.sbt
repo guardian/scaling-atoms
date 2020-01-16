@@ -4,7 +4,7 @@ version := "1.0"
 scalaVersion := "2.11.12"
 
 lazy val awsVersion = "1.11.8"
-lazy val atomLibVersion = "1.2.0"
+lazy val atomLibVersion = "1.2.3"
 
 libraryDependencies ++= Seq(
   ws,
@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
   "io.circe"                 %% "circe-parser"                 % "0.11.0",
   "net.logstash.logback"     %  "logstash-logback-encoder"     % "4.2",
   "com.gu"                   %% "content-api-client-aws"       % "0.5",
-  "com.gu"                   %% "content-api-client"           % "15.4"
+  "com.gu"                   %% "content-api-client"           % "15.9"
 )
 
 resolvers ++= Seq(
