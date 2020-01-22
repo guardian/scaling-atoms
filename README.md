@@ -7,9 +7,12 @@ A single tool for all atom types.
 You'll need the [AWS CLI](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) installed, and credentials
 for both the composer and capi AWS accounts from [janus](https://janus.gutools.co.uk/multi-credentials?&permissionIds=capi-dev,composer-dev&tzOffset=1). 
 
-This project requires Node, so we recommend you use [node version manager](https://github.com/nvm-sh/nvm) `nvm`. Run `brew install nvm` if you do not have it. 
+This project requires Node, so we recommend you use [node version manager](https://github.com/nvm-sh/nvm) `nvm`. Run `brew install nvm` if you do not have it. Run `nvm use` in the root of the project to ensure you are using the right version of node. The project's node version is set in the `.nvmrc` file.
 
-Run `nvm use` in the root of the project to ensure you are using the right version of node. The project's node version is set in the `.nvmrc` file.
+The project also requires Java version `1.8.0.232` (or lower). The easiest way to set this is with `jenv`:
+- `brew install jenv`
+- Download and install the appopriate Java version: [jdk8u232-b09](https://adoptopenjdk.net/archive.html)
+- `jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/`
 
 You will then need to:
 
