@@ -83,7 +83,7 @@ export const commonsDivision = {
 export const chart = {
   type: 'chart',
   fullName: 'Chart',
-  description: 'A simple chart of type: bar',
+  description: 'A simple chart of type: bar or line',
 };
 
 export const audio = {
