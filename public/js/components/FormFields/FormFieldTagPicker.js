@@ -14,7 +14,6 @@ export default class FormFieldTagPicker extends React.Component {
     fieldErrors: PropTypes.arrayOf(errorPropType),
     formRowClass: PropTypes.string,
     onUpdateField: PropTypes.func,
-    tagType: PropTypes.string
   };
 
   state = {
@@ -44,7 +43,7 @@ export default class FormFieldTagPicker extends React.Component {
         searchText: searchText
       });
     
-      searchTags(searchText, this.props.tagType).then((results) => {
+      searchTags(searchText).then((results) => {
         this.setState({
           suggestions: results
         });
