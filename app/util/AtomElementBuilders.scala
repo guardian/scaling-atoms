@@ -56,7 +56,7 @@ object AtomElementBuilders {
         chartType = ChartType.Bar,
         furniture = Furniture(headline = "headline", source = "source"),
         tabularData = TabularData(RowType.String),
-        displaySettings = DisplaySettings(true, true)
+        displaySettings = DisplaySettings(true, true, Some(true), Some(true))
       )),
       AtomType.Audio -> AtomData.Audio(AudioAtom(
         kicker = title,
