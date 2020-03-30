@@ -83,7 +83,7 @@ export const commonsDivision = {
 export const chart = {
   type: 'chart',
   fullName: 'Chart',
-  description: 'A simple chart of type: bar or line',
+  description: 'A simple chart. Types supported are bar charts (simple, stacked and percentage stacked), lines (continuous and discrete) and column charts (simple and stacked)',
 };
 
 export const audio = {
