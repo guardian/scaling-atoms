@@ -48,10 +48,10 @@ export default class SearchCheckboxGroup extends React.Component {
     };
 
     return (
-      <div className="atom-search__dropdown__item" key={i}>
+      <label className="atom-search__dropdown__item" key={i}>
         <input className="atom-search__dropdown__checkbox" type="checkbox" checked={this.isChecked(fieldName)} name={fieldName} value={this.isChecked(fieldName)} onChange={updateFn} />
-        <span className="atom-search__dropdown__checkbox-label">{displayName}</span>
-      </div>
+        {displayName}
+      </label>
     );
   }
 
