@@ -55,11 +55,16 @@ class AtomEdit extends React.Component {
   }
 
   updateChartAtom = () => {
-    enterPresence(this.props.routeParams.atomType, this.props.routeParams.id);
-    return AtomsApi.getAtom(this.props.routeParams.atomType, this.props.routeParams.id)
+    try {
+      enterPresence(this.props.routeParams.atomType, this.props.routeParams.id);
+    } catch (e) {
+      logError(e);
+    } finally {
+      AtomsApi.getAtom(this.props.routeParams.atomType, this.props.routeParams.id)
     .then(res => res.json()).then(atom => {
-      this.props.atomActions.updateAtom(atom);
-    });
+          this.props.atomActions.updateAtom(atom);
+        });
+    }
   }
 
   updateFormErrors = (errors) => {
