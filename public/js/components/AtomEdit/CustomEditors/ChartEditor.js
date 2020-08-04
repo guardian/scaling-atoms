@@ -36,7 +36,6 @@ export class ChartEditor extends React.Component {
   openModal = () => {
     this.setState({ modalOpen: true });
     window.addEventListener('message', this.onMessage, false);
-    this.props.onUpdate();
   };
 
   validMessage(data) {
