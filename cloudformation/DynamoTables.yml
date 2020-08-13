@@ -1,17 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
-  PreviewReadCapacity:
-    Type: String
-    Description: Read Capacity of the PROD table
-  PreviewWriteCapacity:
-    Type: String
-    Description: Write Capacity of the PROD table
-  LiveReadCapacity:
-    Type: String
-    Description: Read Capacity of the PROD table
-  LiveWriteCapacity:
-    Type: String
-    Description: Write Capacity of the PROD table
   Stage:
     Type: String
     Description: Stage for the tables
@@ -34,9 +22,7 @@ Resources:
           KeyType: "HASH"
         - AttributeName: "id"
           KeyType: "RANGE"
-      ProvisionedThroughput:
-        ReadCapacityUnits: !Ref PreviewReadCapacity
-        WriteCapacityUnits: !Ref PreviewWriteCapacity
+      BillingMode: "PAY_PER_REQUEST"
   AtomWorkshopLiveDynamoTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -51,9 +37,7 @@ Resources:
           KeyType: "HASH"
         - AttributeName: "id"
           KeyType: "RANGE"
-      ProvisionedThroughput:
-        ReadCapacityUnits: !Ref LiveReadCapacity
-        WriteCapacityUnits: !Ref LiveWriteCapacity
+      BillingMode: "PAY_PER_REQUEST"
 Outputs:
   PreviewDynamoTableOut:
     Description: Table name for Preview dynamo table
